@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">VehicleAssistance</string>
+    <string name="app_name">Vehical-Assistance</string>
+    <string name="underline"><b>Sign Up</b></string>
 </resources>

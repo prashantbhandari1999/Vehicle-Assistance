@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "892221867915",
+    "firebase_url": "https://vehicleassistance-d3bb2.firebaseio.com",
+    "project_id": "vehicleassistance-d3bb2",
+    "storage_bucket": "vehicleassistance-d3bb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892221867915:android:86a6f946dafa45f6",
+        "android_client_info": {
+          "package_name": "com.example.vehicleassistance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892221867915-3jgie6fbph6kjegn5stn5ovm71sbhv8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "3ef7f9cdad0f7d70accb6af945025ac25c118d89"
+          }
+        },
+        {
+          "client_id": "892221867915-o5io19nutj1c563jptrcv3u2eo5cddo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0xAUR79UVKp0LjmnHcKfWrL_WrwhPeUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892221867915-1dfnbpo38pajco3ghimhr90q5g25v31b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
