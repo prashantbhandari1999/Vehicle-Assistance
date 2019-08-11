@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Vehical-Assistance</string>
     <string name="underline"><b>Sign Up</b></string>
+    <string name="server_client_id">892221867915-1dfnbpo38pajco3ghimhr90q5g25v31b.apps.googleusercontent.com</string>
 </resources>

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText editTextEmail;
     Button buttonSignIn;
     TextView textViewSignUp;
+    Button buttonGoogleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editText_Email_Login_Activity);
         buttonSignIn = findViewById(R.id.button_sign_in);
         textViewSignUp = findViewById(R.id.textview_signup);
+        buttonGoogleSignIn = findViewById(R.id.button_google_signin);
         textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        buttonGoogleSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
