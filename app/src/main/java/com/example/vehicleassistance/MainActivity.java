@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button signInButton, googleSignInButton;
     private FirebaseUser currentUser;
-    private TextView resetPasswordTextView;
+    private TextView forgotPasswordTextView;
     private TextView signUpTextView;
 
 
@@ -73,10 +73,12 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.button_sign_in);
         signUpTextView = findViewById(R.id.textview_signup);
         googleSignInButton = findViewById(R.id.button_google_signin);
+        forgotPasswordTextView = findViewById(R.id.textView_forgot_password);
 
         signIn();
         signUp();
         signInGoogle();
+        resetPassword();
 
 
     }
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void sharedPreferencesLogin() {
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     private void signIn() {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void toHomeScreen() {
 //        startActivity(new Intent(MainActivity.this,HomeScreen.class));
         currentUser = lAuth.getCurrentUser();
@@ -301,5 +306,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private void resetPassword() {
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
+            }
+        });
     }
 }
