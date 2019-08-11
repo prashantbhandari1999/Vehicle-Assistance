@@ -1,58 +1,184 @@
 package com.example.vehicleassistance;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Email extends AppCompatActivity {
-    TextInputEditText editTextEmail;
-    EditText editTextPassword;
-    EditText editTextConfirmPassword;
-    String email;
-    String password;
-    String confirmPassword;
-    Button buttonNextEmailActivity;
+
+    String firstName, lastName,email,password,confirmedPassword;
+    EditText emailEditText,passwordEditText,confirmedPasswordEditText;
+    Button signUpButtonEmailActivity;
+
+
+
+    private FirebaseAuth regAuth;
+    private FirebaseFirestore fsClient;
+    private String userId;
+    private PhoneAuthProvider.ForceResendingToken rResendToken;
+    private SharedPreferences sharedPreferences;
+    private static final String MyPreferences = "MyPrefs";
+    private static final String UserIdKey = "UserId";
+    private static final String EmailKey = "Email";
+    private static final String FirstNameKey = "FirstName";
+    private static final String LastNameKey = "LastName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
 
-
-        editTextEmail=findViewById(R.id.editText_email_email_activity);
-        editTextPassword=findViewById(R.id.editText_password_Email_Activity);
-        editTextConfirmPassword=findViewById(R.id.editText_confirm_password_Email_Activity);
-        buttonNextEmailActivity=findViewById(R.id.button_next_Email_Activity);
+        regAuth = FirebaseAuth.getInstance();
+        fsClient = FirebaseFirestore.getInstance();
 
 
-        buttonNextEmailActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                email=editTextEmail.getText().toString().trim();
-                password=editTextPassword.getText().toString().trim();
-                confirmPassword=editTextConfirmPassword.getText().toString().trim();
+        getAttributes();
+        emailAuthentication();
+    }
 
-                if(TextUtils.isEmpty(email)){
-                    editTextEmail.setError("Enter Email");
-                }
-                if(TextUtils.isEmpty(password)){
-                    editTextPassword.setError("Enter password");
-                    }
-                if(TextUtils.isEmpty(confirmPassword)){
-                    editTextConfirmPassword.setError("Enter password");
-                }
+    private void getAttributes() {
 
-            }
-        });
+        emailEditText=(EditText)findViewById(R.id.editText_email_email_activity);
+        signUpButtonEmailActivity=(Button)findViewById(R.id.button_next_Email_Activity);
+        passwordEditText=(EditText)findViewById(R.id.editText_password_Email_Activity);
+        confirmedPasswordEditText=(EditText)findViewById(R.id.editText_confirm_password_Email_Activity);
+
+        //Here we get variables which was passed earlier
+        Intent intent = getIntent();
+        firstName = intent.getStringExtra("firstName");
+        lastName = intent.getStringExtra("lastName");
+        Toast.makeText(this, firstName + " " + lastName, Toast.LENGTH_SHORT).show();
 
     }
 
+    private void emailAuthentication() {
+        signUpButtonEmailActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                final ProgressDialog progressDialogemailActivity = new ProgressDialog(Email.this);
+
+                progressDialogemailActivity.setMessage("Loading ...");
+                progressDialogemailActivity.show();
+                email = emailEditText.getText().toString();
+                password=passwordEditText.getText().toString();
+                confirmedPassword=confirmedPasswordEditText.getText().toString();
+
+                if (!password.isEmpty() && !email.isEmpty() && !confirmedPassword.isEmpty()) {
+                    regAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(Email.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                regAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(Email.this, "Click on the verification link and sign in", Toast.LENGTH_LONG).show();
+
+                                            storeDataLocally();
+                                            uploadUserData();
+                                            //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                            //startActivity(intent);
+                                        } else {
+                                            progressDialogemailActivity.hide();
+                                            Toast.makeText(Email.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                progressDialogemailActivity.hide();
+                                Toast.makeText(Email.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+                }  else if (email.isEmpty()) {
+                    progressDialogemailActivity.hide();
+                    emailEditText.setError("Enter Email");
+//                    Toast.makeText(Email.this, "Please enter the email", Toast.LENGTH_SHORT).show();
+                } else if (password.isEmpty()) {
+                    progressDialogemailActivity.hide();
+                    passwordEditText.setError("Enter Password");
+//                    Toast.makeText(Email.this, "Please enter the password", Toast.LENGTH_SHORT).show();
+                } else if(confirmedPassword.isEmpty()){
+                    progressDialogemailActivity.hide();
+//                    Toast.makeText(Email.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                    confirmedPasswordEditText.setError("Please Confirmed Password");
+                }
+            }
+        });
+    }
+
+    private void storeDataLocally() {
+        sharedPreferences = getSharedPreferences(MyPreferences, Context.MODE_PRIVATE);
+        String UserIdValue = regAuth.getUid().toString();
+        String EmailValue = emailEditText.getText().toString();
+        String FirstNameValue=firstName;
+        String LastNameValue=lastName;
+
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(UserIdKey, UserIdValue);
+        editor.putString(EmailKey, EmailValue);
+        editor.putString(FirstNameKey,FirstNameValue);
+        editor.putString(LastNameKey,LastNameValue);
+        editor.apply();
+
+    }
+
+    private void uploadUserData() {
+        userId = regAuth.getUid();
+        Boolean emailVerified = regAuth.getCurrentUser().isEmailVerified();
+
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("userId", userId);
+        userData.put("email", email);
+        userData.put("emailVerified", emailVerified);
+        userData.put("firstName",firstName);
+        userData.put("lastName",lastName);
+
+
+        fsClient.collection("Users")
+                .document(userId)
+                .set(userData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Email.this, "Data uploaded to cloud", Toast.LENGTH_SHORT).show();
+                            Intent launchNextActivity;
+                            launchNextActivity = new Intent(Email.this, MainActivity.class);
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(launchNextActivity);
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(Email.this, "Not uploaded"+userId, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
 }
