@@ -36,13 +36,19 @@ public class MainActivity extends AppCompatActivity {
         buttonSignIn = findViewById(R.id.button_sign_in);
         textViewSignUp = findViewById(R.id.textview_signup);
         buttonGoogleSignIn = findViewById(R.id.button_google_signin);
-        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SignUp.class);
-                startActivity(intent);
-            }
-        });
+
+        signIn();
+        signUp();
+        signInGoogle();
+
+
+
+
+
+
+    }
+
+    private void signInGoogle() {
         buttonGoogleSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,11 +56,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
+    private void signUp(){
+        textViewSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+    }
 
+    private void signIn(){
+
+    }
 
 }
