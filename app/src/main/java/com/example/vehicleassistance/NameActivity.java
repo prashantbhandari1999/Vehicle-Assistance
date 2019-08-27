@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-public class Name extends AppCompatActivity {
+public class NameActivity extends AppCompatActivity {
     String FirstName;
     String LastName;
     TextInputEditText firstName, lastName;
@@ -36,7 +35,7 @@ public class Name extends AppCompatActivity {
                     lastName.setError("Please Enter LastName");
                 }
                 else{
-                    Intent intent = new Intent(Name.this, Email.class);
+                    Intent intent = new Intent(NameActivity.this, EmailActivity.class);
                     intent.putExtra("firstName",FirstName);
                     intent.putExtra("lastName",LastName);
 

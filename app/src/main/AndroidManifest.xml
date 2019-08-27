@@ -11,19 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password"
+            android:theme="@style/SignUpTheme"></activity>
+
         <activity android:name=".HomeScreenActivity" />
         <activity android:name=".GoogleSignInActivity" />
         <activity
-            android:name=".Email"
+            android:name=".EmailActivity"
             android:label="Email"
             android:theme="@style/SignUpTheme" />
         <activity
-            android:name=".Name"
+            android:name=".NameActivity"
             android:label="Name"
             android:theme="@style/SignUpTheme" />
         <activity
-            android:name=".SignUp"
+            android:name=".SignUpActivity"
             android:label="Sign Up"
             android:theme="@style/SignUpTheme" />
         <activity android:name=".MainActivity">
