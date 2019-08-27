@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "892221867915",
+    "firebase_url": "https://vehicleassistance-d3bb2.firebaseio.com",
+    "project_id": "vehicleassistance-d3bb2",
+    "storage_bucket": "vehicleassistance-d3bb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892221867915:android:86a6f946dafa45f6",
+        "android_client_info": {
+          "package_name": "com.example.vehicleassistance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892221867915-a27rmr8quceq7h9775cqgpr8l6t24b65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "76097d8a7eee59a85e2114ddd7e38dda11d033cf"
+          }
+        },
+        {
+          "client_id": "892221867915-9ospv6s0jf0hq95npa6u5jftbm1u1ali.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "2e78b8fc9a8f843c24c299e5fcbf2e3f291a7190"
+          }
+        },
+        {
+          "client_id": "892221867915-2vsl1vm9eop55k2ctr5am1fc92iqlnun.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "6646a68f6b07d7742c6adb3d0abbde5f11746ab9"
+          }
+        },
+        {
+          "client_id": "892221867915-3jgie6fbph6kjegn5stn5ovm71sbhv8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "3ef7f9cdad0f7d70accb6af945025ac25c118d89"
+          }
+        },
+        {
+          "client_id": "892221867915-o5io19nutj1c563jptrcv3u2eo5cddo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0xAUR79UVKp0LjmnHcKfWrL_WrwhPeUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892221867915-1dfnbpo38pajco3ghimhr90q5g25v31b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
