@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Email extends AppCompatActivity {
+public class EmailActivity extends AppCompatActivity {
 
     String firstName, lastName,email,password,confirmedPassword;
     EditText emailEditText,passwordEditText,confirmedPasswordEditText;
@@ -39,7 +38,7 @@ public class Email extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String MyPreferences = "MyPrefs";
     private static final String UserIdKey = "UserId";
-    private static final String EmailKey = "Email";
+    private static final String EmailKey = "EmailActivity";
     private static final String FirstNameKey = "FirstName";
     private static final String LastNameKey = "LastName";
 
@@ -76,7 +75,7 @@ public class Email extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final ProgressDialog progressDialogemailActivity = new ProgressDialog(Email.this);
+                final ProgressDialog progressDialogemailActivity = new ProgressDialog(EmailActivity.this);
 
                 progressDialogemailActivity.setMessage("Loading ...");
                 progressDialogemailActivity.show();
@@ -85,7 +84,7 @@ public class Email extends AppCompatActivity {
                 confirmedPassword=confirmedPasswordEditText.getText().toString();
 
                 if (!password.isEmpty() && !email.isEmpty() && !confirmedPassword.isEmpty()) {
-                    regAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(Email.this, new OnCompleteListener<AuthResult>() {
+                    regAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(EmailActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -93,7 +92,7 @@ public class Email extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(Email.this, "Click on the verification link and sign in", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(EmailActivity.this, "Click on the verification link and sign in", Toast.LENGTH_LONG).show();
 
                                             storeDataLocally();
                                             uploadUserData();
@@ -101,28 +100,28 @@ public class Email extends AppCompatActivity {
                                             //startActivity(intent);
                                         } else {
                                             progressDialogemailActivity.hide();
-                                            Toast.makeText(Email.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EmailActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
                             } else {
                                 progressDialogemailActivity.hide();
-                                Toast.makeText(Email.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EmailActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
                     });
                 }  else if (email.isEmpty()) {
                     progressDialogemailActivity.hide();
-                    emailEditText.setError("Enter Email");
-//                    Toast.makeText(Email.this, "Please enter the email", Toast.LENGTH_SHORT).show();
+                    emailEditText.setError("Enter EmailActivity");
+//                    Toast.makeText(EmailActivity.this, "Please enter the email", Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
                     progressDialogemailActivity.hide();
                     passwordEditText.setError("Enter Password");
-//                    Toast.makeText(Email.this, "Please enter the password", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EmailActivity.this, "Please enter the password", Toast.LENGTH_SHORT).show();
                 } else if(confirmedPassword.isEmpty()){
                     progressDialogemailActivity.hide();
-//                    Toast.makeText(Email.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EmailActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                     confirmedPasswordEditText.setError("Please Confirmed Password");
                 }
             }
@@ -165,9 +164,9 @@ public class Email extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Email.this, "Data uploaded to cloud", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EmailActivity.this, "Data uploaded to cloud", Toast.LENGTH_SHORT).show();
                             Intent launchNextActivity;
-                            launchNextActivity = new Intent(Email.this, MainActivity.class);
+                            launchNextActivity = new Intent(EmailActivity.this, MainActivity.class);
                             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -175,7 +174,7 @@ public class Email extends AppCompatActivity {
                             finish();
                         }
                         else {
-                            Toast.makeText(Email.this, "Not uploaded"+userId, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EmailActivity.this, "Not uploaded"+userId, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
