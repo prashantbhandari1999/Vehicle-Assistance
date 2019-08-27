@@ -34,7 +34,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
+                .requestIdToken(BuildConfig.server_client_id)
                 .requestEmail()
                 .build();
 
@@ -109,6 +109,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-
+        Intent intent = new Intent(this, HomeScreenActivity.class);
+        startActivity(intent);
     }
 }
