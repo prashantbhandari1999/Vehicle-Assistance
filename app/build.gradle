@@ -15,6 +15,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "server_client_id", server_client_id
+            resValue "string", "google_maps_key", google_maps_key
+//            resValue 'String', "server_client_id", server_client_id
+        }
+        debug {
+            buildConfigField 'String', "server_client_id", server_client_id
+//            resValue 'String', "server_client_id", server_client_id
+            resValue "string", "google_maps_key", google_maps_key
         }
     }
 }
@@ -30,10 +38,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
     implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
 }
 apply plugin: 'com.google.gms.google-services'
