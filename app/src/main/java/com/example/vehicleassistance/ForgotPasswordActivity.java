@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         resetPasswordButton = (Button) findViewById(R.id.resetpassword_button);
         firebaseAuth = FirebaseAuth.getInstance();
         resetPassword();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -67,6 +69,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         });
 
 
+    }
+    public boolean onOptionsItemSelected(MenuItem menu){
+        int id = menu.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 
 
