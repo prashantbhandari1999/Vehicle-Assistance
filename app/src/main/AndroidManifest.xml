@@ -31,7 +31,7 @@
             android:name=".Bottom"
             android:label="@string/title_activity_bottom"></activity>
         <activity
-            android:name=".Navigation"
+            android:name=".HomeScreenActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- &lt;!&ndash; -->
         <!-- The API key for Google Maps-based APIs is defined as a string resource. -->
