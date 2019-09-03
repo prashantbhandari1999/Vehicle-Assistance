@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(USER_ID) && sharedPreferences.getString(USER_ID, "").equals(lAuth.getUid())) {
             Log.d("SHARED PREF", "SHARED PREFERENCES CONTAINS USER");
-            startActivity(new Intent(MainActivity.this, Navigation.class));
+            startActivity(new Intent(MainActivity.this, HomeScreenActivity.class));
             finish();
 
         }
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (snapshot.get("userType").equals("user")) {
 //                                        startActivity(new Intent(LoginActivity.this, HomeScreenUserActivity.class));
                                         Intent launchNextActivity;
-                                        launchNextActivity = new Intent(MainActivity.this, Navigation.class);
+                                        launchNextActivity = new Intent(MainActivity.this, HomeScreenActivity.class);
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     Log.d("QUERY", e.toString());
                                     Toast.makeText(MainActivity.this, "Home appers here", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(MainActivity.this, Navigation.class));
+                                    startActivity(new Intent(MainActivity.this, HomeScreenActivity.class));
                                     finish();
                                 }
                             }
