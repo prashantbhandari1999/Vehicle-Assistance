@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class TestingFragment extends Fragment implements OnMapReadyCallback {
@@ -48,6 +50,7 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted = false;
 
     SupportMapFragment mapFragment;
+    private FloatingActionButton GPSButton;
 
     public TestingFragment() {
         // Required empty public constructor
@@ -77,6 +80,28 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
             fragmentTransaction.replace(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
+
+//        View mapView = super.onCreateView(inflater, container, savedInstanceState);
+//
+//        // Get the button view
+//        View locationButton = ((View) mapView.findViewById(Integer.parseInt(String.valueOf(1))).getParent()).findViewById(Integer.parseInt(String.valueOf(2)));
+//
+//        // and next place it, for exemple, on bottom right (as Google Maps app)
+//        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+//        // position on right bottom
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+//        rlp.setMargins(0, 0, 30, 30);
+
+        /*GPSButton=(FloatingActionButton)findViewById(R.id.myLocationButton);
+
+        GPSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        */
         return view;
     }
 
@@ -209,4 +234,6 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
             getDeviceLocation();
         }
     }
+
+
 }
