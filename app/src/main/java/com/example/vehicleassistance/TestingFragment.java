@@ -1,38 +1,43 @@
 package com.example.vehicleassistance;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.location.places.GeoDataClient;
-import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCallback {
+
+public class TestingFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private static final String TAG = HomeScreenActivity.class.getSimpleName();
 
     private Location Last_Known_Location;
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -40,28 +45,39 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted=false;
+    private boolean mLocationPermissionGranted = false;
+
+    SupportMapFragment mapFragment;
+
+    public TestingFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-
-        mGeoDataClient = Places.getGeoDataClient(this, null);
+        mGeoDataClient = Places.getGeoDataClient(getContext(), null);
 
         // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(getContext(), null);
 
         // Construct a FusedLocationProviderClient.
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+
+
+        if (mapFragment == null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            mapFragment = SupportMapFragment.newInstance();
+            fragmentTransaction.replace(R.id.map, mapFragment).commit();
+        }
+        mapFragment.getMapAsync(this);
+        return view;
     }
 
     private void getDeviceLocation() {
@@ -69,39 +85,37 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
-        Toast.makeText(this, "get device location", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "getDeviceLocation: "+mLocationPermissionGranted);
+//        Toast.makeText(getContext(), "get device location", Toast.LENGTH_SHORT).show();
 
         try {
             if (mLocationPermissionGranted) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             Last_Known_Location = task.getResult();
                             mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude()))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_circle1))
+                                    .position(new LatLng(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude()))
+//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_circle1))
                                     .title("Your Location"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+
                                     new LatLng(Last_Known_Location.getLatitude(),
                                             Last_Known_Location.getLongitude()), DEFAULT_ZOOM));
+                            mMap.setMyLocationEnabled(true);
                         } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            mMap.getUiSettings().setMyLocationButtonEnabled(true);
                         }
                     }
                 });
-            }
-            else {
+            } else {
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -116,15 +130,18 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+        if (ContextCompat.checkSelfPermission(this.getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
+//            Toast.makeText(getContext(), "getLocationPermission:mLocationPermissionGranted:-"+mLocationPermissionGranted, Toast.LENGTH_SHORT).show();
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(getActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//            Toast.makeText(getContext(), "getLocationPermission:mLocationPermissionGranted:-"+mLocationPermissionGranted, Toast.LENGTH_SHORT).show();
         }
+//        onRequestPermissionsResult(PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION,PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
 
     /**
@@ -140,14 +157,17 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
+//                    Toast.makeText(getContext(), "onRequestPermissionsResult:-", Toast.LENGTH_SHORT).show();
                 }
             }
+//            Toast.makeText(getContext(), "onRequestPermissionsResult:-"+mLocationPermissionGranted, Toast.LENGTH_SHORT).show();
         }
         updateLocationUI();
     }
 
     private void updateLocationUI() {
         if (mMap == null) {
+            Toast.makeText(getContext(), "Map is null in updateUI", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -160,11 +180,10 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
                 Last_Known_Location = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
-
 
 
     /**
@@ -184,9 +203,10 @@ public class HomeScreenActivity extends FragmentActivity implements OnMapReadyCa
         LatLng pune = new LatLng(18.5204, 73.8567);
         mMap.addMarker(new MarkerOptions().position(pune).title("Marker in Pune"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pune));
-        getLocationPermission();
-        getDeviceLocation();
+        if (mMap.isMyLocationEnabled() == false) {
+//            Toast.makeText(getContext(), "In map ready", Toast.LENGTH_SHORT).show();
+            getLocationPermission();
+            getDeviceLocation();
+        }
     }
-
-
 }

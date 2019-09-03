@@ -109,7 +109,12 @@ public class GoogleSignInActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        Intent intent = new Intent(this, HomeScreenActivity.class);
+        Intent intent = new Intent(this, Navigation.class);
         startActivity(intent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
     }
 }
