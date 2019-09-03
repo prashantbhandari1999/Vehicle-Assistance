@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,7 +26,6 @@ import androidx.fragment.app.Fragment;
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -34,16 +34,18 @@ public class HomeScreenActivity extends AppCompatActivity
     private boolean hidden = true;
     private ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
 
+    private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_home_screen);
 
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         setSupportActionBar(toolbar);
 
