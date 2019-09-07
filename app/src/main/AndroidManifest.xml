@@ -27,13 +27,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".AddVehicleActivity"
+            android:label="Add Vehicle"
+            android:theme="@style/SignUpTheme"></activity>
         <activity
             android:name=".Bottom"
-            android:label="@string/title_activity_bottom"></activity>
+            android:label="@string/title_activity_bottom" />
         <activity
             android:name=".HomeScreenActivity"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- &lt;!&ndash; -->
+            android:theme="@style/SignUpTheme.NoActionBar" /> <!-- &lt;!&ndash; -->
         <!-- The API key for Google Maps-based APIs is defined as a string resource. -->
         <!-- (See the file "res/values/google_maps_api.xml"). -->
         <!-- Note that the API key is linked to the encryption key used to sign the APK. -->
