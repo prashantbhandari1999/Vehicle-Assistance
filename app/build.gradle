@@ -50,11 +50,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation ('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+    implementation('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true
     }
     implementation 'com.google.android.material:material:1.0.0'
-
+    implementation 'com.android.support:design:29.0.0'
+    implementation 'com.android.support:recyclerview-v7:29.1.0'
 
 }
 apply plugin: 'com.google.gms.google-services'
