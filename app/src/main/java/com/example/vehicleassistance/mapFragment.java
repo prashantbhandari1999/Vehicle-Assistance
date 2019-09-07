@@ -34,7 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class TestingFragment extends Fragment implements OnMapReadyCallback {
+public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GeoDataClient mGeoDataClient;
@@ -52,7 +52,7 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
     private FloatingActionButton GPSButton;
 
-    public TestingFragment() {
+    public mapFragment() {
         // Required empty public constructor
     }
 
