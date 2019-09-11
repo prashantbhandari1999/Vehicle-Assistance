@@ -51,7 +51,7 @@ public class HomeScreenActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         if (isMapAdded) {
-            Fragment fragment = new TestingFragment();          //Here Map is added
+            Fragment fragment = new mapFragment();          //Here Map is added
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_frame_container,
                     fragment).commit();
             isMapAdded = false;

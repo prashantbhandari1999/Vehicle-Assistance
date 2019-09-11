@@ -34,7 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class TestingFragment extends Fragment implements OnMapReadyCallback {
+public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GeoDataClient mGeoDataClient;
@@ -52,7 +52,7 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
     SupportMapFragment mapFragment;
     private FloatingActionButton GPSButton;
 
-    public TestingFragment() {
+    public mapFragment() {
         // Required empty public constructor
     }
 
@@ -166,6 +166,7 @@ public class TestingFragment extends Fragment implements OnMapReadyCallback {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 //            Toast.makeText(getContext(), "getLocationPermission:mLocationPermissionGranted:-"+mLocationPermissionGranted, Toast.LENGTH_SHORT).show();
         }
+        updateLocationUI();
 //        onRequestPermissionsResult(PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION,PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
     }
 
