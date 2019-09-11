@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.view.View;
@@ -22,10 +23,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -145,9 +146,9 @@ public class HomeScreenActivity extends AppCompatActivity
         mRevealView = (LinearLayout) findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.GONE);
 
-        gallery_btn = (ImageButton) findViewById(R.id.gallery_img_btn);
-        photo_btn = (ImageButton) findViewById(R.id.photo_img_btn);
-        video_btn = (ImageButton) findViewById(R.id.video_img_btn);
+        gallery_btn = (ImageButton) findViewById(R.id.filter_fuel_stations_button);
+        photo_btn = (ImageButton) findViewById(R.id.filter_service_centres_button);
+        video_btn = (ImageButton) findViewById(R.id.filter_showrooms_button);
         audio_btn = (ImageButton) findViewById(R.id.audio_img_btn);
         location_btn = (ImageButton) findViewById(R.id.location_img_btn);
         contact_btn = (ImageButton) findViewById(R.id.contact_img_btn);
@@ -163,14 +164,22 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         hideRevealView();
+        mapFragment mapFragment=new mapFragment();
+
         switch (v.getId()) {
 
-            case R.id.gallery_img_btn:
+            case R.id.filter_fuel_stations_button:
+                mapFragment.showNearbyPlaces("Fuel Stations");
+                Toast.makeText(HomeScreenActivity.this,"Showing Nearby Fuel Stations",Toast.LENGTH_LONG).show();
                 break;
-            case R.id.photo_img_btn:
 
+            case R.id.filter_service_centres_button:
+                mapFragment.showNearbyPlaces("Service Centres");
+                Toast.makeText(HomeScreenActivity.this,"Showing Nearby Service Centres",Toast.LENGTH_LONG).show();
                 break;
-            case R.id.video_img_btn:
+            case R.id.filter_showrooms_button:
+                mapFragment.showNearbyPlaces("showrooms");
+                Toast.makeText(HomeScreenActivity.this,"Showing Nearby Fuel Stations",Toast.LENGTH_LONG).show();
 
                 break;
             case R.id.audio_img_btn:

@@ -17,12 +17,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "server_client_id", server_client_id
             resValue "string", "google_maps_key", google_maps_key
+            buildConfigField "String", "google_maps_key", google_maps_key
 //            resValue 'String', "server_client_id", server_client_id
         }
         debug {
             buildConfigField 'String', "server_client_id", server_client_id
 //            resValue 'String', "server_client_id", server_client_id
             resValue "string", "google_maps_key", google_maps_key
+            buildConfigField "String", "google_maps_key", google_maps_key
+
         }
     }
 }
