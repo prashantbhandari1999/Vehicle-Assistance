@@ -36,7 +36,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class mapFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    protected GoogleMap mMap;
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -48,6 +48,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
+    int PROXIMITY_RADIUS=10000;
+    double latitude,longitude;
 
     SupportMapFragment mapFragment;
     private FloatingActionButton GPSButton;
@@ -224,17 +226,39 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Toast.makeText(getContext(), "In map ready", Toast.LENGTH_SHORT).show();
+        mMap.clear();
 
         // Add a marker in Sydney and move the camera
         LatLng pune = new LatLng(18.5204, 73.8567);
         mMap.addMarker(new MarkerOptions().position(pune).title("Marker in Pune"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pune));
         if (mMap.isMyLocationEnabled() == false) {
-//            Toast.makeText(getContext(), "In map ready", Toast.LENGTH_SHORT).show();
             getLocationPermission();
             getDeviceLocation();
         }
     }
 
+    public void showNearbyPlaces(String place){
+        Object dataTransfer[]= new Object[2];
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        mMap.clear();
+        String url=getURL(latitude, longitude, place);
+        dataTransfer[0]=mMap;
+        dataTransfer[1]=url;
+
+        getNearbyPlacesData.execute(dataTransfer);
+    }
+
+    private String getURL(double latitude,double longitude, String nearbyplaces){
+        StringBuilder googlePlaceUrl= new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlaceUrl.append("location="+latitude+","+longitude);
+        googlePlaceUrl.append("&radius"+PROXIMITY_RADIUS);
+        googlePlaceUrl.append("&type"+nearbyplaces);
+        googlePlaceUrl.append("&sensor=true");
+        googlePlaceUrl.append("&key="+BuildConfig.google_maps_key);
+
+        return googlePlaceUrl.toString();
+    }
 
 }
