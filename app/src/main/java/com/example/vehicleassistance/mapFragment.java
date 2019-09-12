@@ -234,6 +234,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
             getDeviceLocation();
         }
+        ((HomeScreenActivity)getActivity()).getMapObject(mMap);
+
     }
 
 
