@@ -3,10 +3,17 @@ package com.example.vehicleassistance;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -25,8 +32,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.Menu;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -38,6 +53,10 @@ public class HomeScreenActivity extends AppCompatActivity
     private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
 
+    private EditText searchEditText;
+    private static final int DEFAULT_ZOOM = 15;
+    private GoogleMap mMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +65,8 @@ public class HomeScreenActivity extends AppCompatActivity
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        searchEditText = (EditText) findViewById(R.id.search_editext_map);
 
 
         setSupportActionBar(toolbar);
@@ -56,7 +77,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     fragment).commit();
             isMapAdded = false;
         }
-        initView();
+        initView();         //Initialise all services attributes
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -65,6 +86,9 @@ public class HomeScreenActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        onEnterButtonClicked();      //When Enter button is pressed in search
+
     }
 
     @Override
@@ -117,8 +141,8 @@ public class HomeScreenActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_addshop){
-            Intent intent = new Intent(HomeScreenActivity.this,AddShop.class);
+        } else if (id == R.id.nav_addshop) {
+            Intent intent = new Intent(HomeScreenActivity.this, AddShop.class);
             startActivity(intent);
         }
 
@@ -223,4 +247,42 @@ public class HomeScreenActivity extends AppCompatActivity
         }
     }
 
+    private void onEnterButtonClicked() {
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    String searchString = searchEditText.getText().toString();
+                    Geocoder geocoder = new Geocoder(HomeScreenActivity.this);
+                    List<Address> list = new ArrayList<>();
+                    try {
+                        list = geocoder.getFromLocationName(searchString, 1);
+
+                    } catch (IOException e) {
+                    }
+                    if (list.size() > 0) {
+                        Address address = list.get(0);
+                        Toast.makeText(HomeScreenActivity.this, "Address:-" + address, Toast.LENGTH_SHORT).show();
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title("Address"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+
+                                new LatLng(address.getLatitude(),
+                                        address.getLongitude()), DEFAULT_ZOOM));
+
+                    }
+                }
+                return false;
+            }
+        });
+
+    }
+
+    public void getMapObject(GoogleMap googleMap) {
+        //Get the object of google map from fragment
+        mMap = googleMap;
+    }
 }
