@@ -8,10 +8,14 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -35,6 +39,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import android.view.Menu;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -47,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private LinearLayout mRevealView;
     private boolean hidden = true;
@@ -56,12 +61,19 @@ public class HomeScreenActivity extends AppCompatActivity
     private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
 
-    private EditText searchEditText;
+    private AutoCompleteTextView searchEditText;
+    private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
+    private GoogleApiClient mGoogleApiClient;
+    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
+            new LatLng(-40, -168), new LatLng(71, 136));
+
+
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
     private Location Last_Known_Location;
     int PROXIMITY_RADIUS=10000;
     double latitude,longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +84,7 @@ public class HomeScreenActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        searchEditText = (EditText) findViewById(R.id.search_edit_text_map);
+        searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
 
 
         setSupportActionBar(toolbar);
@@ -276,6 +288,19 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     private void onEnterButtonClicked() {
+
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
+        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
+                LAT_LNG_BOUNDS, null);
+
+        searchEditText.setAdapter(mPlaceAutocompleteAdapter);
+
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -330,5 +355,10 @@ public class HomeScreenActivity extends AppCompatActivity
         Log.d("getURL", "getURL: "+googlePlaceUrl);
 
         return googlePlaceUrl.toString();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, "Connection falied", Toast.LENGTH_SHORT).show();
     }
 }
