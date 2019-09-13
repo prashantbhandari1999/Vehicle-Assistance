@@ -48,8 +48,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
-    int PROXIMITY_RADIUS=10000;
-    double latitude,longitude;
+    int PROXIMITY_RADIUS = 10000;
+    double latitude, longitude;
 
     SupportMapFragment mapFragment;
     private FloatingActionButton GPSButton;
@@ -131,6 +131,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
                                     new LatLng(Last_Known_Location.getLatitude(),
                                             Last_Known_Location.getLongitude()), DEFAULT_ZOOM));
+                            ((HomeScreenActivity) getActivity()).getLastKnownLocation(Last_Known_Location);
                             mMap.setMyLocationEnabled(true);
                         } else {
                             mMap.moveCamera(CameraUpdateFactory
@@ -237,30 +238,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
             getDeviceLocation();
         }
-        ((HomeScreenActivity)getActivity()).getMapObject(mMap);
+        ((HomeScreenActivity) getActivity()).getMapObject(mMap);
 
     }
-
-    public void showNearbyPlaces(String place){
-        Object dataTransfer[]= new Object[2];
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-        mMap.clear();
-        String url=getURL(latitude, longitude, place);
-        dataTransfer[0]=mMap;
-        dataTransfer[1]=url;
-
-        getNearbyPlacesData.execute(dataTransfer);
-    }
-
-    private String getURL(double latitude,double longitude, String nearbyplaces){
-        StringBuilder googlePlaceUrl= new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlaceUrl.append("location="+latitude+","+longitude);
-        googlePlaceUrl.append("&radius"+PROXIMITY_RADIUS);
-        googlePlaceUrl.append("&type"+nearbyplaces);
-        googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+BuildConfig.google_maps_key);
-
-        return googlePlaceUrl.toString();
-    }
-
 }

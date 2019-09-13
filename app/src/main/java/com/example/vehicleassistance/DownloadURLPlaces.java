@@ -1,5 +1,7 @@
 package com.example.vehicleassistance;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,7 @@ public class DownloadURLPlaces {
             StringBuffer sb=new StringBuffer();
 
             String line="";
-            while ((line=br.readLine())!=null){
+            while ((line=br.readLine())!=null) {
                 sb.append(line);
             }
             data=sb.toString();

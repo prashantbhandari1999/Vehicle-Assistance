@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -57,6 +59,9 @@ public class HomeScreenActivity extends AppCompatActivity
     private EditText searchEditText;
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
+    private Location Last_Known_Location;
+    int PROXIMITY_RADIUS=10000;
+    double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,7 @@ public class HomeScreenActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        searchEditText = (EditText) findViewById(R.id.search_editext_map);
+        searchEditText = (EditText) findViewById(R.id.search_edit_text_map);
 
 
         setSupportActionBar(toolbar);
@@ -194,15 +199,37 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         hideRevealView();
+        Object dataTransfer[]= new Object[2];
+        GetNearbyPlacesData getNearbyPlacesData=new GetNearbyPlacesData();
+        String url="";
         switch (v.getId()) {
 
             case R.id.filter_fuel_stations_button:
+                mMap.clear();
+                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), "gas_station");
+                dataTransfer[0]=mMap;
+                dataTransfer[1]=url;
+
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(this, "Showing nearby Fuel Stations",Toast.LENGTH_LONG).show();
+
                 break;
             case R.id.filter_service_centres_button:
+                mMap.clear();
+                String serviceCentre="car_repair";
+                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), serviceCentre);
+                dataTransfer[0]=mMap;
+                dataTransfer[1]=url;
 
+                getNearbyPlacesData.execute(dataTransfer);
                 break;
             case R.id.filter_showrooms_button:
+                mMap.clear();
+                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), "car_dealer");
+                dataTransfer[0]=mMap;
+                dataTransfer[1]=url;
 
+                getNearbyPlacesData.execute(dataTransfer);
                 break;
             case R.id.audio_img_btn:
 
@@ -285,5 +312,23 @@ public class HomeScreenActivity extends AppCompatActivity
     public void getMapObject(GoogleMap googleMap) {
         //Get the object of google map from fragment
         mMap = googleMap;
+    }
+
+    public void getLastKnownLocation(Location location) {
+        //Get the object of google map from fragment
+        Last_Known_Location=location;
+    }
+
+    private String getURL(double latitude,double longitude, String nearbyplaces){
+        StringBuilder googlePlaceUrl= new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlaceUrl.append("location="+latitude+","+longitude);
+        googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
+        googlePlaceUrl.append("&type="+nearbyplaces);
+        googlePlaceUrl.append("&sensor=true");
+        googlePlaceUrl.append("&key="+BuildConfig.google_maps_key);
+
+        Log.d("getURL", "getURL: "+googlePlaceUrl);
+
+        return googlePlaceUrl.toString();
     }
 }
