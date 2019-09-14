@@ -1,232 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddShop"
-    android:layout_marginTop="48dp">
+    tools:context=".AddShopActivity">
 
+    <!--<FrameLayout-->
+    <!--android:id="@+id/shop_frame_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--&lt;!&ndash;android:layout_marginBottom="50dp" />&ndash;&gt;-->
 
-
-    <EditText
-        android:id="@+id/editText_enter_shop_name"
+    <fragment
+        android:id="@+id/map_1"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:ems="10"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Enter Shop Name *"
-        android:drawableLeft="@drawable/ic_business_center_black_24dp"
-        android:inputType="text"
-        android:textSize="18sp"
-        android:maxLines="1"
-        />
-    <EditText
-        android:id="@+id/editText_enter_name_of_person"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:ems="10"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Enter Person Name *"
-        android:drawableLeft="@drawable/ic_person_outline_black_24dp"
-        android:inputType="text"
-        android:textSize="18sp"
-        android:maxLines="1"
-        android:layout_below="@+id/editText_enter_shop_name"
-        />
+        android:layout_height="450dp"
+        android:background="#fff"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="50dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <EditText
-        android:id="@+id/editText_enter_mobileno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:ems="10"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Enter Mobile Number *"
-        android:drawableLeft="@drawable/ic_phone_black_24dp"
-        android:inputType="text"
-        android:textSize="18sp"
-        android:maxLines="2"
-        android:layout_below="@+id/editText_enter_name_of_person" />
+        <ScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Shop Details"
+                    android:textSize="30sp" />
+
+                <EditText
+                    android:id="@+id/editText_enter_shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:drawableLeft="@drawable/ic_business_center_black_24dp"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="Enter Shop Name *"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editText_enter_name_of_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editText_enter_shop_name"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="Enter Person Name *"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editText_enter_mobileno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editText_enter_name_of_person"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:drawableLeft="@drawable/ic_phone_black_24dp"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="Enter Mobile Number *"
+                    android:inputType="text"
+                    android:maxLines="2"
+                    android:textSize="18sp" />
 
 
+                <EditText
+                    android:id="@+id/editText_enter_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/editText_enter_mobileno"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:drawableLeft="@drawable/ic_add_location_black_24dp"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="Enter Location *"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editText_enter_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:ems="10"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Enter Location *"
-        android:drawableLeft="@drawable/ic_add_location_black_24dp"
-        android:inputType="text"
-        android:textSize="18sp"
-        android:maxLines="1"
-        android:layout_below="@+id/editText_enter_mobileno" />
+
+                <TextView
+                    android:id="@+id/textView_services_provided"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editText_enter_location"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="48dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Services Provided"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic" />
 
 
-    <TextView
-        android:id="@+id/textView_services_provided"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editText_enter_location"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Services Provided"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+                <RelativeLayout
+                    android:id="@+id/relativelayout1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView_services_provided">
 
-    <RelativeLayout
-        android:id="@+id/relativelayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_services_provided">
+                    <CheckBox
+                        android:id="@+id/CheckBox_ac_services"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="AC Services"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_ac_services"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="AC Services"
-            android:textSize="16sp"
-            android:textStyle="italic" />
+                    <CheckBox
+                        android:id="@+id/CheckBox_cleaning"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_ac_services"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Cleaning"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_cleaning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Cleaning"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_ac_services"/>
-        <RadioButton
-            android:id="@+id/RadioButton_scheduled_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Scheduled Service"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_cleaning"/>
+                    <CheckBox
+                        android:id="@+id/CheckBox_scheduled_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_cleaning"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Scheduled Service"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_towing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Towing"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_scheduled_service"/>
+                    <CheckBox
+                        android:id="@+id/CheckBox_towing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_scheduled_service"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Towing"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-    </RelativeLayout>
+                    <CheckBox
+                        android:id="@+id/CheckBox_air_filling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_below="@id/CheckBox_towing"
+                        android:text="Air Filling"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-    <RelativeLayout
-        android:id="@+id/relativelayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_services_provided"
-        android:layout_toRightOf="@id/relativelayout1">
+                    <CheckBox
+                        android:id="@+id/CheckBox_doorstep_service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_air_filling"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Doorstep Service"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_air_filling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Air Filling"
-            android:textSize="16sp"
-            android:textStyle="italic" />
+                    <CheckBox
+                        android:id="@+id/CheckBox_painting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_doorstep_service"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Painting"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_doorstep_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Doorstep Service"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_air_filling"/>
-        <RadioButton
-            android:id="@+id/RadioButton_painting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Painting"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_doorstep_service"/>
+                    <CheckBox
+                        android:id="@+id/CheckBox_Wwheel_care"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/CheckBox_painting"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Wheel Care"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
 
-        <RadioButton
-            android:id="@+id/RadioButton_Wwheel_care"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Wheel Care"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            android:layout_below="@id/RadioButton_painting"/>
+                </RelativeLayout>
 
-    </RelativeLayout>
+                <Button
+                    android:id="@+id/button_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/relativelayout1"
+                    android:layout_margin="48dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Submit"
+                    android:textAlignment="center"
+                    android:textColorHint="#fff"
+                    android:textSize="18sp"
+                    tools:paddingRight="16dp" />
 
-    <Button
-        android:id="@+id/button_submit"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_margin="48dp"
-        android:background="@drawable/round_button"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Submit"
-        android:textAlignment="center"
-        android:textColor="@color/primaryTextColor"
-        android:textColorHint="#fff"
-        android:textSize="18sp"
-        tools:paddingRight="16dp"
-        android:layout_below="@id/relativelayout1"/>
+                <View
+                    android:id="@+id/view_Line_horizontal_addshop"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/button_submit"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:background="#444"
+                    android:elevation="1dp" />
 
-    <View
-        android:id="@+id/view_Line_horizontal_addshop"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:elevation="1dp"
-        android:background="#444"
-        android:layout_gravity="center"
-        android:layout_marginBottom="2dp"
-        android:layout_below="@id/button_submit"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_Line_horizontal_addshop"
-        android:elevation="2dp"
-        android:fontFamily="casual"
-        android:text="* : Mandatory Fields"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        android:textStyle="bold|italic"
-        android:typeface="normal"
-        android:background="#FFFFFF"/>
+            </LinearLayout>
 
-</RelativeLayout>
+        </ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
