@@ -160,7 +160,7 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_addshop) {
-            Intent intent = new Intent(HomeScreenActivity.this, AddShop.class);
+            Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
             startActivity(intent);
         }
 
