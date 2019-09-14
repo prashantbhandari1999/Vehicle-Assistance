@@ -27,11 +27,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddShop"></activity>
-
-        <activity android:name=".AddVehicleActivity"
+        <activity android:name=".AddShopActivity"></activity>
+        <activity android:name=".AddShopArya" />
+        <activity
+            android:name=".AddVehicleActivity"
             android:label="Add Vehicle"
-            android:theme="@style/SignUpTheme"></activity>
+            android:theme="@style/SignUpTheme" />
         <activity
             android:name=".Bottom"
             android:label="@string/title_activity_bottom" />
