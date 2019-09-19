@@ -45,7 +45,7 @@ public class CarFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v=inflater.inflate(R.layout.car_fragment,container,false);
+        v=inflater.inflate(R.layout.fragment_car,container,false);
         recyclerView=v.findViewById(R.id.RecylcerView_carsFragment);
         RecyclerViewApapterForCar recyclerViewApapter=new RecyclerViewApapterForCar(getContext(),carList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

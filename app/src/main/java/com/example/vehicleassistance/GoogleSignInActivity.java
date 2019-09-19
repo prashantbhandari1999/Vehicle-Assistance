@@ -24,7 +24,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class GoogleSignInActivity extends AppCompatActivity {
     int RC_SIGN_IN = 0;
     GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth mAuth= FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +105,8 @@ public class GoogleSignInActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser != null)
+            updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser currentUser) {
