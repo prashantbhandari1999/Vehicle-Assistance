@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class EmailActivity extends AppCompatActivity {
 
@@ -31,6 +32,16 @@ public class EmailActivity extends AppCompatActivity {
     Button signUpButtonEmailActivity;
 
 
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    //"(?=.*[0-9])" +         //at least 1 digit
+                    //"(?=.*[a-z])" +         //at least 1 lower case letter
+                    //"(?=.*[A-Z])" +         //at least 1 upper case letter
+                    "(?=.*[a-zA-Z])" +      //any letter
+                    "(?=.*[@#$%^&+=])" +    //at least 1 special character
+                    "(?=\\S+$)" +           //no white spaces
+                    ".{4,}" +               //at least 4 characters
+                    "$");
 
     private FirebaseAuth regAuth;
     private FirebaseFirestore fsClient;
@@ -85,7 +96,8 @@ public class EmailActivity extends AppCompatActivity {
                 password=passwordEditText.getText().toString();
                 confirmedPassword=confirmedPasswordEditText.getText().toString();
 
-                if (!password.isEmpty() && !email.isEmpty() && !confirmedPassword.isEmpty()) {
+                if (!password.isEmpty() && !email.isEmpty() && !confirmedPassword.isEmpty() && validatePassword() && checkPassword()
+                ) {
                     regAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(EmailActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -121,10 +133,16 @@ public class EmailActivity extends AppCompatActivity {
                     progressDialogemailActivity.hide();
                     passwordEditText.setError("Enter Password");
 //                    Toast.makeText(EmailActivity.this, "Please enter the password", Toast.LENGTH_SHORT).show();
-                } else if(confirmedPassword.isEmpty()){
+                } else if(!validatePassword()){
+                    progressDialogemailActivity.hide();
+                    Toast.makeText(EmailActivity.this, "Password is too weak ..!!!", Toast.LENGTH_SHORT).show();
+                }else if(confirmedPassword.isEmpty()){
                     progressDialogemailActivity.hide();
 //                    Toast.makeText(EmailActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                     confirmedPasswordEditText.setError("Please Confirmed Password");
+                } else if(!checkPassword()){
+                    progressDialogemailActivity.hide();
+                    Toast.makeText(EmailActivity.this, "Password not matched ..!!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -182,6 +200,28 @@ public class EmailActivity extends AppCompatActivity {
                 });
 
     }
+    private boolean validatePassword() {
+        String passwordInput = password;
+
+        if (passwordInput.isEmpty()) {
+//            passwordEditText.setError("Field can't be empty");
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+//            passwordEditText.setError("Password too weak");
+            return false;
+        } else {
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            passwordEditText.setError(null);
+            return true;
+        }
+    }
+
+    private boolean checkPassword(){
+        if(password==confirmedPassword)
+            return true;
+        return false;
+    }
+
     public boolean onOptionsItemSelected(MenuItem menu){
         int id = menu.getItemId();
 
