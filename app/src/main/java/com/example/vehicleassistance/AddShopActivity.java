@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
     public void init(){
@@ -157,6 +158,13 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
             Log.e("Exception: %s", e.getMessage());
         }
     }
+    public boolean onOptionsItemSelected(MenuItem menu){
+        int id = menu.getItemId();
 
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
 
 }

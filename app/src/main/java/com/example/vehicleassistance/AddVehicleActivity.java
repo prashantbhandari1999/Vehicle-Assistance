@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,9 +25,9 @@ public class AddVehicleActivity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;  //object of the class ViewPagerAdapter
     private EditText editText;
     private List<Cars> carList;
-    private List<Motorcycles>motorcycleList;
-    View v,v1;
-    RecyclerView recyclerViewForCar,recyclerViewForMotorcycle;
+    private List<Motorcycles> motorcycleList;
+    View v, v1;
+    RecyclerView recyclerViewForCar, recyclerViewForMotorcycle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 filterScooter(editable.toString());
             }
         });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void filter(String text) {
@@ -78,7 +80,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         }
 
         if (filteredList == null) {
-            TextView l =findViewById(R.id.TextView_motorcycleFragment);
+            TextView l = findViewById(R.id.TextView_motorcycleFragment);
             l.setText("No results found");
         }
         RecyclerViewApapterForCar recyclerViewApapterForCar = new RecyclerViewApapterForCar(getApplicationContext(), filteredList);
@@ -89,14 +91,14 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     }
 
-    public void filterScooter(String text){
-        ArrayList<Motorcycles> filterListForScooter=new ArrayList<>();
-        for(Motorcycles item: motorcycleList){
-            if(item.getMotorcycleName().toLowerCase().contains(text.toLowerCase().trim())){
+    public void filterScooter(String text) {
+        ArrayList<Motorcycles> filterListForScooter = new ArrayList<>();
+        for (Motorcycles item : motorcycleList) {
+            if (item.getMotorcycleName().toLowerCase().contains(text.toLowerCase().trim())) {
                 filterListForScooter.add(item);
             }
         }
-        RecyclerViewAdapterForMotorcycle recyclerViewAdapterForMotorcycle=new RecyclerViewAdapterForMotorcycle(getApplicationContext(),filterListForScooter);
+        RecyclerViewAdapterForMotorcycle recyclerViewAdapterForMotorcycle = new RecyclerViewAdapterForMotorcycle(getApplicationContext(), filterListForScooter);
         recyclerViewAdapterForMotorcycle.notifyDataSetChanged();
         recyclerViewForMotorcycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerViewForMotorcycle.setAdapter(recyclerViewAdapterForMotorcycle);
@@ -119,16 +121,24 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     }
 
-    public void setMotorcycleList(List<Motorcycles>l){
-        motorcycleList=l;
+    public void setMotorcycleList(List<Motorcycles> l) {
+        motorcycleList = l;
     }
 
-    public void getViewMotorcycle(View v){
-        v1=v;
-        recyclerViewForMotorcycle=v1.findViewById(R.id.RecylcerView_motorcycleFragment);
+    public void getViewMotorcycle(View v) {
+        v1 = v;
+        recyclerViewForMotorcycle = v1.findViewById(R.id.RecylcerView_motorcycleFragment);
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        int id = menu.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
 }
 
 
