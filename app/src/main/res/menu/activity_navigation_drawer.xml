@@ -24,6 +24,10 @@
             android:id="@+id/nav_addshop"
             android:icon="@drawable/ic_business_center_black_24dp"
             android:title="Add Shop" />
+        <item
+            android:id="@+id/nav_addvehicle"
+            android:icon="@drawable/ic_business_center_black_24dp"
+            android:title="Add Vehicle" />
 
     </group>
 
