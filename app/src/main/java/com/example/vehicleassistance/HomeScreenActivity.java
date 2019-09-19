@@ -213,9 +213,11 @@ public class HomeScreenActivity extends AppCompatActivity
                 case R.id.navigation_home:
                     Animation();
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_settings:
+                    hideRevealView();
                     return true;
                 case R.id.navigation_notifications:
+                    hideRevealView();
                     return true;
             }
             return false;
