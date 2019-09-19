@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,7 +62,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mGeoDataClient = Places.getGeoDataClient(getContext(), null);
@@ -123,10 +122,6 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             Last_Known_Location = task.getResult();
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude()))
-//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_circle1))
-                                    .title("Your Location"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
 
                                     new LatLng(Last_Known_Location.getLatitude(),
