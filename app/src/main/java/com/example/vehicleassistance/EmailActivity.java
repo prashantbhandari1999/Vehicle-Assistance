@@ -79,7 +79,6 @@ public class EmailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         firstName = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("lastName");
-        Toast.makeText(this, firstName + " " + lastName, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -139,7 +138,7 @@ public class EmailActivity extends AppCompatActivity {
                 }else if(confirmedPassword.isEmpty()){
                     progressDialogemailActivity.hide();
 //                    Toast.makeText(EmailActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                    confirmedPasswordEditText.setError("Please Confirmed Password");
+                    confirmedPasswordEditText.setError("Please Confirm entered Password");
                 } else if(!checkPassword()){
                     progressDialogemailActivity.hide();
                     Toast.makeText(EmailActivity.this, "Password not matched ..!!!", Toast.LENGTH_SHORT).show();
@@ -184,7 +183,7 @@ public class EmailActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(EmailActivity.this, "Data uploaded to cloud", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(EmailActivity.this, "Data uploaded to cloud", Toast.LENGTH_SHORT).show();
                             Intent launchNextActivity;
                             launchNextActivity = new Intent(EmailActivity.this, MainActivity.class);
                             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -217,7 +216,7 @@ public class EmailActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(){
-        if(password==confirmedPassword)
+        if(password.equals(confirmedPassword))
             return true;
         return false;
     }
