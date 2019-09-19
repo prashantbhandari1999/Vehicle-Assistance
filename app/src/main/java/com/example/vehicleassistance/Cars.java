@@ -4,8 +4,6 @@ public class Cars {
     private String carName;
     private int carPhoto;
 
-    public Cars() {
-    }
 
     public Cars(String carName, int carPhoto) {
         this.carName = carName;
@@ -20,11 +18,4 @@ public class Cars {
         return carPhoto;
     }
 
-    public void setCarName(String carName) {
-        this.carName = carName;
-    }
-
-    public void setCarPhoto(int carPhoto) {
-        this.carPhoto = carPhoto;
-    }
 }
