@@ -2,6 +2,8 @@ package com.example.vehicleassistance;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -31,12 +33,15 @@ import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
 import android.view.Menu;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
@@ -71,8 +76,12 @@ public class HomeScreenActivity extends AppCompatActivity
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
     private Location Last_Known_Location;
-    int PROXIMITY_RADIUS=10000;
-    double latitude,longitude;
+    int PROXIMITY_RADIUS = 10000;
+    double latitude, longitude;
+
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
 
     @Override
@@ -85,6 +94,10 @@ public class HomeScreenActivity extends AppCompatActivity
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
+
+
+        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseUser=firebaseAuth.getCurrentUser();
 
 
         setSupportActionBar(toolbar);
@@ -162,10 +175,28 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addshop) {
             Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
             startActivity(intent);
-        }
-        else if(id==R.id.nav_addvehicle){
+        } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
             startActivity(intent);
+        }else if(id==R.id.nav_log_out){
+            new AlertDialog.Builder(this)
+                    .setIcon(null)
+                    .setTitle("Log Out")
+                    .setMessage("Are you sure you want to log out ?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //startActivity();
+                            firebaseAuth.signOut();
+                            Intent intent1=new Intent(HomeScreenActivity.this,MainActivity.class);
+                            startActivity(intent1);
+                            finish();
+
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -214,35 +245,35 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         hideRevealView();
-        Object dataTransfer[]= new Object[2];
-        GetNearbyPlacesData getNearbyPlacesData=new GetNearbyPlacesData();
-        String url="";
+        Object dataTransfer[] = new Object[2];
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        String url = "";
         switch (v.getId()) {
 
             case R.id.filter_fuel_stations_button:
                 mMap.clear();
-                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), "gas_station");
-                dataTransfer[0]=mMap;
-                dataTransfer[1]=url;
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "gas_station");
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(this, "Showing nearby Fuel Stations",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Showing nearby Fuel Stations", Toast.LENGTH_LONG).show();
 
                 break;
             case R.id.filter_service_centres_button:
                 mMap.clear();
-                String serviceCentre="car_repair";
-                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), serviceCentre);
-                dataTransfer[0]=mMap;
-                dataTransfer[1]=url;
+                String serviceCentre = "car_repair";
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
                 break;
             case R.id.filter_showrooms_button:
                 mMap.clear();
-                url=getURL(Last_Known_Location.getLatitude(),Last_Known_Location.getLongitude(), "car_dealer");
-                dataTransfer[0]=mMap;
-                dataTransfer[1]=url;
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_dealer");
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
                 break;
@@ -344,18 +375,18 @@ public class HomeScreenActivity extends AppCompatActivity
 
     public void getLastKnownLocation(Location location) {
         //Get the object of google map from fragment
-        Last_Known_Location=location;
+        Last_Known_Location = location;
     }
 
-    private String getURL(double latitude,double longitude, String nearbyplaces){
-        StringBuilder googlePlaceUrl= new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlaceUrl.append("location="+latitude+","+longitude);
-        googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
-        googlePlaceUrl.append("&type="+nearbyplaces);
+    private String getURL(double latitude, double longitude, String nearbyplaces) {
+        StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlaceUrl.append("location=" + latitude + "," + longitude);
+        googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS);
+        googlePlaceUrl.append("&type=" + nearbyplaces);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+BuildConfig.google_maps_key);
+        googlePlaceUrl.append("&key=" + BuildConfig.google_maps_key);
 
-        Log.d("getURL", "getURL: "+googlePlaceUrl);
+        Log.d("getURL", "getURL: " + googlePlaceUrl);
 
         return googlePlaceUrl.toString();
     }
