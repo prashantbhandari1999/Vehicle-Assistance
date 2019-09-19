@@ -210,6 +210,7 @@ public class EmailActivity extends AppCompatActivity {
 //            passwordEditText.setError("Password too weak");
             return false;
         } else {
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
             passwordEditText.setError(null);
             return true;
         }
