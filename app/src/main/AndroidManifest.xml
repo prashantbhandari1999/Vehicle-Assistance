@@ -66,6 +66,8 @@
             android:name=".SignUpActivity"
             android:label="Sign Up"
             android:theme="@style/SignUpTheme" />
+        <activity android:name=".EnlargeImageActivityForMotorcycles"></activity>
+        <activity android:name=".EnlargeImageActivityForCars" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

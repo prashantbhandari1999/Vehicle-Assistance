@@ -163,7 +163,10 @@ public class HomeScreenActivity extends AppCompatActivity
             Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
             startActivity(intent);
         }
-
+        else if(id==R.id.nav_addvehicle){
+            Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
