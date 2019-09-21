@@ -26,7 +26,7 @@ public class Profile {
     }
 
 
-    public void setEmail(String firstName) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -62,6 +62,7 @@ public class Profile {
         profile.put("userId", userId);
         profile.put("firstName", firstName);
         profile.put("lastName", lastName);
+        profile.put("email",email);
     }
 
 }
