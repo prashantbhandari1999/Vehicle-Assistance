@@ -3,11 +3,16 @@ package com.example.vehicleassistance;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,11 +26,14 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -35,6 +43,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -47,11 +56,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +73,15 @@ public class HomeScreenActivity extends AppCompatActivity
     private LinearLayout mRevealView;
     private boolean hidden = true;
     private ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
+    private static final String MyPREFERENCES = "MyPrefs";
 
     private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
-
+    public static final int PICK_IMAGE = 1;
+    public static final int RESIZE_DIMEN = 360;
+    Bitmap profilePic, resizedBitmap;
+    ImageView userImage;
+    TextView userName,userEmail;
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -78,11 +94,11 @@ public class HomeScreenActivity extends AppCompatActivity
     private Location Last_Known_Location;
     int PROXIMITY_RADIUS = 10000;
     double latitude, longitude;
-
+    SharedPreferences imagePreferences,preferences;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-
+    View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +108,6 @@ public class HomeScreenActivity extends AppCompatActivity
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
 
 
@@ -112,6 +127,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        headerView =  navigationView.getHeaderView(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -119,7 +135,7 @@ public class HomeScreenActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         onEnterButtonClicked();      //When Enter button is pressed in search
-
+        addUserData();               //Add user Name and image in navigation drawer
     }
 
     @Override
@@ -397,4 +413,108 @@ public class HomeScreenActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Connection falied", Toast.LENGTH_SHORT).show();
     }
+    public void addUserData(){
+        TextView nav_user = (TextView)headerView.findViewById(R.id.user_name);
+//        nav_user.setText("hello user");
+        userImage=headerView.findViewById(R.id.user_image);
+        userName=headerView.findViewById(R.id.user_name);
+        userEmail=headerView.findViewById(R.id.user_email);
+
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        userEmail.setText(sharedPreferences.getString("email",""));
+        userName.setText(sharedPreferences.getString("firstName","")+" "+sharedPreferences.getString("lastName",""));
+
+        SharedPreferences preferences = getSharedPreferences("myprefs",MODE_PRIVATE);
+        String img_str=preferences.getString("userphoto", "");
+
+        //Check whether image present locally or not
+        if (!img_str.equals("")) {
+            //decode string to image
+            String base = img_str;
+            byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
+            userImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+        }
+
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImage(userImage);
+            }
+        });
+    }
+
+
+    public void pickImage(View view) {
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+
+        Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE) {
+            Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
+            if (data != null) {
+                Uri uri = data.getData();
+
+                CropImage.activity(uri)
+                        .setAllowFlipping(false)
+                        .setAllowRotation(false)
+                        .setAspectRatio(1, 1)
+                        .start(this);
+
+            }
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                Uri uri = result.getUri();
+                try {
+                    profilePic = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    ((ImageView)headerView.findViewById(R.id.user_image)).setImageBitmap(profilePic);
+                        setProfilePhoto(userImage);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
+    }
+    public void setProfilePhoto(View view){
+        //code image to string
+        userImage.buildDrawingCache();
+        Bitmap bitmap = userImage.getDrawingCache();
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+        byte[] image=stream.toByteArray();
+        //System.out.println("byte array:"+image);
+        //final String img_str = "data:image/png;base64,"+ Base64.encodeToString(image, 0);
+        //System.out.println("string:"+img_str);
+        String img_str = Base64.encodeToString(image, 0);
+        //decode string to image
+        String base=img_str;
+        byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
+
+        //save in shared preferences
+        preferences = getSharedPreferences("myprefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userphoto",img_str);
+        editor.commit();
+    }
 }
+
