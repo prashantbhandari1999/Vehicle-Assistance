@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0EFED"
+        android:background="#FFFFFF"
         android:orientation="horizontal"
         android:padding="16dp">
 
@@ -26,7 +26,7 @@
                 android:id="@+id/filter_fuel_stations_button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/gallery" />
+                android:background="@drawable/fuel_station" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                 android:id="@+id/filter_service_centres_button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/photo" />
+                android:background="@drawable/service_center" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0EFED"
+        android:background="#FFFFFF"
         android:orientation="horizontal"
         android:padding="16dp">
 
@@ -95,16 +95,16 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/audio_img_btn"
+                android:id="@+id/filter_washing_centres_button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/audio" />
+                android:background="@drawable/car_wash" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Audio" />
+                android:text="Washing Centres" />
         </LinearLayout>
 
         <LinearLayout

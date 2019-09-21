@@ -248,7 +248,7 @@ public class HomeScreenActivity extends AppCompatActivity
         gallery_btn = (ImageButton) findViewById(R.id.filter_fuel_stations_button);
         photo_btn = (ImageButton) findViewById(R.id.filter_service_centres_button);
         video_btn = (ImageButton) findViewById(R.id.filter_showrooms_button);
-        audio_btn = (ImageButton) findViewById(R.id.audio_img_btn);
+        audio_btn = (ImageButton) findViewById(R.id.filter_washing_centres_button);
         location_btn = (ImageButton) findViewById(R.id.location_img_btn);
         contact_btn = (ImageButton) findViewById(R.id.contact_img_btn);
 
@@ -270,7 +270,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
             case R.id.filter_fuel_stations_button:
                 mMap.clear();
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "gas_station");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "gas_station","");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
@@ -281,22 +281,30 @@ public class HomeScreenActivity extends AppCompatActivity
             case R.id.filter_service_centres_button:
                 mMap.clear();
                 String serviceCentre = "car_repair";
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre);
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre,"");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(this,"Showing nearby service centres",Toast.LENGTH_LONG).show();
                 break;
             case R.id.filter_showrooms_button:
                 mMap.clear();
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_dealer");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_dealer","");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(this, "Showing nearby Showrooms",Toast.LENGTH_LONG).show();
                 break;
-            case R.id.audio_img_btn:
+            case R.id.filter_washing_centres_button:
+                mMap.clear();
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_wash","");
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(this, "Showing nearby Washing Centres",Toast.LENGTH_LONG).show();
                 break;
             case R.id.location_img_btn:
 
@@ -396,12 +404,13 @@ public class HomeScreenActivity extends AppCompatActivity
         Last_Known_Location = location;
     }
 
-    private String getURL(double latitude, double longitude, String nearbyplaces) {
+    private String getURL(double latitude, double longitude, String nearbyplaces,String name) {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location=" + latitude + "," + longitude);
         googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type=" + nearbyplaces);
         googlePlaceUrl.append("&sensor=true");
+        googlePlaceUrl.append("name="+name);
         googlePlaceUrl.append("&key=" + BuildConfig.google_maps_key);
 
         Log.d("getURL", "getURL: " + googlePlaceUrl);
@@ -411,7 +420,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, "Connection falied", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
     }
     public void addUserData(){
         TextView nav_user = (TextView)headerView.findViewById(R.id.user_name);
