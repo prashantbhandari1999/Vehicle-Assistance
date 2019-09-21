@@ -63,7 +63,6 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
