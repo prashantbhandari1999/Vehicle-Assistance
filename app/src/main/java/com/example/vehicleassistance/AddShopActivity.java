@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,6 +77,17 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
             getLocationPermission();
             getDeviceLocation();
         }
+        mmMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getDeviceLocation();                    }
+                }, 5000);
+            }
+        });
     }
     private void getDeviceLocation() {
        
