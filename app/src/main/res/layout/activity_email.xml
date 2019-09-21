@@ -28,6 +28,7 @@
             android:focusableInTouchMode="true"
             android:hint="Email"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawablePadding="8dp"
             android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textSize="18sp" />
@@ -43,6 +44,7 @@
         android:ems="10"
         android:hint="Your password"
         android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+        android:drawablePadding="8dp"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +75,7 @@
         android:ems="10"
         android:hint="confirm password"
         android:drawableLeft="@drawable/ic_lock_open_black_24dp"
+        android:drawablePadding="8dp"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

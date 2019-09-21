@@ -35,18 +35,30 @@
             android:layout_height="match_parent"
             android:inputType="text"
             android:imeOptions="actionSearch"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            />
 
     </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/nav_frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_anchor="@id/bottom_nav_view"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
-        app:layout_constraintTop_toBottomOf="@id/search_relative_map" />
+        android:layout_width="409dp"
+        android:layout_height="616dp"
 
+        app:layout_constraintBottom_toTopOf="@+id/shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
+        app:layout_constraintBottom_toBottomOf="@id/revealFrameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_view"
@@ -54,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

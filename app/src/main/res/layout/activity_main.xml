@@ -29,10 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editText_Email_Login_Activity"
@@ -41,28 +41,39 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="Username"
-                android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+                android:drawableLeft="@drawable/ic_mail_black_24dp"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/colorPrimaryDark"
                 android:singleLine="true"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:inputType="textEmailAddress"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
 
-        <EditText
-            android:id="@+id/editText_Password_Login_Activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:ems="10"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="Password"
-            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
-            android:inputType="textPassword"
-            android:textSize="18sp"
-            android:maxLines="1"
-            />
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_Password_Login_Activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="Password"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawableTint="@color/colorPrimaryDark"
+                android:drawablePadding="8dp"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/textView_forgot_password"
