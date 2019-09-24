@@ -177,6 +177,8 @@ public class HomeScreenActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            Intent intent = new Intent(HomeScreenActivity.this,Arya_dialogue.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {
 
