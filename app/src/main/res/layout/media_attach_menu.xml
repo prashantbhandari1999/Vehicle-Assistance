@@ -66,7 +66,7 @@
                 android:id="@+id/filter_showrooms_button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/video" />
+                android:background="@drawable/showroom" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                 android:id="@+id/filter_washing_centres_button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/car_wash" />
+                android:background="@drawable/Car_Wash" />
 
             <TextView
                 android:layout_width="wrap_content"
