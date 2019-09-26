@@ -18,19 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@drawable/shadow"
         app:layout_anchor="@id/bottom_sheet"
-        app:layout_anchorGravity="start"
-        />
+        app:layout_anchorGravity="start" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:background="#fff"
         android:layout_marginTop="5dp"
+        android:background="#fff"
         app:behavior_hideable="false"
         app:behavior_peekHeight="50dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
@@ -41,48 +42,47 @@
             android:layout_height="wrap_content">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
-
                 <TextView
-                    android:paddingTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Shop Details"
                     android:fontFamily="sans-serif"
+                    android:paddingTop="8dp"
+                    android:text="Shop Details"
+                    android:textAlignment="center"
                     android:textColor="#200000"
                     android:textSize="24sp"
 
                     />
+
                 <FrameLayout
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp">
 
                     <ImageView
+                        android:id="@+id/ImageView_addshop"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@mipmap/ic_launcher"
-                        />
+                        android:clickable="true"
+                        android:src="@mipmap/ic_launcher" />
+
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:src="@drawable/ic_circular"
-                        />
+                        android:src="@drawable/ic_circular" />
 
                 </FrameLayout>
 
-                
 
                 <EditText
                     android:id="@+id/editText_enter_shop_name"
@@ -147,9 +147,9 @@
                     android:layout_marginRight="24dp"
                     android:drawableLeft="@drawable/ic_add_location_black_24dp"
                     android:drawablePadding="8dp"
+                    android:drawableTint="@color/colorPrimaryDark"
                     android:ems="10"
                     android:focusable="true"
-                    android:drawableTint="@color/colorPrimaryDark"
                     android:focusableInTouchMode="true"
                     android:hint="Location"
                     android:inputType="text"
@@ -163,7 +163,8 @@
                     android:layout_marginTop="48dp"
                     android:layout_marginBottom="0dp"
                     android:background="#f2f2f2"></View>
-            <TextView
+
+                <TextView
                     android:id="@+id/textView_services_provided"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -172,10 +173,9 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:text="Services"
-                    android:textColor="#000"
                     android:textAlignment="center"
-                    android:textSize="24sp"
-                />
+                    android:textColor="#000"
+                    android:textSize="24sp" />
 
 
                 <RelativeLayout
@@ -190,10 +190,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
-                        android:text="AC Services"
                         android:paddingLeft="2dp"
-                        android:textSize="16sp"
-                         />
+                        android:text="AC Services"
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_cleaning"
@@ -202,10 +201,9 @@
                         android:layout_below="@id/CheckBox_ac_services"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
-                        android:text="Cleaning"
                         android:paddingLeft="2dp"
-                        android:textSize="16sp"
-                         />
+                        android:text="Cleaning"
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_scheduled_service"
@@ -213,35 +211,32 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/CheckBox_cleaning"
                         android:layout_marginLeft="24dp"
-                        android:paddingLeft="2dp"
                         android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Scheduled Service"
-                        android:textSize="16sp"
-                         />
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_towing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/CheckBox_scheduled_service"
-                        android:paddingLeft="2dp"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Towing"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_air_filling"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="24dp"
-                        android:paddingLeft="2dp"
-                        android:layout_marginTop="24dp"
                         android:layout_below="@id/CheckBox_towing"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Air Filling"
-                        android:textSize="16sp"
-                         />
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_doorstep_service"
@@ -249,11 +244,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/CheckBox_air_filling"
                         android:layout_marginLeft="24dp"
-                        android:paddingLeft="2dp"
                         android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Doorstep Service"
-                        android:textSize="16sp"
-                         />
+                        android:textSize="16sp" />
 
                     <CheckBox
                         android:id="@+id/CheckBox_painting"
@@ -261,8 +255,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/CheckBox_doorstep_service"
                         android:layout_marginLeft="24dp"
-                        android:paddingLeft="2dp"
                         android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Painting"
                         android:textSize="16sp"
                         android:textStyle="italic" />
@@ -272,12 +266,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/CheckBox_painting"
-                        android:paddingLeft="2dp"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
+                        android:paddingLeft="2dp"
                         android:text="Wheel Care"
-                        android:textSize="16sp"
-                         />
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
@@ -287,15 +280,15 @@
                     android:layout_height="48dp"
                     android:layout_below="@id/relativelayout1"
                     android:layout_margin="48dp"
+                    android:background="@drawable/round_button"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="Add shop"
                     android:textAlignment="center"
+                    android:textColor="#fff"
                     android:textColorHint="#fff"
                     android:textSize="18sp"
-                    tools:paddingRight="16dp"
-                    android:background="@drawable/round_button"
-                    android:textColor="#fff"/>
+                    tools:paddingRight="16dp" />
 
                 <View
                     android:id="@+id/view_Line_horizontal_addshop"

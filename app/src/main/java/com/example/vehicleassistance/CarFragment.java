@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CarFragment extends Fragment {
@@ -39,12 +42,22 @@ public class CarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         carList = new ArrayList<>();
-        carList.add(new Cars("car1", R.drawable.ic_car_icon));
-        carList.add(new Cars("car2", R.drawable.ic_car_icon));
-        carList.add(new Cars("car3", R.drawable.ic_car_icon));
-        carList.add(new Cars("car4", R.drawable.ic_car_icon));
-        carList.add(new Cars("car5", R.drawable.ic_car_icon));
-        carList.add(new Cars("car6", R.drawable.ic_car_icon));
+        carList.add(new Cars("Maruti Suzuki Dzire", R.drawable.ic_car_icon));
+        carList.add(new Cars("Maruti Suzuki Wagon R", R.drawable.ic_car_icon));
+        carList.add(new Cars("Hyundai Santro", R.drawable.ic_car_icon));
+        carList.add(new Cars("Hyundai Xcent", R.drawable.ic_car_icon));
+        carList.add(new Cars("Honda Amaze", R.drawable.ic_car_icon));
+        carList.add(new Cars("Honda City", R.drawable.ic_car_icon));
+        carList.add(new Cars("Mahindra Xylo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Volkswagen Polo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Volkswagen Vento", R.drawable.ic_car_icon));
+        carList.add(new Cars("Ford Figo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Tata Tiago", R.drawable.ic_car_icon));
+        carList.add(new Cars("Tata Nano", R.drawable.ic_car_icon));
+        carList.add(new Cars("Renault Duster", R.drawable.ic_car_icon));
+        carList.add(new Cars("Toyota Corolla Altis", R.drawable.ic_car_icon));
+        carList.add(new Cars("Toyota Fortuner", R.drawable.ic_car_icon));
+
 
 
         ((AddVehicleActivity) getActivity()).setCarList(carList);
