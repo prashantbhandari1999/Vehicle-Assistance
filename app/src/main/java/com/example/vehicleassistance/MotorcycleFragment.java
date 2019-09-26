@@ -33,23 +33,23 @@ public class MotorcycleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         motorcycleList=new ArrayList<>();
-        motorcycleList.add(new Motorcycles("Hero Splendor",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Hero Passion",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Hero Maestro",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Hero Pleasure",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Honda Shine",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Honda Hornet",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Honda Activa",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Honda Dio",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Bajaj Pulsar",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Bajaj Avenger",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("TVS Apache",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("TVS Wego",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("TVS Jupiter",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Suzuki Access",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Royal Enfield Bullet",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Yamaha FZ",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Yamaha Fascino",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Splendor",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Passion",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Maestro",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Pleasure",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Shine",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Hornet",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Activa",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Dio",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Pulsar",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Avenger",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Apache",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Wego",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Jupiter",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Access",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Bullet",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("FZ",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Fascino",R.drawable.ic_car_icon));
 
 
 
