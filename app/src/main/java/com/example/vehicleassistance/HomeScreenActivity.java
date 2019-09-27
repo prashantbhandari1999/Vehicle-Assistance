@@ -103,6 +103,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     View headerView;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class HomeScreenActivity extends AppCompatActivity
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
 
+        GPSButton=(FloatingActionButton)findViewById(R.id.myLocationButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -126,7 +128,15 @@ public class HomeScreenActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_frame_container,
                     fragment).commit();
             isMapAdded = false;
+            currentFragment=fragment;
         }
+        GPSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(HomeScreenActivity.this, "getting device location", Toast.LENGTH_SHORT).show();
+                ((mapFragment) currentFragment).getDeviceLocation();
+            }
+        });
         initView();         //Initialise all services attributes
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -256,9 +266,11 @@ public class HomeScreenActivity extends AppCompatActivity
                     Animation();
                     return true;
                 case R.id.navigation_settings:
+                    hideGPS();
                     hideRevealView();
                     return true;
                 case R.id.navigation_notifications:
+                    hideGPS();
                     hideRevealView();
                     return true;
             }
@@ -347,6 +359,10 @@ public class HomeScreenActivity extends AppCompatActivity
             hidden = true;
         }
     }
+    private void hideGPS(){
+//        GPSButton.setVisibility(View.GONE);
+
+    }
 
     public void Animation() {
         int cx = (mRevealView.getLeft() + mRevealView.getRight());
@@ -407,7 +423,7 @@ public class HomeScreenActivity extends AppCompatActivity
                         mMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .title("Address"));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
 
                                 new LatLng(address.getLatitude(),
                                         address.getLongitude()), DEFAULT_ZOOM));
