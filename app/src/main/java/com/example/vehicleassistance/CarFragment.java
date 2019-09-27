@@ -39,12 +39,21 @@ public class CarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         carList = new ArrayList<>();
-        carList.add(new Cars("car1", R.drawable.ic_car_icon));
-        carList.add(new Cars("car2", R.drawable.ic_car_icon));
-        carList.add(new Cars("car3", R.drawable.ic_car_icon));
-        carList.add(new Cars("car4", R.drawable.ic_car_icon));
-        carList.add(new Cars("car5", R.drawable.ic_car_icon));
-        carList.add(new Cars("car6", R.drawable.ic_car_icon));
+        carList.add(new Cars("Dzire", R.drawable.ic_car_icon));
+        carList.add(new Cars("Wagon R", R.drawable.ic_car_icon));
+        carList.add(new Cars("Santro", R.drawable.ic_car_icon));
+        carList.add(new Cars("Hyundai Xcent", R.drawable.ic_car_icon));
+        carList.add(new Cars("Amaze", R.drawable.ic_car_icon));
+        carList.add(new Cars("City", R.drawable.ic_car_icon));
+        carList.add(new Cars("Xylo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Polo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Vento", R.drawable.ic_car_icon));
+        carList.add(new Cars("Figo", R.drawable.ic_car_icon));
+        carList.add(new Cars("Tiago", R.drawable.ic_car_icon));
+        carList.add(new Cars("Nano", R.drawable.ic_car_icon));
+        carList.add(new Cars("Duster", R.drawable.ic_car_icon));
+        carList.add(new Cars("Corolla Altis", R.drawable.ic_car_icon));
+        carList.add(new Cars("Fortuner", R.drawable.ic_car_icon));
 
 
         ((AddVehicleActivity) getActivity()).setCarList(carList);

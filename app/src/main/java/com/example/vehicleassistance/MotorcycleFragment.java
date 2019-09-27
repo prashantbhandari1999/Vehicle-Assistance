@@ -33,18 +33,23 @@ public class MotorcycleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         motorcycleList=new ArrayList<>();
-        motorcycleList.add(new Motorcycles("scooter1",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter2",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter3",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter4",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter5",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter6",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter7",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter8",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter9",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter10",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter11",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("scooter12",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Splendor",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Passion",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Maestro",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Pleasure",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Shine",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Hornet",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Activa",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Dio",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Pulsar",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Avenger",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Apache",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Wego",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Jupiter",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Access",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Bullet",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("FZ",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Fascino",R.drawable.ic_car_icon));
 
         ((AddVehicleActivity) getActivity()).setMotorcycleList(motorcycleList);
 

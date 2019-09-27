@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,6 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 public class AddShopActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
+
     private BottomSheetBehavior mBottomSheetBehavior;
     private GoogleMap mmMap;
     private GeoDataClient mGeoDataClient;
@@ -44,14 +51,22 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
 
+    //    For_Camera
+    private static final int CAMERA_PIC_REQUEST = 22;
+    Uri cameraUri;
+    private ImageView ImgPhoto;
+    private String Camerapath;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shop);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        View bottomSheet=findViewById(R.id.bottom_sheet);
-        mBottomSheetBehavior= BottomSheetBehavior.from(bottomSheet);
-        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
         init();
 
@@ -59,16 +74,34 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map_1);
         mapFragment.getMapAsync(this);
 
-       
+
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
-    public void init(){
+
+        //    For_Camera
+        ImgPhoto = (ImageView) findViewById(R.id.ImageView_addshop);
+        ImgPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                } catch (Exception e) {
+                    Toast.makeText(AddShopActivity.this, "Not able to Upload", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddShopActivity.this, "Please Try Later", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
+
+    public void init() {
+
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mmMap = googleMap;
@@ -83,13 +116,15 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getDeviceLocation();                    }
+                        getDeviceLocation();
+                    }
                 }, 5000);
             }
         });
     }
+
     private void getDeviceLocation() {
-       
+
         try {
             if (mLocationPermissionGranted) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -169,13 +204,37 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
             Log.e("Exception: %s", e.getMessage());
         }
     }
-    public boolean onOptionsItemSelected(MenuItem menu){
+
+    public boolean onOptionsItemSelected(MenuItem menu) {
         int id = menu.getItemId();
 
-        if (id==android.R.id.home) {
+        if (id == android.R.id.home) {
             finish();
         }
         return true;
     }
 
+
+    //For_Camera
+    public void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        try {
+            switch (requestCode) {
+                case CAMERA_PIC_REQUEST:
+                    if (resultCode == RESULT_OK) {
+                        try {
+                            Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                            ImgPhoto.setImageBitmap(photo);
+
+                        } catch (Exception e) {
+                            Toast.makeText(AddShopActivity.this, "Not able to Upload", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddShopActivity.this, "Please Try Later", Toast.LENGTH_SHORT).show();                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+        }
+    }
 }
