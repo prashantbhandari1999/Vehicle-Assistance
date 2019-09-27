@@ -222,7 +222,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Toast.makeText(getContext(), "In map ready", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "In map ready", Toast.LENGTH_SHORT).show();
         mMap.clear();
 
         // Add a marker in Sydney and move the camera

@@ -1,5 +1,7 @@
 package com.example.vehicleassistance;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
@@ -15,6 +17,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
@@ -72,8 +75,9 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private LinearLayout mRevealView;
     private boolean hidden = true;
-    private ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
+    private  ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
+    private static final String MyGooglePREFERENCES = "googlePrefs";
 
     private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
@@ -81,7 +85,7 @@ public class HomeScreenActivity extends AppCompatActivity
     public static final int RESIZE_DIMEN = 360;
     Bitmap profilePic, resizedBitmap;
     ImageView userImage;
-    TextView userName,userEmail;
+    TextView userName, userEmail;
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -94,7 +98,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private Location Last_Known_Location;
     int PROXIMITY_RADIUS = 10000;
     double latitude, longitude;
-    SharedPreferences imagePreferences,preferences;
+    SharedPreferences imagePreferences, preferences, googlePreferences;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -111,8 +115,8 @@ public class HomeScreenActivity extends AppCompatActivity
         searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
 
 
-        firebaseAuth=FirebaseAuth.getInstance();
-        firebaseUser=firebaseAuth.getCurrentUser();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
 
         setSupportActionBar(toolbar);
@@ -127,7 +131,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        headerView =  navigationView.getHeaderView(0);
+        headerView = navigationView.getHeaderView(0);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -196,7 +200,7 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
             startActivity(intent);
-        }else if(id==R.id.nav_log_out){
+        } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(null)
                     .setTitle("Log Out")
@@ -205,10 +209,30 @@ public class HomeScreenActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //startActivity();
+                            firebaseAuth = FirebaseAuth.getInstance();
+                            firebaseUser = firebaseAuth.getCurrentUser();
+
                             firebaseAuth.signOut();
-                            Intent intent1=new Intent(HomeScreenActivity.this,MainActivity.class);
-                            startActivity(intent1);
-                            finish();
+                            Bundle bundle = getIntent().getExtras();
+                            String method = bundle.getString("signInMethod");
+                            if (method.equals("register")) {
+                                SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("userId", "null");
+                                editor.apply();
+
+                                Intent intent1 = new Intent(HomeScreenActivity.this, MainActivity.class);
+                                startActivity(intent1);
+                                finish();
+                            } else {
+                                SharedPreferences sharedPreferences = getSharedPreferences(MyGooglePREFERENCES, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("logOut", true);
+                                editor.apply();
+                                Intent intent1 = new Intent(HomeScreenActivity.this, MainActivity.class);
+                                startActivity(intent1);
+                                finish();
+                            }
 
                         }
                     })
@@ -272,7 +296,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
             case R.id.filter_fuel_stations_button:
                 mMap.clear();
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "gas_station","");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "gas_station", "");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
@@ -283,30 +307,30 @@ public class HomeScreenActivity extends AppCompatActivity
             case R.id.filter_service_centres_button:
                 mMap.clear();
                 String serviceCentre = "car_repair";
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre,"");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre, "");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(this,"Showing nearby service centres",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Showing nearby service centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.filter_showrooms_button:
                 mMap.clear();
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_dealer","");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_dealer", "");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(this, "Showing nearby Showrooms",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Showing nearby Showrooms", Toast.LENGTH_LONG).show();
                 break;
             case R.id.filter_washing_centres_button:
                 mMap.clear();
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_wash","");
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_wash", "");
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(this, "Showing nearby Washing Centres",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Showing nearby Washing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.location_img_btn:
 
@@ -406,13 +430,13 @@ public class HomeScreenActivity extends AppCompatActivity
         Last_Known_Location = location;
     }
 
-    private String getURL(double latitude, double longitude, String nearbyplaces,String name) {
+    private String getURL(double latitude, double longitude, String nearbyplaces, String name) {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location=" + latitude + "," + longitude);
         googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type=" + nearbyplaces);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("name="+name);
+        googlePlaceUrl.append("name=" + name);
         googlePlaceUrl.append("&key=" + BuildConfig.google_maps_key);
 
         Log.d("getURL", "getURL: " + googlePlaceUrl);
@@ -424,35 +448,54 @@ public class HomeScreenActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
     }
-    public void addUserData(){
-        TextView nav_user = (TextView)headerView.findViewById(R.id.user_name);
+
+    public void addUserData() {
+        TextView nav_user = (TextView) headerView.findViewById(R.id.user_name);
 //        nav_user.setText("hello user");
-        userImage=headerView.findViewById(R.id.user_image);
-        userName=headerView.findViewById(R.id.user_name);
-        userEmail=headerView.findViewById(R.id.user_email);
+        userImage = headerView.findViewById(R.id.user_image);
+        userName = headerView.findViewById(R.id.user_name);
+        userEmail = headerView.findViewById(R.id.user_email);
 
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userEmail.setText(sharedPreferences.getString("email",""));
-        userName.setText(sharedPreferences.getString("firstName","")+" "+sharedPreferences.getString("lastName",""));
+        Bundle bundle = getIntent().getExtras();
+        String signInMethod = bundle.getString("signInMethod");
+        if (signInMethod.equals("google")) {
+            Toast.makeText(this, "Sign In with google", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedPreferences = getSharedPreferences(MyGooglePREFERENCES, Context.MODE_PRIVATE);
+            userName.setText(sharedPreferences.getString("name", ""));
+            userEmail.setText(sharedPreferences.getString("email", ""));
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("logOut", false);
 
-        SharedPreferences preferences = getSharedPreferences("myprefs",MODE_PRIVATE);
-        String img_str=preferences.getString("userphoto", "");
+            String personPhotoUrl = sharedPreferences.getString("photoUrl", "");
+            Glide.with(getApplicationContext()).load(personPhotoUrl).into(userImage);
 
-        //Check whether image present locally or not
-        if (!img_str.equals("")) {
-            //decode string to image
-            String base = img_str;
-            byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
-            userImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
-        }
+            editor.commit();
+        } else if (signInMethod.equals("register")) {
+            Toast.makeText(this, "Sign In with REGISTER", Toast.LENGTH_SHORT).show();
 
-        userImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickImage(userImage);
+            SharedPreferences sharedPreferences;
+            sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            userEmail.setText(sharedPreferences.getString("email", ""));
+            userName.setText(sharedPreferences.getString("firstName", "") + " " + sharedPreferences.getString("lastName", ""));
+
+            SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
+            String img_str = preferences.getString("userphoto", "");
+
+            //Check whether image present locally or not
+            if (!img_str.equals("")) {
+                //decode string to image
+                String base = img_str;
+                byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
+                userImage.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
             }
-        });
+
+            userImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pickImage(userImage);
+                }
+            });
+        }
     }
 
 
@@ -475,7 +518,6 @@ public class HomeScreenActivity extends AppCompatActivity
             Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
             if (data != null) {
                 Uri uri = data.getData();
-
                 CropImage.activity(uri)
                         .setAllowFlipping(false)
                         .setAllowRotation(false)
@@ -493,8 +535,8 @@ public class HomeScreenActivity extends AppCompatActivity
                 Uri uri = result.getUri();
                 try {
                     profilePic = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    ((ImageView)headerView.findViewById(R.id.user_image)).setImageBitmap(profilePic);
-                        setProfilePhoto(userImage);
+                    ((ImageView) headerView.findViewById(R.id.user_image)).setImageBitmap(profilePic);
+                    setProfilePhoto(userImage);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -506,25 +548,26 @@ public class HomeScreenActivity extends AppCompatActivity
         }
 
     }
-    public void setProfilePhoto(View view){
+
+    public void setProfilePhoto(View view) {
         //code image to string
         userImage.buildDrawingCache();
         Bitmap bitmap = userImage.getDrawingCache();
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-        byte[] image=stream.toByteArray();
+        byte[] image = stream.toByteArray();
         //System.out.println("byte array:"+image);
         //final String img_str = "data:image/png;base64,"+ Base64.encodeToString(image, 0);
         //System.out.println("string:"+img_str);
         String img_str = Base64.encodeToString(image, 0);
         //decode string to image
-        String base=img_str;
+        String base = img_str;
         byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
 
         //save in shared preferences
-        preferences = getSharedPreferences("myprefs",MODE_PRIVATE);
+        preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("userphoto",img_str);
+        editor.putString("userphoto", img_str);
         editor.commit();
     }
 }
