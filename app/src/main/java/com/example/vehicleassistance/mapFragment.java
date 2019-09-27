@@ -106,7 +106,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
@@ -122,14 +122,14 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             Last_Known_Location = task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
 
                                     new LatLng(Last_Known_Location.getLatitude(),
                                             Last_Known_Location.getLongitude()), DEFAULT_ZOOM));
                             ((HomeScreenActivity) getActivity()).getLastKnownLocation(Last_Known_Location);
                             mMap.setMyLocationEnabled(true);
                         } else {
-                            mMap.moveCamera(CameraUpdateFactory
+                            mMap.animateCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(true);
                         }

@@ -22,6 +22,7 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <RelativeLayout
         android:id="@+id/search_relative_map"
         android:layout_width="match_parent"
@@ -33,10 +34,9 @@
             android:id="@+id/search_edit_text_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
             android:imeOptions="actionSearch"
-            android:textSize="15sp"
-            />
+            android:inputType="text"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -54,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:background="@drawable/shadow"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
         app:layout_constraintBottom_toBottomOf="@id/revealFrameLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -77,17 +77,17 @@
         android:id="@+id/myLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="56dp"
         android:clickable="true"
+        app:rippleColor="#fff"
+        android:visibility="visible"
         app:borderWidth="0dp"
-        android:visibility="gone"
         app:elevation="6dp"
         app:fabSize="normal"
+        android:src="@drawable/ic_gps"
         app:layout_constraintBottom_toBottomOf="@+id/revealFrameLayout"
-        app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/round_button" />
+        app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout" />
 
     <io.codetail.widget.RevealFrameLayout
         android:id="@+id/revealFrameLayout"
