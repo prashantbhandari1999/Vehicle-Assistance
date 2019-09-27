@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
 public class EmailActivity extends AppCompatActivity {
 
     String firstName, lastName,email,password,confirmedPassword;
-    EditText emailEditText,passwordEditText,confirmedPasswordEditText;
+    TextInputEditText emailEditText,passwordEditText,confirmedPasswordEditText;
     Button signUpButtonEmailActivity;
 
 
@@ -70,10 +71,10 @@ public class EmailActivity extends AppCompatActivity {
 
     private void getAttributes() {
 
-        emailEditText=(EditText)findViewById(R.id.editText_email_email_activity);
-        signUpButtonEmailActivity=(Button)findViewById(R.id.button_next_Email_Activity);
-        passwordEditText=(EditText)findViewById(R.id.editText_password_Email_Activity);
-        confirmedPasswordEditText=(EditText)findViewById(R.id.editText_confirm_password_Email_Activity);
+        emailEditText=findViewById(R.id.editText_email_email_activity);
+        signUpButtonEmailActivity=findViewById(R.id.button_next_Email_Activity);
+        passwordEditText=findViewById(R.id.editText_password_Email_Activity);
+        confirmedPasswordEditText=findViewById(R.id.editText_confirm_password_Email_Activity);
 
         //Here we get variables which was passed earlier
         Intent intent = getIntent();
