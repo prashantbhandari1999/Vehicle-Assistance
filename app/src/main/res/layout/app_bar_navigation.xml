@@ -42,17 +42,18 @@
 
     <FrameLayout
         android:id="@+id/nav_frame_container"
-        android:layout_width="409dp"
-        android:layout_height="616dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/shadow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_anchor="@id/shadow"
+        
+        app:layout_constraintBottom_toTopOf="@id/shadow"
+        app:layout_constraintTop_toBottomOf="@id/search_relative_map"
+         />
 
     <View
         android:id="@+id/shadow"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="3dp"
         android:background="@drawable/shadow"
         app:layout_constraintBottom_toBottomOf="@id/revealFrameLayout"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_view"
@@ -85,6 +86,7 @@
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"
+        android:tint="#fff"
         android:src="@drawable/ic_gps"
         app:layout_constraintBottom_toBottomOf="@+id/revealFrameLayout"
         app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout" />
@@ -93,7 +95,7 @@
         android:id="@+id/revealFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav_view">
+        app:layout_constraintBottom_toTopOf="@id/shadow">
 
         <include layout="@layout/media_attach_menu" />
 

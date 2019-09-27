@@ -53,6 +53,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.view.inputmethod.EditorInfo;
@@ -75,7 +76,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private LinearLayout mRevealView;
     private boolean hidden = true;
-    private  ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
+    private ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
     private static final String MyGooglePREFERENCES = "googlePrefs";
 
@@ -264,6 +265,16 @@ public class HomeScreenActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     Animation();
+//                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
+//                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
+//                    if(mapFragment==null){
+//                        mapFragment=new mapFragment();
+//                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
+//                    }
+
+                    //                    FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.nav_frame_container,mapfragment).addToBackStack("tag").commit();
                     return true;
                 case R.id.navigation_settings:
                     hideGPS();
@@ -272,6 +283,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 case R.id.navigation_notifications:
                     hideGPS();
                     hideRevealView();
+//                    notificationFragment fragment=new notificationFragment();
+//                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.nav_frame_container,fragment).addToBackStack("tag").commit();
                     return true;
             }
             return false;
@@ -280,15 +294,15 @@ public class HomeScreenActivity extends AppCompatActivity
 
 
     private void initView() {
-        mRevealView = (LinearLayout) findViewById(R.id.reveal_items);
+        mRevealView = findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.GONE);
 
-        gallery_btn = (ImageButton) findViewById(R.id.filter_fuel_stations_button);
-        photo_btn = (ImageButton) findViewById(R.id.filter_service_centres_button);
-        video_btn = (ImageButton) findViewById(R.id.filter_showrooms_button);
-        audio_btn = (ImageButton) findViewById(R.id.filter_washing_centres_button);
-        location_btn = (ImageButton) findViewById(R.id.location_img_btn);
-        contact_btn = (ImageButton) findViewById(R.id.contact_img_btn);
+        gallery_btn = findViewById(R.id.filter_fuel_stations_button);
+        photo_btn = findViewById(R.id.filter_service_centres_button);
+        video_btn = findViewById(R.id.filter_showrooms_button);
+        audio_btn = findViewById(R.id.filter_washing_centres_button);
+        location_btn = findViewById(R.id.location_img_btn);
+        contact_btn = findViewById(R.id.contact_img_btn);
 
         gallery_btn.setOnClickListener(this);
         photo_btn.setOnClickListener(this);
