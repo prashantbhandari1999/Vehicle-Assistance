@@ -1,6 +1,7 @@
 package com.example.vehicleassistance;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +40,9 @@ public class DownloadURLPlaces {
             e.printStackTrace();
         }
         finally {
-            inputStream.close();
+            if(inputStream != null) {
+                inputStream.close();
+            }
             urlConnection.disconnect();
         }
         return data;

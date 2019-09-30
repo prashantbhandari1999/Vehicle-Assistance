@@ -50,7 +50,13 @@ public class DataParserPlaces {
     }
 
     private List<HashMap<String,String>> getPlaces(JSONArray jsonArray){
-        int count=jsonArray.length();
+        int count;
+        if(jsonArray != null) {
+            count = jsonArray.length();
+        }
+        else{
+            count=0;
+        }
         List<HashMap<String,String>> placesList = new ArrayList<>();
         HashMap<String,String> placeMap=null;
 
