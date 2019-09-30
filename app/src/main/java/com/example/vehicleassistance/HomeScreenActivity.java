@@ -62,6 +62,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,7 +77,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private LinearLayout mRevealView;
     private boolean hidden = true;
-    private ImageButton gallery_btn, photo_btn, video_btn, audio_btn, location_btn, contact_btn;
+    private ImageButton fuel_stations_btn, service_centres_btn, showroom_btn, washing_centers_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
     private static final String MyGooglePREFERENCES = "googlePrefs";
 
@@ -86,6 +87,7 @@ public class HomeScreenActivity extends AppCompatActivity
     public static final int RESIZE_DIMEN = 360;
     Bitmap profilePic, resizedBitmap;
     ImageView userImage;
+    SearchView searchView;
     TextView userName, userEmail;
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
@@ -97,8 +99,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
     private Location Last_Known_Location;
-    int PROXIMITY_RADIUS = 10000;
-    double latitude, longitude;
+    int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
 
     private FirebaseAuth firebaseAuth;
@@ -114,9 +115,8 @@ public class HomeScreenActivity extends AppCompatActivity
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        searchEditText = (AutoCompleteTextView) findViewById(R.id.search_edit_text_map);
 
-        GPSButton=(FloatingActionButton)findViewById(R.id.myLocationButton);
+        GPSButton = findViewById(R.id.myLocationButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -134,7 +134,6 @@ public class HomeScreenActivity extends AppCompatActivity
         GPSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(HomeScreenActivity.this, "getting device location", Toast.LENGTH_SHORT).show();
                 ((mapFragment) currentFragment).getDeviceLocation();
             }
         });
@@ -149,7 +148,6 @@ public class HomeScreenActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        onEnterButtonClicked();      //When Enter button is pressed in search
         addUserData();               //Add user Name and image in navigation drawer
     }
 
@@ -158,6 +156,8 @@ public class HomeScreenActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (mRevealView.getVisibility() == View.VISIBLE) {
+            Animation();
         } else {
             super.onBackPressed();
         }
@@ -167,6 +167,44 @@ public class HomeScreenActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        searchView =
+                (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search Here");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String searchString) {
+//                Toast.makeText(HomeScreenActivity.this, "Submited", Toast.LENGTH_SHORT).show();
+//                String searchString = searchView.toString();
+                Geocoder geocoder = new Geocoder(HomeScreenActivity.this);
+                List<Address> list = new ArrayList<>();
+                try {
+                    list = geocoder.getFromLocationName(searchString, 1);
+
+                } catch (IOException e) {
+                }
+                if (list.size() > 0) {
+                    Address address = list.get(0);
+                    Toast.makeText(HomeScreenActivity.this, "Address:-" + address, Toast.LENGTH_SHORT).show();
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(searchString));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+
+                            new LatLng(address.getLatitude(),
+                                    address.getLongitude()), DEFAULT_ZOOM));
+
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         return true;
     }
 
@@ -178,9 +216,9 @@ public class HomeScreenActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -268,9 +306,9 @@ public class HomeScreenActivity extends AppCompatActivity
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
-                         mapFragment mapFragment=new mapFragment();
-                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
+//                         mapFragment mapFragment=new mapFragment();
+//                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
 //                    }
 
                     //                    FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
@@ -297,17 +335,17 @@ public class HomeScreenActivity extends AppCompatActivity
         mRevealView = findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.GONE);
 
-        gallery_btn = findViewById(R.id.filter_fuel_stations_button);
-        photo_btn = findViewById(R.id.filter_service_centres_button);
-        video_btn = findViewById(R.id.filter_showrooms_button);
-        audio_btn = findViewById(R.id.filter_washing_centres_button);
-        location_btn = findViewById(R.id.location_img_btn);
-        contact_btn = findViewById(R.id.contact_img_btn);
+        fuel_stations_btn = (ImageButton) findViewById(R.id.filter_fuel_stations_button);
+        service_centres_btn = (ImageButton) findViewById(R.id.filter_service_centres_button);
+        showroom_btn = (ImageButton) findViewById(R.id.filter_showrooms_button);
+        washing_centers_btn = (ImageButton) findViewById(R.id.filter_washing_centres_button);
+        location_btn = (ImageButton) findViewById(R.id.location_img_btn);
+        contact_btn = (ImageButton) findViewById(R.id.contact_img_btn);
 
-        gallery_btn.setOnClickListener(this);
-        photo_btn.setOnClickListener(this);
-        video_btn.setOnClickListener(this);
-        audio_btn.setOnClickListener(this);
+        fuel_stations_btn.setOnClickListener(this);
+        service_centres_btn.setOnClickListener(this);
+        showroom_btn.setOnClickListener(this);
+        washing_centers_btn.setOnClickListener(this);
         location_btn.setOnClickListener(this);
         contact_btn.setOnClickListener(this);
     }
@@ -317,6 +355,7 @@ public class HomeScreenActivity extends AppCompatActivity
         hideRevealView();
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        getNearbyPlacesData.setUserLocation(Last_Known_Location);
         String url = "";
         switch (v.getId()) {
 
@@ -332,8 +371,8 @@ public class HomeScreenActivity extends AppCompatActivity
                 break;
             case R.id.filter_service_centres_button:
                 mMap.clear();
-                String serviceCentre = "car_repair";
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), serviceCentre, "");
+                String serviceCentre = "";
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair",serviceCentre);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
@@ -359,7 +398,15 @@ public class HomeScreenActivity extends AppCompatActivity
                 Toast.makeText(this, "Showing nearby Washing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.location_img_btn:
+                mMap.clear();
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", "Towing");
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
 
+                Log.d("url:", url);
+
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(this, "Showing nearby Towing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.contact_img_btn:
 
@@ -403,53 +450,6 @@ public class HomeScreenActivity extends AppCompatActivity
         }
     }
 
-    private void onEnterButtonClicked() {
-
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, this)
-                .build();
-
-        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
-                LAT_LNG_BOUNDS, null);
-
-        searchEditText.setAdapter(mPlaceAutocompleteAdapter);
-
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    String searchString = searchEditText.getText().toString();
-                    Geocoder geocoder = new Geocoder(HomeScreenActivity.this);
-                    List<Address> list = new ArrayList<>();
-                    try {
-                        list = geocoder.getFromLocationName(searchString, 1);
-
-                    } catch (IOException e) {
-                    }
-                    if (list.size() > 0) {
-                        Address address = list.get(0);
-                        Toast.makeText(HomeScreenActivity.this, "Address:-" + address, Toast.LENGTH_SHORT).show();
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.addMarker(new MarkerOptions()
-                                .position(latLng)
-                                .title("Address"));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-
-                                new LatLng(address.getLatitude(),
-                                        address.getLongitude()), DEFAULT_ZOOM));
-
-                    }
-                }
-                return false;
-            }
-        });
-
-    }
-
     public void getMapObject(GoogleMap googleMap) {
         //Get the object of google map from fragment
         mMap = googleMap;
@@ -468,9 +468,6 @@ public class HomeScreenActivity extends AppCompatActivity
         googlePlaceUrl.append("&sensor=true");
         googlePlaceUrl.append("name=" + name);
         googlePlaceUrl.append("&key=" + BuildConfig.google_maps_key);
-
-        Log.d("getURL", "getURL: " + googlePlaceUrl);
-
         return googlePlaceUrl.toString();
     }
 
