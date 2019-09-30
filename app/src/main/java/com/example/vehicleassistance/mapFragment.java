@@ -131,7 +131,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                         } else {
                             mMap.animateCamera(CameraUpdateFactory
                                     .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
                 });
@@ -197,7 +197,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         try {
             if (mLocationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
