@@ -268,9 +268,9 @@ public class HomeScreenActivity extends AppCompatActivity
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
-//                        mapFragment=new mapFragment();
-//                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
+                         mapFragment mapFragment=new mapFragment();
+                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
 //                    }
 
                     //                    FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
@@ -283,9 +283,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 case R.id.navigation_notifications:
                     hideGPS();
                     hideRevealView();
-//                    notificationFragment fragment=new notificationFragment();
-//                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-//                    fragmentTransaction.replace(R.id.nav_frame_container,fragment).addToBackStack("tag").commit();
+                    notificationFragment fragment=new notificationFragment();
+                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_frame_container,fragment).addToBackStack("tag").commit();
                     return true;
             }
             return false;
