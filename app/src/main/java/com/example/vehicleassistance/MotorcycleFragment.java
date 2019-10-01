@@ -33,23 +33,23 @@ public class MotorcycleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         motorcycleList=new ArrayList<>();
-        motorcycleList.add(new Motorcycles("Splendor",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Passion",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Maestro",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Pleasure",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Shine",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Hornet",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Activa",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Dio",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Pulsar",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Avenger",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Apache",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Wego",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Jupiter",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Access",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Bullet",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("FZ",R.drawable.ic_car_icon));
-        motorcycleList.add(new Motorcycles("Fascino",R.drawable.ic_car_icon));
+        motorcycleList.add(new Motorcycles("Splendor",R.drawable.hero_splendor));
+        motorcycleList.add(new Motorcycles("Passion",R.drawable.hero_passion));
+        motorcycleList.add(new Motorcycles("Maestro",R.drawable.hero_maestro));
+        motorcycleList.add(new Motorcycles("Pleasure",R.drawable.hero_pleasure));
+        motorcycleList.add(new Motorcycles("Shine",R.drawable.honda_shine));
+        motorcycleList.add(new Motorcycles("Hornet",R.drawable.honda_hornet));
+        motorcycleList.add(new Motorcycles("Activa",R.drawable.honda_activa));
+        motorcycleList.add(new Motorcycles("Dio",R.drawable.honda_dio));
+        motorcycleList.add(new Motorcycles("Pulsar",R.drawable.bajaj_pulsar));
+        motorcycleList.add(new Motorcycles("Avenger",R.drawable.bajaj_avenger));
+        motorcycleList.add(new Motorcycles("Apache",R.drawable.tvs_apache));
+        motorcycleList.add(new Motorcycles("Wego",R.drawable.tvs_wego));
+        motorcycleList.add(new Motorcycles("Jupiter",R.drawable.tvs_jupiter));
+        motorcycleList.add(new Motorcycles("Access",R.drawable.suzuki_access));
+        motorcycleList.add(new Motorcycles("Bullet",R.drawable.royalenfield_bullet));
+        motorcycleList.add(new Motorcycles("FZ",R.drawable.yamaha_fz));
+        motorcycleList.add(new Motorcycles("Fascino",R.drawable.yamaha_fascino));
 
         ((AddVehicleActivity) getActivity()).setMotorcycleList(motorcycleList);
 

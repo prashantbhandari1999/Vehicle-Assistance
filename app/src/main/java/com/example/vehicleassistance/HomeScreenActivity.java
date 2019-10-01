@@ -200,6 +200,8 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
+            Intent intent = new Intent(HomeScreenActivity.this,SparePartsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
