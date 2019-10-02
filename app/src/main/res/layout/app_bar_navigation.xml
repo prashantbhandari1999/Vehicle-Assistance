@@ -23,32 +23,31 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
-        android:id="@+id/search_relative_map"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:elevation="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/appbar">
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/search_relative_map"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:elevation="10dp"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/appbar">-->
 
-        <AutoCompleteTextView
-            android:id="@+id/search_edit_text_map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:textSize="15sp" />
+    <!--<AutoCompleteTextView-->
+    <!--android:id="@+id/search_edit_text_map"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:imeOptions="actionSearch"-->
+    <!--android:inputType="text"-->
+    <!--android:textSize="15sp" />-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
     <FrameLayout
         android:id="@+id/nav_frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_anchor="@id/shadow"
-        
+
         app:layout_constraintBottom_toTopOf="@id/shadow"
-        app:layout_constraintTop_toBottomOf="@id/search_relative_map"
-         />
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
 
     <View
         android:id="@+id/shadow"
@@ -81,15 +80,15 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="56dp"
         android:clickable="true"
-        app:rippleColor="#fff"
+        android:src="@drawable/ic_gps"
+        android:tint="#fff"
         android:visibility="visible"
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:fabSize="normal"
-        android:tint="#fff"
-        android:src="@drawable/ic_gps"
         app:layout_constraintBottom_toBottomOf="@+id/revealFrameLayout"
-        app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout"
+        app:rippleColor="#fff" />
 
     <io.codetail.widget.RevealFrameLayout
         android:id="@+id/revealFrameLayout"
