@@ -238,6 +238,8 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
+            Intent intent = new Intent(HomeScreenActivity.this,SparePartsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
@@ -306,6 +308,7 @@ public class HomeScreenActivity extends AppCompatActivity
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
+
 //                         mapFragment mapFragment=new mapFragment();
 //                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 //                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
