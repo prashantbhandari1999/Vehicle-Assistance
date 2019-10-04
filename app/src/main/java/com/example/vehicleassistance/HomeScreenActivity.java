@@ -1,5 +1,6 @@
 package com.example.vehicleassistance;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.animation.Animator;
@@ -9,12 +10,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +40,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -84,6 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private FloatingActionButton GPSButton;
     private boolean isMapAdded = true;
     public static final int PICK_IMAGE = 1;
+    private static final int PERMISSION_REQUEST_CODE = 200;
     public static final int RESIZE_DIMEN = 360;
     Bitmap profilePic, resizedBitmap;
     ImageView userImage;
@@ -107,14 +112,14 @@ public class HomeScreenActivity extends AppCompatActivity
     private FirebaseUser firebaseUser;
     View headerView;
     private Fragment currentFragment;
-    String placeId="";
+    String placeId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        getNearbyPlacesData.asyncResponse=this;
+        getNearbyPlacesData.asyncResponse = this;
 
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -172,17 +177,7 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        Object dataTransfer[] = new Object[2];
-//        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-        getNearbyPlacesData.setUserLocation(Last_Known_Location);
-        String url = "";
-        mMap.clear();
-        String serviceCentre = "";
-        url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", serviceCentre);
-        dataTransfer[0] = mMap;
-        dataTransfer[1] = url;
 
-        getNearbyPlacesData.execute(dataTransfer);
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
@@ -225,7 +220,7 @@ public class HomeScreenActivity extends AppCompatActivity
             }
         });
 
-        Log.d("placeID:", "onCreateOptionsMenu: "+placeId);
+        Log.d("placeID:", "onCreateOptionsMenu: " + placeId);
 
         return true;
     }
@@ -258,13 +253,24 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_closest_care) {
+            Object dataTransfer[] = new Object[2];
+//        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+            getNearbyPlacesData.setUserLocation(Last_Known_Location);
+            String url = "";
+            mMap.clear();
+            String serviceCentre = "";
+            url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", serviceCentre);
+            dataTransfer[0] = mMap;
+            dataTransfer[1] = url;
+
+            getNearbyPlacesData.execute(dataTransfer);
             placeId = getNearbyPlacesData.placeID;
             Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
-            intent.putExtra("place_id",placeId);
+            intent.putExtra("place_id", placeId);
             startActivity(intent);
 
         } else if (id == R.id.nav_tools) {
-            Intent intent = new Intent(HomeScreenActivity.this,SparePartsActivity.class);
+            Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
@@ -385,7 +391,7 @@ public class HomeScreenActivity extends AppCompatActivity
         hideRevealView();
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData1 = new GetNearbyPlacesData();
-        getNearbyPlacesData1.asyncResponse=this;
+        getNearbyPlacesData1.asyncResponse = this;
         getNearbyPlacesData1.setUserLocation(Last_Known_Location);
         String url = "";
         switch (v.getId()) {
@@ -506,7 +512,7 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     public void addUserData() {
-        TextView nav_user = (TextView) headerView.findViewById(R.id.user_name);
+//        TextView nav_user = (TextView) headerView.findViewById(R.id.user_name);
 //        nav_user.setText("hello user");
         userImage = headerView.findViewById(R.id.user_image);
         userName = headerView.findViewById(R.id.user_name);
@@ -525,7 +531,7 @@ public class HomeScreenActivity extends AppCompatActivity
             String personPhotoUrl = sharedPreferences.getString("photoUrl", "");
             Glide.with(getApplicationContext()).load(personPhotoUrl).into(userImage);
 
-            editor.commit();
+            editor.apply();
         } else if (signInMethod.equals("register")) {
             Toast.makeText(this, "Sign In with REGISTER", Toast.LENGTH_SHORT).show();
 
@@ -554,29 +560,42 @@ public class HomeScreenActivity extends AppCompatActivity
         }
     }
 
-
     public void pickImage(View view) {
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
-
-        Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), PICK_IMAGE);
+        if (checkPermission()) {
+            try {
+                Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), PICK_IMAGE);
+            } catch (Exception e) {
+            }
+        } else {
+            requestPermission();
+        }
     }
-
+    private boolean checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            return false;
+        }
+        return true;
+    }
+    private void requestPermission() {
+        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                PERMISSION_REQUEST_CODE);
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE && resultCode==RESULT_OK) {
             Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
             if (data != null) {
                 Uri uri = data.getData();
                 CropImage.activity(uri)
-                        .setAllowFlipping(false)
-                        .setAllowRotation(false)
+                        .setAllowFlipping(true)
+                        .setAllowRotation(true)
                         .setAspectRatio(1, 1)
                         .start(this);
 
@@ -602,7 +621,25 @@ public class HomeScreenActivity extends AppCompatActivity
                 Exception error = result.getError();
             }
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), PICK_IMAGE);
 
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                        }
+                    }
+                }
+        }
     }
 
     public void setProfilePhoto(View view) {
@@ -624,12 +661,12 @@ public class HomeScreenActivity extends AppCompatActivity
         preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("userphoto", img_str);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
     public void processFinish(String output) {
-        if(initialised) {
+        if (initialised) {
             mMap.clear();
             initialised = false;
         }
