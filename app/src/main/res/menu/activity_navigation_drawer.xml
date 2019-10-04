@@ -28,6 +28,11 @@
             android:id="@+id/nav_addvehicle"
             android:icon="@drawable/ic_business_center_black_24dp"
             android:title="Add Vehicle" />
+        <item
+            android:id="@+id/nav_addReminder"
+            android:icon="@drawable/ic_lock_black_24dp"
+            android:title="Add Reminder">
+        </item>
 
     </group>
 
