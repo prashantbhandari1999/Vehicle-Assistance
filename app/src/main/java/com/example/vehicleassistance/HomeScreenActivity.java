@@ -267,7 +267,7 @@ public class HomeScreenActivity extends AppCompatActivity
             getNearbyPlacesData.execute(dataTransfer);
             initialised = true;
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_spareparts) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
             startActivity(intent);
 
@@ -284,8 +284,10 @@ public class HomeScreenActivity extends AppCompatActivity
         }else if(id==R.id.nav_addReminder){
             Intent intent=new Intent(HomeScreenActivity.this,AddReminderActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.nav_log_out) {
+        }else if(id==R.id.nav_settings){
+            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(null)
                     .setTitle("Log Out")

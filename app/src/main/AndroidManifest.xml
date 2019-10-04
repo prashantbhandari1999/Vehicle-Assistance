@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <meta-data
         android:name="com.google.android.gms.version"
@@ -33,12 +33,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddReminderActivity"
-            android:label="Add Reminder"
-            android:theme="@style/SignUpTheme"></activity>
-        <activity android:name=".SparePartsActivity"
-            android:label="Spare Parts"
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
             android:theme="@style/SignUpTheme"/>
+
+
+        <activity
+            android:name=".AddReminderActivity"
+            android:label="Add Reminder"
+            android:theme="@style/SignUpTheme" />
+        <activity
+            android:name=".SparePartsActivity"
+            android:label="Spare Parts"
+            android:theme="@style/SignUpTheme" />
         <activity android:name=".Dialog" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -96,7 +104,7 @@
         </activity>
         <activity
             android:name=".ClosestCareActivity"
-            android:label="Closest Care"/>
+            android:label="Closest Care" />
     </application>
 
 </manifest>
