@@ -103,6 +103,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
+    GetNearbyPlacesData getNearbyPlacesData;
     private Location Last_Known_Location;
     int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
@@ -249,7 +250,7 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_closest_care) {
-            GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+            getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.asyncResponse = this;
             Object dataTransfer[] = new Object[2];
 //        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
@@ -262,10 +263,6 @@ public class HomeScreenActivity extends AppCompatActivity
             dataTransfer[1] = url;
 
             getNearbyPlacesData.execute(dataTransfer);
-            placeId = getNearbyPlacesData.placeID;
-            Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
-            intent.putExtra("place_id", placeId);
-            startActivity(intent);
 
         } else if (id == R.id.nav_tools) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
@@ -675,6 +672,11 @@ public class HomeScreenActivity extends AppCompatActivity
             mMap.clear();
             initialised = false;
         }
+        placeId = getNearbyPlacesData.placeID;
+        Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
+        intent.putExtra("place_id", placeId);
+        startActivity(intent);
+
     }
 
     @Override

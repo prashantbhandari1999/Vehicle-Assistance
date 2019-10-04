@@ -32,6 +32,7 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
         getClosestCare.delegate = this;
         Object data[] = new Object[1];
         data[0] = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + placeId + "&fields=name,rating,formatted_phone_number&key=" + BuildConfig.google_maps_key;
+        Log.d("url:", "onCreate: "+data[0]);
         getClosestCare.execute(data);
         if (!(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE)
