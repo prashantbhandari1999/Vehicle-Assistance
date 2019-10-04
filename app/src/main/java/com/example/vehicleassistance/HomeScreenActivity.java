@@ -283,7 +283,11 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_log_out) {
+        }else if(id==R.id.nav_addReminder){
+            Intent intent=new Intent(HomeScreenActivity.this,AddReminderActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(null)
                     .setTitle("Log Out")
