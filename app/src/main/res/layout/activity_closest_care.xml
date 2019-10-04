@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:padding="16dp" >
+
+        <RelativeLayout
+            android:id="@+id/Relative_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="100dp"
+            >
+            <TextView
+                android:id="@+id/textView_shop_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop Name"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/textView_shop_name_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Honda"
+                android:layout_below="@id/textView_shop_name" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/Relative_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/Relative_left"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="100dp">
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_star_black_24dp"
+                android:drawablePadding="3dp"
+                android:layout_toRightOf="@id/rating"
+                />
+
+        </RelativeLayout>
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/textView_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Relative_left"
+            android:text="Address"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView_address_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_address"
+            android:inputType="textPostalAddress"
+            android:paddingLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/textView_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_address_1"
+            android:text="Distance"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView_distance_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_distance"
+            android:paddingLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/textView_onsite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_distance_1"
+            android:text="Onsite Availability"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView_onsite_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_onsite"
+            android:text="Yes/No"
+            android:paddingLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/textView_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_onsite_1"
+            android:text="Number"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView_number_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_number"
+            android:paddingLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/textView_timing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_number_1"
+            android:text="Timing"
+            android:textAlignment="viewStart"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textView_timing_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_timing"
+            android:text="Mon : 10 Am - 8 Pm\n"
+            android:paddingLeft="8dp"/>
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

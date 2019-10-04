@@ -73,10 +73,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse {
 
     private LinearLayout mRevealView;
-    private boolean hidden = true;
+    private boolean hidden = true, initialised = true;
     private ImageButton fuel_stations_btn, service_centres_btn, showroom_btn, washing_centers_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
     private static final String MyGooglePREFERENCES = "googlePrefs";
@@ -89,6 +89,7 @@ public class HomeScreenActivity extends AppCompatActivity
     ImageView userImage;
     SearchView searchView;
     TextView userName, userEmail;
+    private GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -106,11 +107,14 @@ public class HomeScreenActivity extends AppCompatActivity
     private FirebaseUser firebaseUser;
     View headerView;
     private Fragment currentFragment;
+    String placeId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        getNearbyPlacesData.asyncResponse=this;
 
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -129,14 +133,16 @@ public class HomeScreenActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_frame_container,
                     fragment).commit();
             isMapAdded = false;
-            currentFragment=fragment;
+            currentFragment = fragment;
         }
+
         GPSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((mapFragment) currentFragment).getDeviceLocation();
             }
         });
+
         initView();         //Initialise all services attributes
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -165,6 +171,19 @@ public class HomeScreenActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        Object dataTransfer[] = new Object[2];
+//        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        getNearbyPlacesData.setUserLocation(Last_Known_Location);
+        String url = "";
+        mMap.clear();
+        String serviceCentre = "";
+        url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", serviceCentre);
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+
+        getNearbyPlacesData.execute(dataTransfer);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -205,6 +224,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 return false;
             }
         });
+
+        Log.d("placeID:", "onCreateOptionsMenu: "+placeId);
+
         return true;
     }
 
@@ -235,7 +257,11 @@ public class HomeScreenActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_closest_care) {
+            placeId = getNearbyPlacesData.placeID;
+            Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
+            intent.putExtra("place_id",placeId);
+            startActivity(intent);
 
         } else if (id == R.id.nav_tools) {
             Intent intent = new Intent(HomeScreenActivity.this,SparePartsActivity.class);
@@ -308,7 +334,7 @@ public class HomeScreenActivity extends AppCompatActivity
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
-                      
+
 //                         mapFragment mapFragment=new mapFragment();
 //                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 //                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
@@ -324,9 +350,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 case R.id.navigation_notifications:
                     hideGPS();
                     hideRevealView();
-                    notificationFragment fragment=new notificationFragment();
-                    FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_frame_container,fragment).addToBackStack("tag").commit();
+                    notificationFragment fragment = new notificationFragment();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_frame_container, fragment).addToBackStack("tag").commit();
                     return true;
             }
             return false;
@@ -338,12 +364,12 @@ public class HomeScreenActivity extends AppCompatActivity
         mRevealView = findViewById(R.id.reveal_items);
         mRevealView.setVisibility(View.GONE);
 
-        fuel_stations_btn = (ImageButton) findViewById(R.id.filter_fuel_stations_button);
-        service_centres_btn = (ImageButton) findViewById(R.id.filter_service_centres_button);
-        showroom_btn = (ImageButton) findViewById(R.id.filter_showrooms_button);
-        washing_centers_btn = (ImageButton) findViewById(R.id.filter_washing_centres_button);
-        location_btn = (ImageButton) findViewById(R.id.location_img_btn);
-        contact_btn = (ImageButton) findViewById(R.id.contact_img_btn);
+        fuel_stations_btn = findViewById(R.id.filter_fuel_stations_button);
+        service_centres_btn = findViewById(R.id.filter_service_centres_button);
+        showroom_btn = findViewById(R.id.filter_showrooms_button);
+        washing_centers_btn = findViewById(R.id.filter_washing_centres_button);
+        location_btn = findViewById(R.id.location_img_btn);
+        contact_btn = findViewById(R.id.contact_img_btn);
 
         fuel_stations_btn.setOnClickListener(this);
         service_centres_btn.setOnClickListener(this);
@@ -351,14 +377,16 @@ public class HomeScreenActivity extends AppCompatActivity
         washing_centers_btn.setOnClickListener(this);
         location_btn.setOnClickListener(this);
         contact_btn.setOnClickListener(this);
+//        mMap.clear();
     }
 
     @Override
     public void onClick(View v) {
         hideRevealView();
         Object dataTransfer[] = new Object[2];
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-        getNearbyPlacesData.setUserLocation(Last_Known_Location);
+        GetNearbyPlacesData getNearbyPlacesData1 = new GetNearbyPlacesData();
+        getNearbyPlacesData1.asyncResponse=this;
+        getNearbyPlacesData1.setUserLocation(Last_Known_Location);
         String url = "";
         switch (v.getId()) {
 
@@ -368,18 +396,18 @@ public class HomeScreenActivity extends AppCompatActivity
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
+                getNearbyPlacesData1.execute(dataTransfer);
                 Toast.makeText(this, "Showing nearby Fuel Stations", Toast.LENGTH_LONG).show();
 
                 break;
             case R.id.filter_service_centres_button:
                 mMap.clear();
                 String serviceCentre = "";
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair",serviceCentre);
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", serviceCentre);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
+                getNearbyPlacesData1.execute(dataTransfer);
                 Toast.makeText(this, "Showing nearby service centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.filter_showrooms_button:
@@ -388,7 +416,7 @@ public class HomeScreenActivity extends AppCompatActivity
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
+                getNearbyPlacesData1.execute(dataTransfer);
                 Toast.makeText(this, "Showing nearby Showrooms", Toast.LENGTH_LONG).show();
                 break;
             case R.id.filter_washing_centres_button:
@@ -397,7 +425,7 @@ public class HomeScreenActivity extends AppCompatActivity
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
-                getNearbyPlacesData.execute(dataTransfer);
+                getNearbyPlacesData1.execute(dataTransfer);
                 Toast.makeText(this, "Showing nearby Washing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.location_img_btn:
@@ -406,13 +434,10 @@ public class HomeScreenActivity extends AppCompatActivity
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
-                Log.d("url:", url);
-
-                getNearbyPlacesData.execute(dataTransfer);
+                getNearbyPlacesData1.execute(dataTransfer);
                 Toast.makeText(this, "Showing nearby Towing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.contact_img_btn:
-
                 break;
         }
     }
@@ -423,7 +448,8 @@ public class HomeScreenActivity extends AppCompatActivity
             hidden = true;
         }
     }
-    private void hideGPS(){
+
+    private void hideGPS() {
 //        GPSButton.setVisibility(View.GONE);
 
     }
@@ -599,6 +625,14 @@ public class HomeScreenActivity extends AppCompatActivity
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("userphoto", img_str);
         editor.commit();
+    }
+
+    @Override
+    public void processFinish(String output) {
+        if(initialised) {
+            mMap.clear();
+            initialised = false;
+        }
     }
 }
 

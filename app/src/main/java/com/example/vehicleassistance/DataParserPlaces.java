@@ -1,5 +1,7 @@
 package com.example.vehicleassistance;
 
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -15,7 +17,7 @@ public class DataParserPlaces {
     private HashMap<String,String> getPlace(JSONObject googlePlaceJson){
         HashMap<String,String> googlePlacesMap = new HashMap<>();
         String placeName="-NA-";
-        String vicinity="-NA-";
+        String place_id="-NA-";
         String latitude="";
         String longitude="";
         String reference="";
@@ -25,9 +27,8 @@ public class DataParserPlaces {
                 placeName = googlePlaceJson.getString("name");
 
         }
-        if(!googlePlaceJson.isNull("vicinity")){
-            vicinity = googlePlaceJson.getString("vicinity");
-
+        if(!googlePlaceJson.isNull("place_id")){
+            place_id = googlePlaceJson.getString("place_id");
         }
         latitude=googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lat");
         longitude=googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lng");
@@ -35,7 +36,7 @@ public class DataParserPlaces {
         reference=googlePlaceJson.getString("reference");
 
         googlePlacesMap.put("place_name",placeName);
-        googlePlacesMap.put("vicinity",vicinity);
+        googlePlacesMap.put("place_id",place_id);
         googlePlacesMap.put("lat",latitude);
         googlePlacesMap.put("lng",longitude);
         googlePlacesMap.put("reference",reference);
@@ -77,7 +78,8 @@ public class DataParserPlaces {
 
         try {
             jsonObject = new JSONObject(jsonData);
-            jsonArray = jsonObject.getJSONArray("results");
+            if(jsonObject.get("status").equals("OK"))
+                jsonArray = jsonObject.getJSONArray("results");
         } catch (JSONException e) {
             e.printStackTrace();
         }
