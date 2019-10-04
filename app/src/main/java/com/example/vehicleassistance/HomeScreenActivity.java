@@ -94,7 +94,6 @@ public class HomeScreenActivity extends AppCompatActivity
     ImageView userImage;
     SearchView searchView;
     TextView userName, userEmail;
-    private GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -118,9 +117,6 @@ public class HomeScreenActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        getNearbyPlacesData.asyncResponse = this;
-
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -253,6 +249,8 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_closest_care) {
+            GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+            getNearbyPlacesData.asyncResponse = this;
             Object dataTransfer[] = new Object[2];
 //        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.setUserLocation(Last_Known_Location);
