@@ -40,6 +40,19 @@
 
     <!--</RelativeLayout>-->
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="-4dp"
+        app:layout_constraintBottom_toTopOf="@id/nav_frame_container"
+        android:indeterminateTint="#f44336"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true"
+        />
+
     <FrameLayout
         android:id="@+id/nav_frame_container"
         android:layout_width="match_parent"
@@ -47,8 +60,22 @@
         app:layout_anchor="@id/shadow"
 
         app:layout_constraintBottom_toTopOf="@id/shadow"
-        app:layout_constraintTop_toBottomOf="@id/appbar" />
+        app:layout_constraintTop_toBottomOf="@id/progress_bar" >
 
+        <ProgressBar
+            android:id="@+id/center_progress_bar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            style="@style/TextAppearance.AppCompat.Small.Inverse"
+            android:indeterminateTint="#d50000"
+
+            />
+
+
+
+    </FrameLayout>
     <View
         android:id="@+id/shadow"
         android:layout_width="match_parent"
@@ -81,14 +108,16 @@
         android:layout_marginBottom="56dp"
         android:clickable="true"
         android:src="@drawable/ic_gps"
-        android:tint="#fff"
+        android:tint="@color/colorAccent"
         android:visibility="visible"
+
+        app:elevation="15dp"
         app:borderWidth="0dp"
-        app:elevation="6dp"
         app:fabSize="normal"
+        android:backgroundTint="#fff"
         app:layout_constraintBottom_toBottomOf="@+id/revealFrameLayout"
         app:layout_constraintEnd_toEndOf="@+id/revealFrameLayout"
-        app:rippleColor="#fff" />
+        app:rippleColor="#f2f2f2" />
 
     <io.codetail.widget.RevealFrameLayout
         android:id="@+id/revealFrameLayout"

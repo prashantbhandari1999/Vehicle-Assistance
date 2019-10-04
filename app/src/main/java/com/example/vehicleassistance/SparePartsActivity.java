@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class SparePartsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spare_parts);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         createExampleList();
         buildRecyclerView();
 
@@ -87,6 +88,15 @@ public class SparePartsActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        int id = menu.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return true;
     }
 
 }
