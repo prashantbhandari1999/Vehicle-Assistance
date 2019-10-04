@@ -237,7 +237,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         LatLng pune = new LatLng(18.5204, 73.8567);
         mMap.addMarker(new MarkerOptions().position(pune).title("Marker in Pune"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(pune));
-        if (mMap.isMyLocationEnabled() == false) {
+        if (!mMap.isMyLocationEnabled()) {
             getLocationPermission();
             getDeviceLocation();
         }
