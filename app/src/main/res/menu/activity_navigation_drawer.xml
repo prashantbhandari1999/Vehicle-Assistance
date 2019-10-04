@@ -14,10 +14,10 @@
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/nav_closest_care"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_call_black_24dp"
             android:title="Call Closest Care" />
         <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_spareparts"
             android:icon="@drawable/ic_menu_manage"
             android:title="Spare Parts" />
         <item
@@ -26,13 +26,17 @@
             android:title="Add Shop" />
         <item
             android:id="@+id/nav_addvehicle"
-            android:icon="@drawable/ic_business_center_black_24dp"
+            android:icon="@drawable/ic_car_icon"
             android:title="Add Vehicle" />
         <item
             android:id="@+id/nav_addReminder"
             android:icon="@drawable/ic_lock_black_24dp"
-            android:title="Add Reminder">
-        </item>
+            android:title="Add Reminder"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Settings"/>
+
 
     </group>
 
