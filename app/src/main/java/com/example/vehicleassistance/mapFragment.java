@@ -1,8 +1,10 @@
 package com.example.vehicleassistance;
 
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +54,12 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
     SupportMapFragment mapFragment;
     private FloatingActionButton GPSButton;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private mapFragment.OnFragmentInteractionListener mListener;
+
 
     public mapFragment() {
         // Required empty public constructor
@@ -236,4 +244,37 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         ((HomeScreenActivity) getActivity()).getMapObject(mMap);
 
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof mapFragment.OnFragmentInteractionListener) {
+            mListener = (mapFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
 }

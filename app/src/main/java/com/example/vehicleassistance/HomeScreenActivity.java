@@ -77,7 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
 
     private LinearLayout mRevealView;
     private boolean hidden = true, initialised = true;
@@ -337,6 +337,9 @@ public class HomeScreenActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     Animation();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
+
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
@@ -357,8 +360,8 @@ public class HomeScreenActivity extends AppCompatActivity
                     hideGPS();
                     hideRevealView();
                     notificationFragment fragment = new notificationFragment();
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_frame_container, fragment).addToBackStack("tag").commit();
+                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_frame_container, fragment).commit();
                     return true;
             }
             return false;
@@ -670,6 +673,11 @@ public class HomeScreenActivity extends AppCompatActivity
             mMap.clear();
             initialised = false;
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
 
