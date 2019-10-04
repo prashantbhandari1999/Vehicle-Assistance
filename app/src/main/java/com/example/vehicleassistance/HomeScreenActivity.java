@@ -76,6 +76,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.opencensus.stats.MeasureMap;
+
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
 
@@ -263,6 +265,7 @@ public class HomeScreenActivity extends AppCompatActivity
             dataTransfer[1] = url;
 
             getNearbyPlacesData.execute(dataTransfer);
+            initialised = true;
 
         } else if (id == R.id.nav_tools) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
