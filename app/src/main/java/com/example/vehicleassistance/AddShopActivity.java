@@ -2,11 +2,13 @@ package com.example.vehicleassistance;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +49,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,17 +66,16 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     Button submitButton;
-    ProgressBar mProgressBar;
     EditText shopNameEditText, ownerNameEditText, phoneNumberEditText;
     TextView locationTextView;
     CheckBox acServicesCheckBox, cleaningCheckBox, towingCheckBox, airFillingCheckBox, doorstepCheckBox, paintingCheckBox, wheelcareCheckBox;
-
+    ProgressDialog mProgressDialog;
     String shopName, ownerName, mobileNumber;
 
-    private BottomSheetBehavior mBottomSheetBehavior;
+     BottomSheetBehavior mBottomSheetBehavior;
     private GoogleMap mmMap;
-    private GeoDataClient mGeoDataClient;
-    private PlaceDetectionClient mPlaceDetectionClient;
+     GeoDataClient mGeoDataClient;
+     PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -92,7 +94,7 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
     private ImageView ImgPhoto;
     private String Camerapath;
     private StorageReference mStorageReference;
-    private DatabaseReference mDatabaseReference;
+    DatabaseReference mDatabaseReference;
     private FirebaseFirestore db;
     private StorageTask mUploadTask;
     private EditText mEditTextFileName;
@@ -130,10 +132,10 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         ImgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddShopActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddShopActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
                 if (checkPermission()) {
                     try {
-                        Toast.makeText(AddShopActivity.this, "OKKK", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(AddShopActivity.this, "OKKK", Toast.LENGTH_SHORT).show();
                         Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), CAMERA_PIC_REQUEST);
                     } catch (Exception e) {
@@ -230,13 +232,11 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
 
     public void init() {
         submitButton = findViewById(R.id.button_submit);
-//        mProgressBar = findViewById(R.id.progressBar);
         shopNameEditText = findViewById(R.id.editText_enter_shop_name);
         ownerNameEditText = findViewById(R.id.editText_enter_name_of_person);
         phoneNumberEditText = findViewById(R.id.editText_enter_mobileno);
         locationTextView = findViewById(R.id.editText_enter_location);
         locationTextView.setEnabled(false);
-
 //        String latitude=String.valueOf(Last_Known_Location.getLatitude());
 //        String longitude=String.valueOf(Last_Known_Location.getLongitude());
 //        String latlng=latitude+longitude;
@@ -284,8 +284,10 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         } else {
             if (wheelcareCheckBox.isChecked() || acServicesCheckBox.isChecked() || cleaningCheckBox.isChecked() || towingCheckBox.isChecked() || airFillingCheckBox.isChecked() || doorstepCheckBox.isChecked() || paintingCheckBox.isChecked() || paintingCheckBox.isChecked()) {
                 return true;
-            } else
+            } else{
+                Toast.makeText(this, "Select at least one of the services", Toast.LENGTH_SHORT).show();
                 return false;
+            }
         }
     }
 
@@ -297,6 +299,9 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
 
     private void UploadData() {
         if (cameraUri != null) {
+            mProgressDialog=new ProgressDialog(AddShopActivity.this);
+            mProgressDialog.setMessage("Uploading ...");
+            mProgressDialog.show();
             StorageReference fileReference = mStorageReference.child(shopNameEditText.getText().toString() + "." + getFileExtension(cameraUri));
             mUploadTask = fileReference.putFile(cameraUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -306,17 +311,16 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    mProgressBar.setProgress(0);
                                 }
                             }, 500);
 
-                            Toast.makeText(AddShopActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(AddShopActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                             Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
                             result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     imageURL = uri.toString();
-                                    Toast.makeText(AddShopActivity.this, "URL:" + imageURL, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(AddShopActivity.this, "URL:" + imageURL, Toast.LENGTH_SHORT).show();
                                     uploadShopData();
                                 }
                             });
@@ -325,18 +329,17 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            mProgressDialog.hide();
                             Toast.makeText(AddShopActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-//                            mProgressBar.setProgress((int) progress);
                         }
                     });
         } else {
-            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please Choose Photo", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -365,13 +368,21 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(AddShopActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                        mProgressDialog.hide();
+                        CoordinatorLayout cord=findViewById(R.id.coordinator_add_shop);
+                        Snackbar snackbar = Snackbar
+                                .make(cord, "Shop has been Added", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddShopActivity.this, "Not Added", Toast.LENGTH_SHORT).show();
+                        mProgressDialog.hide();
+                        CoordinatorLayout cord=findViewById(R.id.coordinator_add_shop);
+                        Snackbar snackbar = Snackbar
+                                .make(cord, "Shop is not Added", Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 });
     }
