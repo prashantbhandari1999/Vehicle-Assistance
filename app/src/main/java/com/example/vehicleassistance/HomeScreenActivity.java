@@ -76,6 +76,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.opencensus.stats.MeasureMap;
+
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
 
@@ -94,7 +96,6 @@ public class HomeScreenActivity extends AppCompatActivity
     ImageView userImage;
     SearchView searchView;
     TextView userName, userEmail;
-    private GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
     private AutoCompleteTextView searchEditText;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -104,6 +105,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private static final int DEFAULT_ZOOM = 15;
     private GoogleMap mMap;
+    GetNearbyPlacesData getNearbyPlacesData;
     private Location Last_Known_Location;
     int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
@@ -118,9 +120,6 @@ public class HomeScreenActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        getNearbyPlacesData.asyncResponse = this;
-
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -253,6 +252,8 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_closest_care) {
+            getNearbyPlacesData = new GetNearbyPlacesData();
+            getNearbyPlacesData.asyncResponse = this;
             Object dataTransfer[] = new Object[2];
 //        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.setUserLocation(Last_Known_Location);
@@ -264,10 +265,7 @@ public class HomeScreenActivity extends AppCompatActivity
             dataTransfer[1] = url;
 
             getNearbyPlacesData.execute(dataTransfer);
-            placeId = getNearbyPlacesData.placeID;
-            Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
-            intent.putExtra("place_id", placeId);
-            startActivity(intent);
+            initialised = true;
 
         } else if (id == R.id.nav_tools) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
@@ -677,6 +675,11 @@ public class HomeScreenActivity extends AppCompatActivity
             mMap.clear();
             initialised = false;
         }
+        placeId = getNearbyPlacesData.placeID;
+        Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
+        intent.putExtra("place_id", placeId);
+        startActivity(intent);
+
     }
 
     @Override
