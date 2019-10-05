@@ -59,7 +59,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddShopActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -345,25 +347,27 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
 
     private void uploadShopData() {
         Map<String, Object> shop = new HashMap<>();
+        List<String> list=new ArrayList<>();
         shop.put("Shop Name", shopNameEditText.getText().toString());
         shop.put("ImageURL", imageURL);
         shop.put("Owner Name:", ownerName);
         shop.put("Phone Number", mobileNumber);
         shop.put("Location", locationTextView.getText().toString());
         if (acServicesCheckBox.isChecked())
-            shop.put("AC Services:", "Yes");
+            list.add("AC Services");
         if (wheelcareCheckBox.isChecked())
-            shop.put("Wheel Care:", "Yes");
+            list.add("Wheel Care");
         if (cleaningCheckBox.isChecked())
-            shop.put("Cleaning:", "Yes");
+            list.add("Cleaning");
         if (towingCheckBox.isChecked())
-            shop.put("Towing:", "Yes");
+            list.add("Towing");
         if (airFillingCheckBox.isChecked())
-            shop.put("Air Filling:", "Yes");
+            list.add("Air Filling");
         if (doorstepCheckBox.isChecked())
-            shop.put("Door Step Service:", "Yes");
+            list.add("Door step Service");
         if (paintingCheckBox.isChecked())
-            shop.put("Painting:", "Yes");
+            list.add("Painting");
+        shop.put("Services",list);
         db.collection("Shops").document(shopNameEditText.getText().toString()).set(shop)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
