@@ -1,6 +1,7 @@
 package com.example.vehicleassistance;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
@@ -36,11 +39,12 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
     Button startAlarmButton;
     SharedPreferences alarmSharedPreferences;
     String alarmName;
-
+    ConstraintLayout constraintLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
+        constraintLayout=findViewById(R.id.coordinator_add_reminder);
         //textView=findViewById(R.id.date_reminder_activity);
         startAlarmButton = findViewById(R.id.set_alarm);
         startAlarmButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +52,13 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
             public void onClick(View view) {
                 for (int i = 0; i < 4; i++) {
                     try {
-                        startAlarm(c[i], arr[i]);
+                        if (checkAllSelect())
+                            startAlarm(c[i], arr[i]);
+                        else {
+                            Snackbar snackbar = Snackbar
+                                    .make(constraintLayout, "Please Select All Dates", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -93,6 +103,22 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
             }
         });
 
+    }
+
+    private boolean checkAllSelect() {
+        String str = "POIA";
+        int count = 0;
+        char[] a = str.toCharArray();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (arr[i] == a[j])
+                    count++;
+            }
+        }
+        if (count == 4)
+            return true;
+        else
+            return false;
     }
 
     public boolean onOptionsItemSelected(MenuItem menu) {
