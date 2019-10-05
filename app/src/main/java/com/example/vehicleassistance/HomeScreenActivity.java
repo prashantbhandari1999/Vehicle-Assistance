@@ -285,7 +285,7 @@ public class HomeScreenActivity extends AppCompatActivity
             Intent intent=new Intent(HomeScreenActivity.this,AddReminderActivity.class);
             startActivity(intent);
         }else if(id==R.id.nav_settings){
-            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
+            Intent intent = new Intent(HomeScreenActivity.this,SettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)

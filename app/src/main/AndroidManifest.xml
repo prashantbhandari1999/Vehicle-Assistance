@@ -50,6 +50,10 @@
             android:label="Add Shop"
             android:theme="@style/SignUpTheme" />
         <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/SignUpTheme" />
+        <activity
             android:name=".AddVehicleActivity"
             android:label="Add Vehicle"
             android:theme="@style/SignUpTheme" />
