@@ -15,7 +15,7 @@ public class GetClosestCare extends AsyncTask<Object, String, String> {
     GoogleMap mMap;
     String url;
     Location userLocation;
-    String contact;
+    String contact = null;
     public AsyncResponse delegate = null;
 
 
@@ -39,12 +39,11 @@ public class GetClosestCare extends AsyncTask<Object, String, String> {
         nearbyPlaceList = parser.parse(s);
         try {
             contact = nearbyPlaceList.get("contact");
-            delegate.processFinish(contact);
         }
         catch (Exception e){
 
         }
-
+        delegate.processFinish(contact);
     }
 
     public interface AsyncResponse {

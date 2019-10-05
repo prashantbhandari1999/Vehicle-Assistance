@@ -82,7 +82,7 @@ public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
 
     private LinearLayout mRevealView;
-    private boolean hidden = true, initialised = true;
+    private boolean hidden = true, initialised = false;
     private ImageButton fuel_stations_btn, service_centres_btn, showroom_btn, washing_centers_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
     private static final String MyGooglePREFERENCES = "googlePrefs";
@@ -674,11 +674,11 @@ public class HomeScreenActivity extends AppCompatActivity
         if (initialised) {
             mMap.clear();
             initialised = false;
+            placeId = getNearbyPlacesData.placeID;
+            Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
+            intent.putExtra("place_id", placeId);
+            startActivity(intent);
         }
-        placeId = getNearbyPlacesData.placeID;
-        Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
-        intent.putExtra("place_id", placeId);
-        startActivity(intent);
 
     }
 

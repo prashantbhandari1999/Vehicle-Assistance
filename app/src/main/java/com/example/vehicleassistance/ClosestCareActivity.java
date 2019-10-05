@@ -51,12 +51,15 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
     public void processFinish(String output) {
         contact = getClosestCare.contact;
         if (contact == null) {
-            Toast.makeText(this, "Network Error!! Try Again After Some Time", Toast.LENGTH_LONG);
+            Log.d("contact", "processFinish: "+contact);
+            Toast.makeText(this, "Network Error!! Try Again After Some Time", Toast.LENGTH_LONG).show();
         }
-        TextView contact_text = findViewById(R.id.textView_number_1);
-        contact_text.setText(contact);
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel: " + contact));
-        startActivity(intent);
+        else {
+            TextView contact_text = findViewById(R.id.textView_number_1);
+            contact_text.setText(contact);
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel: " + contact));
+            startActivity(intent);
+        }
     }
 }
