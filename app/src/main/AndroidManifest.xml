@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <meta-data
         android:name="com.google.android.gms.version"
@@ -33,12 +33,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddReminderActivity"
+        <activity
+            android:name=".AddReminderActivity"
             android:label="Add Reminder"
             android:theme="@style/SignUpTheme"></activity>
-        <activity android:name=".SparePartsActivity"
+        <activity
+            android:name=".SparePartsActivity"
             android:label="Spare Parts"
-            android:theme="@style/SignUpTheme"/>
+            android:theme="@style/SignUpTheme" />
         <activity android:name=".Dialog" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -54,6 +56,7 @@
         <activity
             android:name=".HomeScreenActivity"
             android:label="@string/title_activity_navigation"
+            android:launchMode="singleTop"
             android:theme="@style/SignUpTheme.NoActionBar" /> <!-- &lt;!&ndash; -->
         <!-- The API key for Google Maps-based APIs is defined as a string resource. -->
         <!-- (See the file "res/values/google_maps_api.xml"). -->
@@ -96,7 +99,10 @@
         </activity>
         <activity
             android:name=".ClosestCareActivity"
-            android:label="Closest Care"/>
+            android:label="Closest Care" />
+
+        <receiver android:name=".AlertReceiver" />
+
     </application>
 
 </manifest>
