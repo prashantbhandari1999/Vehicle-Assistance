@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "892221867915-pc46a9dt6uig4m3ibjul32ktic2lmdp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicleassistance",
+            "certificate_hash": "c1a28ec3099cee82b6b49199ad34ba3dad549df7"
+          }
+        },
+        {
           "client_id": "892221867915-a27rmr8quceq7h9775cqgpr8l6t24b65.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

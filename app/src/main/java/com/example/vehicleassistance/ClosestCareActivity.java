@@ -57,9 +57,12 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
         else {
             TextView contact_text = findViewById(R.id.textView_number_1);
             contact_text.setText(contact);
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel: " + contact));
-            startActivity(intent);
+            if((ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel: " + contact));
+                startActivity(intent);
+            }
         }
     }
 }
