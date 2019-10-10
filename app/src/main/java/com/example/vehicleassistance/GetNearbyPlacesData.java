@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
     String googlePlacesData;
-    String placeID;
+    String placeID="";
     GoogleMap mMap;
     String url;
     Location userLocation;
@@ -84,10 +84,11 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
                index=i;
             }
         }
-        if(minimum!=0)
-        placeID = nearbyPlacesList.get(index).get("place_id");
-
-        asyncResponse.processFinish(placeID);
+        if(minimum!=0) {
+            placeID = nearbyPlacesList.get(index).get("place_id");
+            Log.d("GetNearby placeID", "showNearbyPlaces: "+placeID);
+            asyncResponse.processFinish(placeID);
+        }
     }
     public interface AsyncResponse {
         void processFinish(String output);
