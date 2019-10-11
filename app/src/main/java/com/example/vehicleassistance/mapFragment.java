@@ -134,7 +134,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
 
                                     new LatLng(Last_Known_Location.getLatitude(),
                                             Last_Known_Location.getLongitude()), DEFAULT_ZOOM));
-                            ((HomeScreenActivity) getActivity()).getLastKnownLocation(Last_Known_Location);
+//                            ((HomeScreenActivity) getActivity()).getLastKnownLocation(Last_Known_Location);
                             mMap.setMyLocationEnabled(true);
                         } else {
                             mMap.animateCamera(CameraUpdateFactory
@@ -189,10 +189,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
-//                    Toast.makeText(getContext(), "onRequestPermissionsResult:-", Toast.LENGTH_SHORT).show();
                 }
             }
-//            Toast.makeText(getContext(), "onRequestPermissionsResult:-"+mLocationPermissionGranted, Toast.LENGTH_SHORT).show();
         }
         updateLocationUI();
     }
@@ -277,4 +275,10 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         void onFragmentInteraction(Uri uri);
     }
 
+    public Location getLast_Known_Location() {
+        return Last_Known_Location;
+    }
+    public void setLast_Known_Location(Location location){
+        Last_Known_Location=location;
+    }
 }

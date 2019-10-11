@@ -200,13 +200,17 @@ public class HomeScreenActivity extends AppCompatActivity
                 }
                 if (list.size() > 0) {
                     Address address = list.get(0);
-                    Toast.makeText(HomeScreenActivity.this, "Address:-" + address, Toast.LENGTH_SHORT).show();
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                    Location location = new Location("");
+                    location.setLatitude(address.getLatitude());
+                    location.setLongitude(address.getLongitude());
+
+                    ((mapFragment)currentFragment).setLast_Known_Location(location);
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(searchString));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-
                             new LatLng(address.getLatitude(),
                                     address.getLongitude()), DEFAULT_ZOOM));
 
@@ -253,6 +257,7 @@ public class HomeScreenActivity extends AppCompatActivity
 //        }
 //
         if (id == R.id.nav_closest_care) {
+            getLastKnownLocation();
             getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.asyncResponse = this;
             Object dataTransfer[] = new Object[2];
@@ -411,8 +416,10 @@ public class HomeScreenActivity extends AppCompatActivity
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData1 = new GetNearbyPlacesData();
         getNearbyPlacesData1.asyncResponse = this;
+        getLastKnownLocation();
         getNearbyPlacesData1.setUserLocation(Last_Known_Location);
         String url = "";
+        GPSButton.show();
         switch (v.getId()) {
 
             case R.id.filter_fuel_stations_button:
@@ -512,9 +519,10 @@ public class HomeScreenActivity extends AppCompatActivity
         mMap = googleMap;
     }
 
-    public void getLastKnownLocation(Location location) {
-        //Get the object of google map from fragment
-        Last_Known_Location = location;
+    public void getLastKnownLocation() {
+       Last_Known_Location= ((mapFragment) currentFragment).getLast_Known_Location();
+
+//        Last_Known_Location = location;
     }
 
     private String getURL(double latitude, double longitude, String nearbyplaces, String name) {
