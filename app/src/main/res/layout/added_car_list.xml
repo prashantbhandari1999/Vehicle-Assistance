@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="48dp"
         android:background="#f2f2f2"
         android:elevation="5dp"
@@ -21,6 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,13 +32,13 @@
                 android:id="@+id/added_car_image"
                 android:layout_width="250dp"
                 android:layout_height="230dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher"
-                />
+                android:src="@mipmap/ic_launcher" />
+
             <TextView
                 android:id="@+id/added_car_text"
                 android:layout_width="match_parent"
@@ -53,5 +55,7 @@
 
 
     </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

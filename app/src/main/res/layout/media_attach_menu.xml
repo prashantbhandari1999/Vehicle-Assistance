@@ -24,14 +24,14 @@
 
             <ImageButton
                 android:id="@+id/filter_fuel_stations_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:background="@drawable/fuel_station" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Fuel Stations"
                 android:textAlignment="center"/>
         </LinearLayout>
@@ -45,15 +45,15 @@
 
             <ImageButton
                 android:id="@+id/filter_service_centres_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:background="@drawable/service_center" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Service Centres"
+                android:layout_marginTop="8dp"
+                android:text="Servicing"
                 android:textAlignment="center"/>
         </LinearLayout>
 
@@ -66,14 +66,14 @@
 
             <ImageButton
                 android:id="@+id/filter_showrooms_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:background="@drawable/showroom" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Showrooms"
                 android:textAlignment="center"/>
         </LinearLayout>
@@ -99,15 +99,15 @@
 
             <ImageButton
                 android:id="@+id/filter_washing_centres_button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:background="@drawable/car_wash" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Washing Centres"
+                android:layout_marginTop="8dp"
+                android:text="Washing"
                 android:textAlignment="center"/>
         </LinearLayout>
 
@@ -120,15 +120,15 @@
 
             <ImageButton
                 android:id="@+id/location_img_btn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/location" />
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/towing" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Location"
+                android:layout_marginTop="8dp"
+                android:text="Towing"
                 android:textAlignment="center"/>
         </LinearLayout>
 
@@ -141,15 +141,15 @@
 
             <ImageButton
                 android:id="@+id/contact_img_btn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/contact" />
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/tyres" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Contact"
+                android:layout_marginTop="8dp"
+                android:text="Puncture"
                 android:textAlignment="center"/>
         </LinearLayout>
 
