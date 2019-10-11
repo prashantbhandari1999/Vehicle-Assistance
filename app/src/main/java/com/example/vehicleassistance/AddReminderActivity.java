@@ -31,6 +31,7 @@ import java.util.Date;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private TextView textView, textView1;
+
     private LinearLayout linearLayout, linearLayout2, linearLayout3, linearLayout4;
     private ImageView imageView1;
     private Calendar c[] = new Calendar[4];
@@ -140,6 +141,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         );
         DatePicker datePicker = datePickerDialog.getDatePicker();
         final Calendar calendar = Calendar.getInstance();
+
 //        Toast.makeText(this, "DAte:" + datePicker, Toast.LENGTH_SHORT).show();
         switch (choice) {
             case 1:
@@ -215,7 +217,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         SharedPreferences.Editor editor = alarmSharedPreferences.edit();
 
         Integer alarmNo = alarmSharedPreferences.getInt("Alarm No", -1);
-        Toast.makeText(this, "Integer:" + alarmNo, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Integer:" + alarmNo, Toast.LENGTH_SHORT).show();
         if (alarmNo == -1) {
             editor.putInt("Alarm No", 1);
             editor.apply();
