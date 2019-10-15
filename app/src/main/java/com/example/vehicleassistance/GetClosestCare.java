@@ -12,10 +12,7 @@ import java.util.HashMap;
 
 public class GetClosestCare extends AsyncTask<Object, String, String> {
     String googlePlacesData;
-    GoogleMap mMap;
     String url;
-    Location userLocation;
-    String contact = null;
     public AsyncResponse delegate = null;
 
 
@@ -37,17 +34,13 @@ public class GetClosestCare extends AsyncTask<Object, String, String> {
         HashMap<String, String> nearbyPlaceList = null;
         ContactParser parser = new ContactParser();
         nearbyPlaceList = parser.parse(s);
-        try {
-            contact = nearbyPlaceList.get("contact");
-        }
-        catch (Exception e){
-
-        }
-        delegate.processFinish(contact);
+        if(nearbyPlaceList!=null)
+        Log.d("nearby", "onPostExecute: "+nearbyPlaceList.get("place_name"));
+        delegate.processFinish(nearbyPlaceList);
     }
 
     public interface AsyncResponse {
-        void processFinish(String output);
+        void processFinish(HashMap<String,String> output);
     }
 
 }

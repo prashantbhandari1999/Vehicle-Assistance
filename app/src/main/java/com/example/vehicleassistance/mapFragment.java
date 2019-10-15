@@ -29,10 +29,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.HashMap;
 
 
 public class mapFragment extends Fragment implements OnMapReadyCallback {
@@ -50,6 +53,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted = false;
     int PROXIMITY_RADIUS = 10000;
+    GetClosestCare getClosestCare;
     double latitude, longitude;
 
     SupportMapFragment mapFragment;
@@ -90,6 +94,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
         }
         mapFragment.getMapAsync(this);
 
+
+
 //        View mapView = super.onCreateView(inflater, container, savedInstanceState);
 //
 //        // Get the button view
@@ -111,6 +117,8 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
         */
+//        getClosestCare.delegate=this;
+
         return view;
     }
 
@@ -239,6 +247,7 @@ public class mapFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
             getDeviceLocation();
         }
+
         ((HomeScreenActivity) getActivity()).getMapObject(mMap);
 
     }
