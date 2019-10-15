@@ -22,6 +22,8 @@
         android:hint="Search for spare part"
         android:paddingLeft="8dp"
         android:textSize="16sp"
+        android:clickable="true"
+        android:onClick="open_links"
         android:singleLine="true"
         android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
