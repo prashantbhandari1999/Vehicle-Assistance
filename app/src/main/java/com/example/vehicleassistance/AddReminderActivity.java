@@ -209,8 +209,10 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         c[alarmNumber].set(Calendar.YEAR, year);
         c[alarmNumber].set(Calendar.MONTH, month);
         c[alarmNumber].set(Calendar.DAY_OF_MONTH, day);
-        DialogFragment timePicker = new TimePickerFragment();
-        timePicker.show(getFragmentManager(), "time picker");
+        showDialog(alarmName);
+        alarmNumber++;
+//        DialogFragment timePicker = new TimePickerFragment();
+//        timePicker.show(getFragmentManager(), "time picker");
     }
 
     @Override
@@ -218,8 +220,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         c[alarmNumber].set(Calendar.HOUR_OF_DAY, hourOfDay);
         c[alarmNumber].set(Calendar.MINUTE, minute);
         c[alarmNumber].set(Calendar.SECOND, 0);
-        showDialog(alarmName);
-        alarmNumber++;
+
 
     }
 
@@ -266,7 +267,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         date = day_of_month + "/" + month + "/" + year;
 
         message += date;
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         intent.putExtra("Alarm Name", alarmType);
         intent.putExtra("Message", message);
 
