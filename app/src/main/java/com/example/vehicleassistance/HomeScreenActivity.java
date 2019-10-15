@@ -110,6 +110,7 @@ public class HomeScreenActivity extends AppCompatActivity
     int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
 
+    Boolean isMapFragmemtLoaded=false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     View headerView;
@@ -199,13 +200,17 @@ public class HomeScreenActivity extends AppCompatActivity
                 }
                 if (list.size() > 0) {
                     Address address = list.get(0);
-                    Toast.makeText(HomeScreenActivity.this, "Address:-" + address, Toast.LENGTH_SHORT).show();
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                    Location location = new Location("");
+                    location.setLatitude(address.getLatitude());
+                    location.setLongitude(address.getLongitude());
+
+                    ((mapFragment)currentFragment).setLast_Known_Location(location);
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(searchString));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-
                             new LatLng(address.getLatitude(),
                                     address.getLongitude()), DEFAULT_ZOOM));
 
@@ -245,13 +250,14 @@ public class HomeScreenActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            Intent intent = new Intent(HomeScreenActivity.this, Dialog.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_closest_care) {
+//        if (id == R.id.nav_home) {
+//            Intent intent = new Intent(HomeScreenActivity.this, Dialog.class);
+//            startActivity(intent);
+//
+//        }
+//
+        if (id == R.id.nav_closest_care) {
+            getLastKnownLocation();
             getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.asyncResponse = this;
             Object dataTransfer[] = new Object[2];
@@ -281,12 +287,14 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
             startActivity(intent);
-        }else if(id==R.id.nav_addReminder){
-            Intent intent=new Intent(HomeScreenActivity.this,AddReminderActivity.class);
+        }else if(id==R.id.nav_addReminder) {
+            Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
-        }else if(id==R.id.nav_settings){
-            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
-            startActivity(intent);
+//        }else if(id==R.id.nav_settings){
+//            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
+//            startActivity(intent);
+//        }
+//
         }
         else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
@@ -342,9 +350,14 @@ public class HomeScreenActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     Animation();
+                    if (isMapFragmemtLoaded) {
+                        mRevealView.setVisibility(View.GONE);
+                        GPSButton.show();
+                    }
+                    else
+                        GPSButton.hide();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
-
 //                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
 //                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
 //                    if(mapFragment==null){
@@ -357,10 +370,13 @@ public class HomeScreenActivity extends AppCompatActivity
                     //                    FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 //                    transaction.replace(R.id.nav_frame_container,mapfragment).addToBackStack("tag").commit();
                     return true;
-                case R.id.navigation_settings:
-                    hideGPS();
-                    hideRevealView();
-                    return true;
+//                case R.id.navigation_settings:
+//                    hideGPS();
+//                    hideRevealView();
+//                    Intent intent=new Intent(HomeScreenActivity.this,EnlargeImageActivityForCars.class);
+//                    startActivity(intent);
+//
+//                    return true;
                 case R.id.navigation_notifications:
                     hideGPS();
                     hideRevealView();
@@ -400,8 +416,10 @@ public class HomeScreenActivity extends AppCompatActivity
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData1 = new GetNearbyPlacesData();
         getNearbyPlacesData1.asyncResponse = this;
+        getLastKnownLocation();
         getNearbyPlacesData1.setUserLocation(Last_Known_Location);
         String url = "";
+        GPSButton.show();
         switch (v.getId()) {
 
             case R.id.filter_fuel_stations_button:
@@ -465,6 +483,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private void hideGPS() {
 //        GPSButton.setVisibility(View.GONE);
+        GPSButton.hide();
 
     }
 
@@ -479,6 +498,7 @@ public class HomeScreenActivity extends AppCompatActivity
             mRevealView.setVisibility(View.VISIBLE);
             anim.start();
             hidden = false;
+            GPSButton.hide();
         } else {
             Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, cy, cx, radius, 0);
             anim.addListener(new AnimatorListenerAdapter() {
@@ -487,6 +507,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     super.onAnimationEnd(animation);
                     mRevealView.setVisibility(View.INVISIBLE);
                     hidden = true;
+                    GPSButton.show();
                 }
             });
             anim.start();
@@ -498,9 +519,10 @@ public class HomeScreenActivity extends AppCompatActivity
         mMap = googleMap;
     }
 
-    public void getLastKnownLocation(Location location) {
-        //Get the object of google map from fragment
-        Last_Known_Location = location;
+    public void getLastKnownLocation() {
+       Last_Known_Location= ((mapFragment) currentFragment).getLast_Known_Location();
+
+//        Last_Known_Location = location;
     }
 
     private String getURL(double latitude, double longitude, String nearbyplaces, String name) {

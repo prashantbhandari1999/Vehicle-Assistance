@@ -34,15 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SettingsActivity"
-            android:label="Settings"
-            android:theme="@style/SignUpTheme"/>
-
-
-        <activity
             android:name=".AddReminderActivity"
             android:label="Add Reminder"
-            android:theme="@style/SignUpTheme" />
+            android:theme="@style/SignUpTheme"></activity>
         <activity
             android:name=".SparePartsActivity"
             android:label="Spare Parts"
@@ -56,12 +50,17 @@
             android:label="Add Shop"
             android:theme="@style/SignUpTheme" />
         <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/SignUpTheme" />
+        <activity
             android:name=".AddVehicleActivity"
             android:label="Add Vehicle"
             android:theme="@style/SignUpTheme" />
         <activity
             android:name=".HomeScreenActivity"
             android:label="@string/title_activity_navigation"
+            android:launchMode="singleTop"
             android:theme="@style/SignUpTheme.NoActionBar" /> <!-- &lt;!&ndash; -->
         <!-- The API key for Google Maps-based APIs is defined as a string resource. -->
         <!-- (See the file "res/values/google_maps_api.xml"). -->
@@ -105,6 +104,9 @@
         <activity
             android:name=".ClosestCareActivity"
             android:label="Closest Care" />
+
+        <receiver android:name=".AlertReceiver" />
+
     </application>
 
 </manifest>
