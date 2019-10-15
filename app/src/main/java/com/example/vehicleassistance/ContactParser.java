@@ -17,8 +17,10 @@ public class ContactParser {
     private HashMap<String,String> getPlace(JSONObject googlePlaceJson){
         HashMap<String,String> googlePlacesMap = new HashMap<>();
         String placeName="-NA-";
-        String contact="-NA-";
+        String Address = "-NA-";
+        String contact="";
         String rating="";
+        String opening_hours="";
 
         try {
             if(!googlePlaceJson.isNull("name")){
@@ -26,19 +28,28 @@ public class ContactParser {
 
             }
             if(!googlePlaceJson.isNull("formatted_phone_number")){
-                contact = googlePlaceJson.getString(String.valueOf("formatted_phone_number"));
+                contact = googlePlaceJson.getString("formatted_phone_number");
+            }
+            rating=String.valueOf(googlePlaceJson.getDouble("rating"));
+            try {
+                Address = googlePlaceJson.getString("vicinity");
+            }
+            catch (Exception e){
 
             }
-//            rating=googlePlaceJson.getString("rating");
+            try {
+                JSONObject open = googlePlaceJson.getJSONObject("opening_hours");
+                opening_hours = open.getString("weekday_text");
 
+            }
+            catch (Exception e){
 
+            }
             googlePlacesMap.put("place_name",placeName);
             googlePlacesMap.put("contact",contact);
             googlePlacesMap.put("rating",rating);
-
-
-
-
+            googlePlacesMap.put("Address",Address);
+            googlePlacesMap.put("Opening hours",opening_hours);
         } catch (JSONException e) {
             e.printStackTrace();
         }
