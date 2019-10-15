@@ -14,6 +14,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -59,25 +61,27 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddShopActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     Button submitButton;
-    EditText shopNameEditText, ownerNameEditText, phoneNumberEditText;
+    EditText shopNameEditText, ownerNameEditText, phoneNumberEditText,addressEditText;
     TextView locationTextView;
     CheckBox acServicesCheckBox, cleaningCheckBox, towingCheckBox, airFillingCheckBox, doorstepCheckBox, paintingCheckBox, wheelcareCheckBox;
     ProgressDialog mProgressDialog;
     String shopName, ownerName, mobileNumber;
 
-     BottomSheetBehavior mBottomSheetBehavior;
+    BottomSheetBehavior mBottomSheetBehavior;
     private GoogleMap mmMap;
-     GeoDataClient mGeoDataClient;
-     PlaceDetectionClient mPlaceDetectionClient;
+    GeoDataClient mGeoDataClient;
+    PlaceDetectionClient mPlaceDetectionClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -134,10 +138,8 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         ImgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(AddShopActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
                 if (checkPermission()) {
                     try {
-//                        Toast.makeText(AddShopActivity.this, "OKKK", Toast.LENGTH_SHORT).show();
                         Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), CAMERA_PIC_REQUEST);
                     } catch (Exception e) {
@@ -147,17 +149,6 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                 } else {
                     requestPermission();
                 }
-//                if (checkPermission()) {
-//                    try {
-//                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-//                    } catch (Exception e) {
-//                        Toast.makeText(AddShopActivity.this, "Not able to Upload", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(AddShopActivity.this, "Please Try Later", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else {
-//                    requestPermission();
-//                }
 
             }
         });
@@ -168,7 +159,6 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
-            Toast.makeText(this, "Not granted", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -188,13 +178,10 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                     Intent getIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(Intent.createChooser(getIntent, "Select a photo"), CAMERA_PIC_REQUEST);
 
-                    // main logic
                 } else {
-//                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
                                 != PackageManager.PERMISSION_GRANTED) {
@@ -237,13 +224,11 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         shopNameEditText = findViewById(R.id.editText_enter_shop_name);
         ownerNameEditText = findViewById(R.id.editText_enter_name_of_person);
         phoneNumberEditText = findViewById(R.id.editText_enter_mobileno);
+        addressEditText=findViewById(R.id.address_editText);
         locationTextView = findViewById(R.id.editText_enter_location);
         locationTextView.setEnabled(false);
-//        String latitude=String.valueOf(Last_Known_Location.getLatitude());
-//        String longitude=String.valueOf(Last_Known_Location.getLongitude());
-//        String latlng=latitude+longitude;
-////        Toast.makeText(this, "INOT", Toast.LENGTH_SHORT).show();
-//        locationTextView.setText(latlng);
+        addressEditText.setEnabled(false);
+
         acServicesCheckBox = findViewById(R.id.CheckBox_ac_services);
         cleaningCheckBox = findViewById(R.id.CheckBox_cleaning);
         towingCheckBox = findViewById(R.id.CheckBox_towing);
@@ -316,13 +301,11 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                                 }
                             }, 500);
 
-//                            Toast.makeText(AddShopActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                             Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
                             result.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     imageURL = uri.toString();
-//                                    Toast.makeText(AddShopActivity.this, "URL:" + imageURL, Toast.LENGTH_SHORT).show();
                                     uploadShopData();
                                 }
                             });
@@ -422,11 +405,21 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
+                            Geocoder geocoder;
+                            List<Address> addresses=null;
+                            geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                             Last_Known_Location = task.getResult();
+                            try {
+                                addresses = geocoder.getFromLocation(Last_Known_Location.getLatitude() , Last_Known_Location.getLongitude(), 1);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             String latitude = String.valueOf(Last_Known_Location.getLatitude());
                             String longitude = String.valueOf(Last_Known_Location.getLongitude());
                             String latlng = latitude + "\n" + longitude;
+                            String address = addresses.get(0).getAddressLine(0);
                             locationTextView.setText(latlng);
+                            addressEditText.setText(address);
                             mmMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude()))
                                     .title("Your Location"));
@@ -463,25 +456,8 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
         updateLocationUI();
     }
 
-//    public void onRequestPermissionsResult(int requestCode,
-//                                           @NonNull String permissions[],
-//                                           @NonNull int[] grantResults) {
-//        mLocationPermissionGranted = false;
-//        switch (requestCode) {
-//            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0
-//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    mLocationPermissionGranted = true;
-//                }
-//            }
-//        }
-//        updateLocationUI();
-//    }
-
     private void updateLocationUI() {
         if (mmMap == null) {
-            Toast.makeText(this, "Map is null in updateUI", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -511,7 +487,6 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
 
     //For_Camera
     public void onActivityResult(final int requestCode, int resultCode, Intent data) {
-//        cameraUri=data.getData();
         super.onActivityResult(requestCode, resultCode, data);
         try {
             switch (requestCode) {
@@ -519,10 +494,6 @@ public class AddShopActivity extends AppCompatActivity implements OnMapReadyCall
                     if (resultCode == RESULT_OK) {
                         try {
                             cameraUri = data.getData();
-//                            Toast.makeText(this, "URI" + cameraUri, Toast.LENGTH_SHORT).show();
-//                            ImgPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(),ImgPhoto);
-//
-//                            Bitmap photo = (Bitmap) data.getExtras().get("data");
                             ImgPhoto.setImageURI(cameraUri);
 
                         } catch (Exception e) {
