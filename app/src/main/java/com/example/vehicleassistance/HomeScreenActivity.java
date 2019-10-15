@@ -746,6 +746,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     @Override
     public void processFinish(HashMap<String, String> output) {
+        //Of GetClosestCare
         if(output!=null)
             Log.e("window", "Name: "+output.get("place_name")+"\nContact: "+output.get("contact")+"\nAddress: "+output.get("Address")+"\nRating: "+output.get("rating")+"\nOpening Hours:"+output.get("Opening hours"));
     }
