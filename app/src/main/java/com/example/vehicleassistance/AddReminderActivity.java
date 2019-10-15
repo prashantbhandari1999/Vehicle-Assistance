@@ -1,5 +1,6 @@
 package com.example.vehicleassistance;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +24,29 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private TextView textView, textView1;
@@ -41,28 +60,40 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
     SharedPreferences alarmSharedPreferences;
     String alarmName;
     ConstraintLayout constraintLayout;
+    private static ArrayList<Type> mArrayList = new ArrayList<>();
+    FirebaseFirestore db;
+    FirebaseAuth lAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
-        constraintLayout=findViewById(R.id.coordinator_add_reminder);
+        constraintLayout = findViewById(R.id.coordinator_add_reminder);
+
+        db = FirebaseFirestore.getInstance();
+        lAuth = FirebaseAuth.getInstance();
         //textView=findViewById(R.id.date_reminder_activity);
         startAlarmButton = findViewById(R.id.set_alarm);
         startAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < 4; i++) {
-                    try {
-                        if (checkAllSelect())
+                if (checkAllSelect()) {
+                    for (int i = 0; i < 4; i++) {
+                        try {
                             startAlarm(c[i], arr[i]);
-                        else {
-                            Snackbar snackbar = Snackbar
-                                    .make(constraintLayout, "Please Select All Dates", Snackbar.LENGTH_LONG);
-                            snackbar.show();
+                            setNotification(c[i], arr[i]);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                    Snackbar snackbar = Snackbar
+                            .make(constraintLayout, "All Notifications has been set", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(constraintLayout, "Please Select All Dates", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
         });
@@ -195,29 +226,54 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
     private void startAlarm(Calendar c, char type) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
+
+        String alarmType = "";
+        String message = "";
         switch (type) {
             case 'P':
-                intent.putExtra("Alarm Name", "PUC");
-                intent.putExtra("Message", "Your PUC date is Coming");
+                alarmType = "PUC";
+                message = "Your PUC date is on ";
+                c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 6);
+                c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + 2);
                 break;
+
             case 'O':
-                intent.putExtra("Alarm Name", "OIL");
-                intent.putExtra("Message", "Your OIL date is Coming");
+                alarmType = "OIL";
+                message = "Your OIL checking date is on ";
+                c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 3);
+                c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + 3);
                 break;
+
             case 'I':
-                intent.putExtra("Alarm Name", "INSURANCE");
-                intent.putExtra("Message", "Your INSURANCE date is Coming");
+                alarmType = "INSURANCE";
+                message = "Your INSURANCE date is on ";
+                c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+                c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + 4);
                 break;
+
             case 'A':
-                intent.putExtra("Alarm Name", "AIR");
-                intent.putExtra("Message", "Your AIR date is Coming");
+                alarmType = "AIR";
+                message = "Your AIR checking date is on ";
+                c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 15);
+                c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + 5);
                 break;
         }
+        int day_of_month, month, year;
+        String date;
+        day_of_month = c.get(Calendar.DAY_OF_MONTH);
+        month = c.get(Calendar.MONTH)+1;
+        year = c.get(Calendar.YEAR);
+        date = day_of_month + "/" + month + "/" + year;
+
+        message += date;
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        intent.putExtra("Alarm Name", alarmType);
+        intent.putExtra("Message", message);
+
         alarmSharedPreferences = getSharedPreferences("Alarm", MODE_PRIVATE);
         SharedPreferences.Editor editor = alarmSharedPreferences.edit();
 
         Integer alarmNo = alarmSharedPreferences.getInt("Alarm No", -1);
-//        Toast.makeText(this, "Integer:" + alarmNo, Toast.LENGTH_SHORT).show();
         if (alarmNo == -1) {
             editor.putInt("Alarm No", 1);
             editor.apply();
@@ -266,6 +322,106 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
         textView.setText(date);
         textView.setVisibility(View.VISIBLE);
         imageView1.setVisibility(View.GONE);
-
     }
+
+    public void setNotification(Calendar c, final char type) {
+        int day_of_month = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+
+        Map<String, Object> notification = new HashMap<>();
+        String date = day_of_month + "/" + month + "/" + year;
+        String alarmType = "";
+        String message = "";
+        switch (type) {
+            case 'P':
+                alarmType = "PUC";
+                message = "Your PUC date is on " + date;
+                break;
+            case 'O':
+                alarmType = "OIL";
+                message = "Your OIL checking date is on " + date;
+                db.collection("Users")
+                        .document(lAuth.getCurrentUser().getUid())
+                        .collection("Notifications")
+                        .document("Upcoming Notifications")
+                        .collection("C")
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot documentSnapshots) {
+                                for (QueryDocumentSnapshot documentSnapshot : documentSnapshots) {
+                                    Notifications note = documentSnapshot.toObject(Notifications.class);
+//                                    note.setDocumentId(documentSnapshot.getId());
+//                                    Toast.makeText(AddReminderActivity.this, "ID:" , Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(AddReminderActivity.this, "TYPE:" + note.getType() + note.getDate() + note.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddReminderActivity.this, "Error getting data!!!", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+                break;
+            case 'I':
+                alarmType = "INSURANCE";
+                message = "Your INSURANCE date is on " + date;
+                break;
+            case 'A':
+                alarmType = "AIR";
+                message = "Your AIR Checking date is on " + date;
+                break;
+        }
+        notification.put("Type", alarmType);
+        notification.put("Message", message);
+        notification.put("Date", date);
+        db.collection("Users")
+                .document(lAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .document("Upcoming Notifications")
+                .collection("C")
+                .add(notification)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+//                        Toast.makeText(AddReminderActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddReminderActivity.this, "Not Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        db.collection("Users")
+                .document(lAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .document("Upcoming Notifications")
+                .collection("C")
+                .addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
+                        if (e != null) {
+                            return;
+                        }
+
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Notifications note = documentSnapshot.toObject(Notifications.class);
+//                    note.setDocumentId(documentSnapshot.getId());
+
+//                            Toast.makeText(AddReminderActivity.this, "THUS" + note.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 }

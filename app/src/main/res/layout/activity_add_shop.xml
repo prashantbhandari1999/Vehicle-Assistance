@@ -156,6 +156,13 @@
                     android:maxLines="1"
                     android:textSize="18sp" />
 
+                <EditText
+                    android:id="@+id/address_editText"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_height="100dp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

@@ -8,6 +8,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 
@@ -41,16 +45,34 @@ public class NotificationHelper extends ContextWrapper {
         return mManager;
     }
 
-    public NotificationCompat.Builder getChannelNotification(String alarmName,String message) {
+    public NotificationCompat.Builder getChannelNotification(String alarmName, String message) {
 
-        Intent resultIntent=new Intent(this,MainActivity.class);
-        PendingIntent resultPendingIntent=PendingIntent.getActivity(this,1,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        int ID = 0;
+        switch (alarmName) {
+            case "PUC":
+                ID = R.drawable.puc;
+                break;
+            case "OIL":
+                ID = R.drawable.oil;
+                break;
+            case "INSURANCE":
+                ID = R.drawable.insurance;
+                break;
+            case "AIR":
+                ID = R.drawable.air;
+                break;
+        }
+//        Drawable myDrawable = getResources().getDrawable(ID);
+//        Bitmap anImage      = ((BitmapDrawable) myDrawable).getBitmap();
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle(alarmName)
+                .setColor(Color.BLUE)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-                .setSmallIcon(R.drawable.ic_launcher_foreground);
-
+                .setSmallIcon(ID,4);
     }
 }
