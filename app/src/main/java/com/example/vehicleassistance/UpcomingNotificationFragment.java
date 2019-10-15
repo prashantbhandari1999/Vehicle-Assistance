@@ -6,12 +6,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +33,8 @@ public class UpcomingNotificationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    FirebaseFirestore db;
+    FirebaseAuth lAuth;
     private UpcomingNotificationFragment.OnFragmentInteractionListener mListener;
 
     public UpcomingNotificationFragment() {
@@ -34,6 +45,48 @@ public class UpcomingNotificationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         list = new ArrayList<>();
         list.add(new upcoming_notifications("!st Notification", "Hello this is your notif", "30/04/1999", R.drawable.service_center));
+        db=FirebaseFirestore.getInstance();
+        lAuth = FirebaseAuth.getInstance();
+        db.collection("Users")
+                .document(lAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .document("Upcoming Notifications")
+                .collection("C")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : documentSnapshots) {
+                            Notifications note = documentSnapshot.toObject(Notifications.class);
+                            int ID=0;
+                            switch (note.getType()) {
+                                case "PUC":
+                                    ID = R.drawable.puc;
+                                    break;
+                                case "OIL":
+                                    ID = R.drawable.oil;
+                                    break;
+                                case "INSURANCE":
+                                    ID = R.drawable.insurance;
+                                    break;
+                                case "AIR":
+                                    ID = R.drawable.air;
+                                    break;
+                            }
+                            Toast.makeText(getContext(), "T:"+note.getType()+ " :-"+note.getMessage(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Inside", Toast.LENGTH_SHORT).show();
+                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), R.drawable.service_center));
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+
+                    }
+                });
     }
 
     @Nullable
@@ -78,5 +131,52 @@ public class UpcomingNotificationFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        db=FirebaseFirestore.getInstance();
+        lAuth = FirebaseAuth.getInstance();
+        db.collection("Users")
+                .document(lAuth.getCurrentUser().getUid())
+                .collection("Notifications")
+                .document("Upcoming Notifications")
+                .collection("C")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : documentSnapshots) {
+                            Notifications note = documentSnapshot.toObject(Notifications.class);
+                            list = new ArrayList<>();
+                            int ID=0;
+                            switch (note.getType()) {
+                                case "PUC":
+                                    ID = R.drawable.puc;
+                                    break;
+                                case "OIL":
+                                    ID = R.drawable.oil;
+                                    break;
+                                case "INSURANCE":
+                                    ID = R.drawable.insurance;
+                                    break;
+                                case "AIR":
+                                    ID = R.drawable.air;
+                                    break;
+                            }
+
+                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), ID));
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+    }*/
 }
 
