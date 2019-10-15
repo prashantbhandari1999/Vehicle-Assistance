@@ -1,9 +1,16 @@
 package com.example.vehicleassistance;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -12,13 +19,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
+public class GetNearbyPlacesData extends AsyncTask<Object,String,String> implements GoogleMap.InfoWindowAdapter {
     String googlePlacesData;
     String placeID="";
     GoogleMap mMap;
@@ -68,6 +76,7 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
             markerOptions.position(latLng);
             markerOptions.title(placeName+" : "+results[0]/1000+"km away");
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            markerOptions.snippet(googlePlace.get("place_id"));
 
             mMap.addMarker(markerOptions);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -86,10 +95,39 @@ public class GetNearbyPlacesData extends AsyncTask<Object,String,String> {
         }
         if(minimum!=0) {
             placeID = nearbyPlacesList.get(index).get("place_id");
-            Log.d("GetNearby placeID", "showNearbyPlaces: "+placeID);
-            asyncResponse.processFinish(placeID);
+            Log.d("GetNearby placeID", "showNearbyPlaces: " + placeID);
         }
+        asyncResponse.processFinish(placeID);
     }
+
+        @Override
+        public View getInfoWindow(Marker arg0) {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+////            Context mContext = H;
+//            LinearLayout info = new LinearLayout(mContext);
+////            info.setOrientation(LinearLayout.VERTICAL);
+////
+////            TextView title = new TextView(mContext);
+////            title.setTextColor(Color.BLACK);
+////            title.setGravity(Gravity.CENTER);
+////            title.setTypeface(null, Typeface.BOLD);
+////            title.setText(marker.getTitle());
+////
+////            TextView snippet = new TextView(mContext);
+////            snippet.setTextColor(Color.GRAY);
+////            snippet.setText(marker.getSnippet());
+////
+////            info.addView(title);
+////            info.addView(snippet);
+//
+//            return info;
+            return  null;
+        }
     public interface AsyncResponse {
         void processFinish(String output);
     }

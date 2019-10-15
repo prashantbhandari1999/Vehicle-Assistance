@@ -5,6 +5,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -74,12 +76,15 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
 import io.opencensus.stats.MeasureMap;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
 
     private LinearLayout mRevealView;
     private boolean hidden = true, initialised = false;
@@ -116,6 +121,7 @@ public class HomeScreenActivity extends AppCompatActivity
     View headerView;
     private Fragment currentFragment;
     String placeId = "";
+    GetClosestCare getClosestCare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +183,19 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
+            @Override
+            public  void onInfoWindowClick(Marker marker) {
+                getClosestCare = new GetClosestCare();
+                getClosestCare.delegate = HomeScreenActivity.this;
+                String snippet = marker.getSnippet();
+                Object data[] = new Object[1];
+                data[0] = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + snippet + "&fields=name,rating,formatted_phone_number,vicinity,opening_hours,type&key=" + BuildConfig.google_maps_key;
+                Log.d("url:", "onCreate: "+data[0]);
+                getClosestCare.execute(data);
+            }
+        });
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
@@ -257,6 +275,7 @@ public class HomeScreenActivity extends AppCompatActivity
 //        }
 //
         if (id == R.id.nav_closest_care) {
+            initialised = true;
             getLastKnownLocation();
             getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.asyncResponse = this;
@@ -271,8 +290,6 @@ public class HomeScreenActivity extends AppCompatActivity
             dataTransfer[1] = url;
 
             getNearbyPlacesData.execute(dataTransfer);
-            initialised = true;
-
         } else if (id == R.id.nav_spareparts) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
             startActivity(intent);
@@ -470,6 +487,13 @@ public class HomeScreenActivity extends AppCompatActivity
                 Toast.makeText(this, "Showing nearby Towing Centres", Toast.LENGTH_LONG).show();
                 break;
             case R.id.contact_img_btn:
+                mMap.clear();
+                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", "Puncture");
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+
+                getNearbyPlacesData1.execute(dataTransfer);
+                Toast.makeText(this, "Showing nearby Puncture Shops", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -610,6 +634,7 @@ public class HomeScreenActivity extends AppCompatActivity
         }
         return true;
     }
+
     private void requestPermission() {
         Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this,
@@ -697,14 +722,19 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void processFinish(String output) {
         if (initialised) {
+            if(!output.isEmpty()) {
+                placeId = output;
+            }
             mMap.clear();
-            placeId = output;
+            initialised = false;
             Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
             intent.putExtra("place_id", placeId);
             startActivity(intent);
-            initialised = false;
         }
         else{
+            if(output.isEmpty()){
+                Toast.makeText(HomeScreenActivity.this,"Network error! Please try again later",Toast.LENGTH_LONG);
+            }
         }
 
     }
@@ -712,6 +742,12 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void processFinish(HashMap<String, String> output) {
+        if(output!=null)
+            Log.e("window", "Name: "+output.get("place_name")+"\nContact: "+output.get("contact")+"\nAddress: "+output.get("Address")+"\nRating: "+output.get("rating")+"\nOpening Hours:"+output.get("Opening hours"));
     }
 }
 

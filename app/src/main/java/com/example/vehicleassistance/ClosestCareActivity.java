@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.HashMap;
+
 public class ClosestCareActivity extends AppCompatActivity implements GetClosestCare.AsyncResponse {
     String placeId = "";
     String contact = null;
@@ -48,8 +50,13 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
     }
 
     @Override
-    public void processFinish(String output) {
-        contact = getClosestCare.contact;
+    public void processFinish(HashMap<String,String> output) {
+        try {
+            contact = output.get("contact");
+        }
+        catch (Exception e){
+
+        }
         if (contact == null) {
             Log.d("contact", "processFinish: "+contact);
             Toast.makeText(this, "Network Error!! Try Again After Some Time", Toast.LENGTH_LONG).show();
