@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        android:text="OIL"
+                        android:text="OIL CHECK"
                         android:textColor="#2196f3"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -323,7 +323,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        android:text="AIR"
+                        android:text="AIR CHECK"
                         android:textColor="#2196f3"
                         android:textSize="18sp"
                         android:textStyle="bold" />

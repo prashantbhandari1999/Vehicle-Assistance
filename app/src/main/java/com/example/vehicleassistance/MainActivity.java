@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences googleSharedPreferences;
         googleSharedPreferences=getSharedPreferences(GooglePREFERENCES,Context.MODE_PRIVATE);
         if((googleSharedPreferences.getBoolean(SIGN_IN,false) && !googleSharedPreferences.getBoolean(LOG_OUT,true))){
-            Toast.makeText(this, "User Already sign in with google", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "User Already sign in with google", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod","google"));
             finish();
         }
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 } catch (Exception e) {
                                     Log.d("QUERY", e.toString());
-                                    Toast.makeText(MainActivity.this, "Home appers here", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(MainActivity.this, "Home appers here", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod","register"));
                                     finish();
                                 }

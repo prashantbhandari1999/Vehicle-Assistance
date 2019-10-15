@@ -575,7 +575,7 @@ public class HomeScreenActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         String signInMethod = bundle.getString("signInMethod");
         if (signInMethod.equals("google")) {
-            Toast.makeText(this, "Sign In with google", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Sign In with google", Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = getSharedPreferences(MyGooglePREFERENCES, Context.MODE_PRIVATE);
             userName.setText(sharedPreferences.getString("name", ""));
             userEmail.setText(sharedPreferences.getString("email", ""));
@@ -587,7 +587,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
             editor.apply();
         } else if (signInMethod.equals("register")) {
-            Toast.makeText(this, "Sign In with REGISTER", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Sign In with REGISTER", Toast.LENGTH_SHORT).show();
 
             SharedPreferences sharedPreferences;
             sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -636,7 +636,7 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     private void requestPermission() {
-        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSION_REQUEST_CODE);
@@ -645,7 +645,7 @@ public class HomeScreenActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode==RESULT_OK) {
-            Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
             if (data != null) {
                 Uri uri = data.getData();
                 CropImage.activity(uri)
