@@ -68,9 +68,6 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
             finish();
         }
         else {
-            TextView contact_text = findViewById(R.id.textView_number_1);
-            contact_text.setText(contact);
-
             if((ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED)) {
                 new AlertDialog.Builder(this)

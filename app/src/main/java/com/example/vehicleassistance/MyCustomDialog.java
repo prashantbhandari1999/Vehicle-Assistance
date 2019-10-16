@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 public class MyCustomDialog extends DialogFragment {
     private TextView shop_name , shop_description , shop_address , shop_timing , shop_distance;
     private TextView shop_phone;
+    String name,contact,rating,timing,address;
     public interface onInputListner{
         void sendInput(String input);
     }
@@ -78,6 +79,11 @@ public class MyCustomDialog extends DialogFragment {
         shop_distance = view.findViewById(R.id.shop_distance);
         shop_timing = view.findViewById(R.id.shop_timing);
         shop_phone = view.findViewById(R.id.shop_phone);
+        shop_name.setText(name);
+        shop_phone.setText(contact);
+        shop_timing.setText(timing);
+        shop_address.setText(address);
+
 
         return view;
     }
@@ -88,6 +94,15 @@ public class MyCustomDialog extends DialogFragment {
             mOnInputListner=(onInputListner)getActivity();
         }catch (ClassCastException e){
 
+        }
+    }
+    public MyCustomDialog(String place_name,String place_contact,String place_timing,String vicinity){
+        name = place_name;
+        contact = place_contact;
+        timing = place_timing;
+        String[] time = vicinity.split(",",7);
+        for(int i=0;i<time.length;i++){
+            address+=time[i]+"\n";
         }
     }
 

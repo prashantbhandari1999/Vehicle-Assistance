@@ -747,35 +747,18 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void processFinish(HashMap<String, String> output) {
         //Of GetClosestCare
+        Log.d("output", "processFinish: "+output);
         if (output != null) {
             Log.e("window", "Name: " + output.get("place_name") + "\nContact: " + output.get("contact") + "\nAddress: " + output.get("Address") + "\nRating: " + output.get("rating") + "\nOpening Hours:" + output.get("Opening hours"));
-
-             TextView shop_name , shop_description , shop_address , shop_timing , shop_distance;
-             TextView shop_phone;
             LayoutInflater inflater = HomeScreenActivity.this.getLayoutInflater();
-            View view=inflater.inflate(R.layout.decribe_location,null);
-            shop_name = view.findViewById(R.id.shop_name);
-            shop_description = view.findViewById(R.id.shop_description);
-            shop_address = view.findViewById(R.id.shop_address);
-            shop_distance = view.findViewById(R.id.shop_distance);
-            shop_timing = view.findViewById(R.id.shop_timing);
-            shop_phone = view.findViewById(R.id.shop_phone);
-
-            Log.d("SD1",""+shop_name.getText());
-
-            shop_name.setText( output.get("place_name"));
-            shop_phone.setText(output.get("contact"));
-            shop_timing.setText(output.get("Opening hours"));
-            MyCustomDialog dialog=new MyCustomDialog();
-            dialog.setShop_address(shop_address);
-            dialog.setShop_name(shop_name);
-            dialog.setShop_phone(shop_phone);
-            dialog.show(getSupportFragmentManager(),"MyCustomDialog");
-            Log.d("SD2",""+shop_name.getText());
-
-
+            View view = inflater.inflate(R.layout.decribe_location, null);
+            MyCustomDialog dialog = new MyCustomDialog(output.get("place_name"), output.get("contact"), output.get("Opening hours"), output.get("Address"));
+            dialog.show(getSupportFragmentManager(), "MyCustomDialog");
         }
-        Toast.makeText(this, "THs", Toast.LENGTH_SHORT).show();
+        else{
+            Toast.makeText(this, "Network Error! Please try again later!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
