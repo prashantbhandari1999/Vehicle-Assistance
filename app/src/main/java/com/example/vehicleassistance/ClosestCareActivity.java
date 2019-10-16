@@ -5,7 +5,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 
@@ -60,15 +65,36 @@ public class ClosestCareActivity extends AppCompatActivity implements GetClosest
         if (contact == null) {
             Log.d("contact", "processFinish: "+contact);
             Toast.makeText(this, "Network Error!! Try Again After Some Time", Toast.LENGTH_LONG).show();
+            finish();
         }
         else {
             TextView contact_text = findViewById(R.id.textView_number_1);
             contact_text.setText(contact);
+
             if((ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED)) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel: " + contact));
-                startActivity(intent);
+                new AlertDialog.Builder(this)
+                        .setIcon(null)
+                        .setTitle("Call Closest Care")
+                        .setMessage("Are you sure you want to call ?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Intent.ACTION_CALL);
+                                intent.setData(Uri.parse("tel: " + contact));
+                                if((ContextCompat.checkSelfPermission(ClosestCareActivity.this,Manifest.permission.CALL_PHONE)
+                                        == PackageManager.PERMISSION_GRANTED)) {
+                                    startActivity(intent);
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .show();
             }
         }
     }
