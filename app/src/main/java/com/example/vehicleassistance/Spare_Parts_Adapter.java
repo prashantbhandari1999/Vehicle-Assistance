@@ -51,7 +51,6 @@ public class Spare_Parts_Adapter extends RecyclerView.Adapter<Spare_Parts_Adapte
                        Spanned html = Html.fromHtml("Click the link to visit <br />" +
                                "<a href='https://www.airbagcenter.com'>Airbagcenter</a>");
                        tv.setMovementMethod(LinkMovementMethod.getInstance());
-                       // Set TextView text from html
                        tv.setText(html);
                         break;
                    case 1:
