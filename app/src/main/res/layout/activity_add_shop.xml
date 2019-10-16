@@ -61,27 +61,20 @@
 
                     />
 
-                <FrameLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="16dp">
+
 
                     <ImageView
                         android:id="@+id/ImageView_addshop"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="250dp"
+                        android:layout_height="150dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:src="@mipmap/ic_launcher" />
 
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/ic_circular" />
 
-                </FrameLayout>
+
+
 
 
                 <EditText
