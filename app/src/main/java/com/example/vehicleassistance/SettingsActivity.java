@@ -65,7 +65,6 @@ public class SettingsActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.activity_settings,container,false);
 
-
         return view;
     }
 
