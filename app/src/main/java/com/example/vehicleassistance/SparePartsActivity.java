@@ -55,17 +55,7 @@ public class SparePartsActivity extends AppCompatActivity {
 
     }
 
-        public void open_links(View view){
-            TextView tv = findViewById(R.id.textView_spare);
 
-            Spanned html = Html.fromHtml("Click the link to visit <br />" +
-                    "<a href='https://www.airbagcenter.com'>Airbagcenter.com</a>");
-
-            tv.setMovementMethod(LinkMovementMethod.getInstance());
-//ihdgohsdgh
-            // Set TextView text from html
-            tv.setText(html);
-        }
 
 
     private void filter(String text) {

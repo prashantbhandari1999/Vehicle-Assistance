@@ -22,8 +22,6 @@
         android:hint="Search for spare part"
         android:paddingLeft="8dp"
         android:textSize="16sp"
-        android:clickable="true"
-        android:onClick="open_links"
         android:singleLine="true"
         android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,6 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="2dp"
+        android:clickable="true"
+        android:onClick="open_links"
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
         android:scrollbars="vertical"/>
