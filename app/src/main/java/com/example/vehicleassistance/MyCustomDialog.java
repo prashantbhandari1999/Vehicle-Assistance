@@ -1,20 +1,29 @@
 package com.example.vehicleassistance;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 public class MyCustomDialog extends DialogFragment {
     private TextView shop_name , shop_description , shop_address , shop_timing , shop_distance;
     private TextView shop_phone;
     String name,contact,rating,timing,address;
+    ImageButton callButton;
     public interface onInputListner{
         void sendInput(String input);
     }
@@ -79,6 +88,15 @@ public class MyCustomDialog extends DialogFragment {
         shop_distance = view.findViewById(R.id.shop_distance);
         shop_timing = view.findViewById(R.id.shop_timing);
         shop_phone = view.findViewById(R.id.shop_phone);
+        callButton = view.findViewById(R.id.callimageButton);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel: " + contact));
+                startActivity(intent);
+            }
+        });
         shop_name.setText(name);
         shop_phone.setText(contact);
         shop_timing.setText(timing);
