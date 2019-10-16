@@ -9,27 +9,26 @@
     <RelativeLayout
         android:id="@+id/relativelayout1_settings"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="General Settings"
-            android:textSize="16sp"
+            android:layout_alignParentStart="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:layout_alignParentStart="true"/>
-<!--        <Switch-->
-<!--            android:id="@+id/switch1"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginRight="8dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_alignParentEnd="true"/>-->
+            android:text="General Settings"
+            android:textSize="16sp" />
+        <!--        <Switch-->
+        <!--            android:id="@+id/switch1"-->
+        <!--            android:layout_marginBottom="4dp"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginRight="8dp"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:layout_alignParentEnd="true"/>-->
 
 
         <View
@@ -37,10 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/textView_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="#f2f2f2"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </RelativeLayout>
 
@@ -49,30 +47,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relativelayout1_settings">
+
         <ImageView
             android:id="@+id/feedback_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
             android:src="@drawable/ic_feedback">
 
         </ImageView>
 
         <TextView
             android:id="@+id/textView_notif"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_toRightOf="@id/feedback_icon"
             android:gravity="fill_vertical"
             android:text="Feedback"
             android:textColor="#000"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            />
+            android:textSize="16sp" />
 
 
         <View
@@ -80,25 +79,26 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/textView_notif"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="#f2f2f2"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/relativelayout3_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relativelayout2_settings">
+
         <ImageView
             android:id="@+id/notif_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_feedback">
+            android:src="@drawable/ic_notifications_black_24dp">
 
         </ImageView>
 
@@ -107,14 +107,13 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_toRightOf="@id/notif_icon"
             android:gravity="fill_vertical"
             android:text="Notifications"
             android:textColor="#000"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            />
+            android:textSize="16sp" />
 
         <Switch
             android:layout_width="wrap_content"
@@ -122,45 +121,46 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"></Switch>
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"></Switch>
 
         <View
             android:id="@+id/horizontalline7"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/textView_notification"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="#f2f2f2"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/logout_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_below="@id/relativelayout3_settings"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/relativelayout3_settings"
-        android:src="@drawable/ic_logout">
+        android:src="@drawable/log_out_new">
 
     </ImageView>
+
     <TextView
         android:id="@+id/textView_feedback"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:gravity="fill_vertical"
         android:layout_height="48dp"
-        android:textColor="#000"
-        android:text="Logout"
-        android:textSize="16sp"
-        android:layout_toRightOf="@id/logout_icon"
+        android:layout_below="@id/relativelayout3_settings"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/relativelayout3_settings"
-        />
+        android:layout_toRightOf="@id/logout_icon"
+        android:gravity="fill_vertical"
+        android:text="Logout"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
 
     <View
@@ -168,19 +168,18 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/textView_feedback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="#f2f2f2"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/share_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_below="@id/horizontalline3"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/horizontalline3"
         android:src="@drawable/ic_share">
 
     </ImageView>
@@ -188,16 +187,17 @@
     <TextView
         android:id="@+id/textView_share"
         android:layout_width="match_parent"
-        android:gravity="fill_vertical"
+        android:clickable="true"
         android:layout_height="48dp"
-        android:textColor="#000"
-        android:text="Share"
-        android:textSize="16sp"
-        android:layout_toRightOf="@id/share_icon"
+        android:layout_below="@id/horizontalline3"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/horizontalline3"/>
+        android:layout_toRightOf="@id/share_icon"
+        android:gravity="fill_vertical"
+        android:text="Share"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
 
     <View
@@ -205,34 +205,36 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/textView_share"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="#f2f2f2"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/about_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_below="@id/horizontalline4"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/horizontalline4"
         android:src="@drawable/ic_about_us">
 
     </ImageView>
+
     <TextView
         android:id="@+id/textView_about"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:gravity="fill_vertical"
         android:layout_height="48dp"
-        android:textColor="#000"
-        android:text="About us"
-        android:textSize="16sp"
-        android:layout_toRightOf="@id/share_icon"
+        android:layout_below="@id/horizontalline4"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_below="@id/horizontalline4"/>
+        android:layout_toRightOf="@id/share_icon"
+        android:gravity="fill_vertical"
+        android:text="About us"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
 
     <View
@@ -240,37 +242,29 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/textView_share"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="#f2f2f2"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <View
         android:id="@+id/horizontalline6"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/textView_about"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:background="#f2f2f2"
-        />
-<!--    <ImageView-->
-<!--        android:id="@+id/about_icon"-->
-<!--        android:layout_width="48dp"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:layout_marginLeft="8dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:layout_below="@id/horizontalline4"-->
-<!--        android:src="@drawable/ic_feedback">-->
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/about_icon"-->
+    <!--        android:layout_width="48dp"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginLeft="8dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:layout_below="@id/horizontalline4"-->
+    <!--        android:src="@drawable/ic_feedback">-->
 
-<!--    </ImageView>-->
-
-
-
-
-
-
-
+    <!--    </ImageView>-->
 
 
 </RelativeLayout>

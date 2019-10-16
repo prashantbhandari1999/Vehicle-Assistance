@@ -87,7 +87,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import io.opencensus.stats.MeasureMap;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener,MyCustomDialog.onInputListner{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener, MyCustomDialog.onInputListner {
 
     private LinearLayout mRevealView;
     private boolean hidden = true, initialised = false;
@@ -125,6 +125,8 @@ public class HomeScreenActivity extends AppCompatActivity
     private Fragment currentFragment;
     String placeId = "";
     GetClosestCare getClosestCare;
+    notificationFragment mnotificationFragment;
+    SettingsActivity settingsActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,8 @@ public class HomeScreenActivity extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-
+        mnotificationFragment = new notificationFragment();
+        settingsActivity = new SettingsActivity();
         setSupportActionBar(toolbar);
 
         if (isMapAdded) {
@@ -298,8 +301,6 @@ public class HomeScreenActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
         } else if (id == R.id.nav_addshop) {
             Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
             startActivity(intent);
@@ -309,36 +310,33 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addReminder) {
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            SettingsActivity settingsActivity = new SettingsActivity();
-            fragmentTransaction.replace(R.id.nav_frame_container,settingsActivity).commit();
 
-        }else if(id == R.id.nav_bookappointment){
-          final AlertDialog d = new AlertDialog.Builder(this)
-            .setIcon(R.drawable.ic_bookmark_black_24dp)
-            .setTitle("Book Appointment")
-            .setMessage(Html.fromHtml("<ul>" +
+        } else if (id == R.id.nav_bookappointment) {
+            final AlertDialog d = new AlertDialog.Builder(this)
+                    .setIcon(R.drawable.ic_bookmark_black_24dp)
+                    .setTitle("Book Appointment")
+                    .setMessage(Html.fromHtml("<ul>" +
                             "<hr>" +
                             "<br>" +
-                    "<li><a href=https://service.tatamotors.com/content/online-service-booking>Tata Services</a></li>" +
-                    "<li><a href=https://www.bajajauto.com/service/owner-manual>Bajaj Services</a></li>" +
-                    "<li><a href=https://bookonline.hyundai.co.in>Hyundai Services</a></li>" +
-                    "<li><a href=https://www.tvsmotor.com/servicebooking/2016/service-booking-home>TVS Services</a></li>" +
-                    "<li><a href=https://www.hondacarindia.com/honda-services/owners/bookaservice>Honda Services</a></li>" +
-                    "<li><a href=https://myautoserviceappointments.com>My Auto Services</a></li>" +
-                    "<li><a href=https://gomechanic.in/car-enquiry/pune?utm_source=google_Pune&utm_medium=cpc&gclid=EAIaIQobChMIyaWNgqKh5QIVgpKPCh0IPASYEAAYASAAEgKkY_D_BwE>Go Mechanic Services</a></li>" +
+                            "<li><a href=https://service.tatamotors.com/content/online-service-booking>Tata Services</a></li>" +
+                            "<li><a href=https://www.bajajauto.com/service/owner-manual>Bajaj Services</a></li>" +
+                            "<li><a href=https://bookonline.hyundai.co.in>Hyundai Services</a></li>" +
+                            "<li><a href=https://www.tvsmotor.com/servicebooking/2016/service-booking-home>TVS Services</a></li>" +
+                            "<li><a href=https://www.hondacarindia.com/honda-services/owners/bookaservice>Honda Services</a></li>" +
+                            "<li><a href=https://myautoserviceappointments.com>My Auto Services</a></li>" +
+                            "<li><a href=https://gomechanic.in/car-enquiry/pune?utm_source=google_Pune&utm_medium=cpc&gclid=EAIaIQobChMIyaWNgqKh5QIVgpKPCh0IPASYEAAYASAAEgKkY_D_BwE>Go Mechanic Services</a></li>" +
                             "</ul>"
                     ))
-            .create();
+                    .create();
             d.show();
 
 
-            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 
 
         } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
-                    .setIcon(null)
+                    .setIcon(R.drawable.log_out_new)
                     .setTitle("Log Out")
                     .setMessage("Are you sure you want to log out ?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -397,31 +395,18 @@ public class HomeScreenActivity extends AppCompatActivity
                         GPSButton.hide();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
-//                    mapFragment mapFragment= (mapFragment) getSupportFragmentManager().findFragmentByTag("unique_tag");
-//                   // Toast.makeText(HomeScreenActivity.this,""+mapFragment.isVisible(),Toast.LENGTH_SHORT).show();
-//                    if(mapFragment==null){
-
-//                         mapFragment mapFragment=new mapFragment();
-//                        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.nav_frame_container,mapFragment).addToBackStack("unique_tag").commit();
-//                    }
-
-                    //                    FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.nav_frame_container,mapfragment).addToBackStack("tag").commit();
                     return true;
-//                case R.id.navigation_settings:
-//                    hideGPS();
-//                    hideRevealView();
-//                    Intent intent=new Intent(HomeScreenActivity.this,EnlargeImageActivityForCars.class);
-//                    startActivity(intent);
-//
-//                    return true;
+                case R.id.navigation_settings:
+                    hideGPS();
+                    hideRevealView();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.nav_frame_container, settingsActivity).commit();
+                    return true;
                 case R.id.navigation_notifications:
                     hideGPS();
                     hideRevealView();
-                    notificationFragment fragment = new notificationFragment();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.nav_frame_container, fragment).commit();
+                    fragmentTransaction.replace(R.id.nav_frame_container, mnotificationFragment).commit();
                     return true;
             }
             return false;
@@ -771,15 +756,14 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void processFinish(HashMap<String, String> output) {
         //Of GetClosestCare
-        Log.d("output", "processFinish: "+output);
+        Log.d("output", "processFinish: " + output);
         if (output != null) {
             Log.e("window", "Name: " + output.get("place_name") + "\nContact: " + output.get("contact") + "\nAddress: " + output.get("Address") + "\nRating: " + output.get("rating") + "\nOpening Hours:" + output.get("Opening hours"));
             LayoutInflater inflater = HomeScreenActivity.this.getLayoutInflater();
             View view = inflater.inflate(R.layout.decribe_location, null);
             MyCustomDialog dialog = new MyCustomDialog(output.get("place_name"), output.get("contact"), output.get("Opening hours"), output.get("Address"));
             dialog.show(getSupportFragmentManager(), "MyCustomDialog");
-        }
-        else{
+        } else {
             Toast.makeText(this, "Network Error! Please try again later!", Toast.LENGTH_SHORT).show();
         }
 
