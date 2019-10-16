@@ -38,6 +38,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -84,7 +85,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import io.opencensus.stats.MeasureMap;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener,MyCustomDialog.onInputListner{
 
     private LinearLayout mRevealView;
     private boolean hidden = true, initialised = false;
@@ -115,7 +116,7 @@ public class HomeScreenActivity extends AppCompatActivity
     int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
 
-    Boolean isMapFragmemtLoaded=false;
+    Boolean isMapFragmemtLoaded = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     View headerView;
@@ -186,14 +187,14 @@ public class HomeScreenActivity extends AppCompatActivity
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
-            public  void onInfoWindowClick(Marker marker) {
+            public void onInfoWindowClick(Marker marker) {
                 Toast.makeText(HomeScreenActivity.this, "In", Toast.LENGTH_SHORT).show();
                 getClosestCare = new GetClosestCare();
                 getClosestCare.delegate = HomeScreenActivity.this;
                 String snippet = marker.getSnippet();
                 Object data[] = new Object[1];
                 data[0] = "https://maps.googleapis.com/maps/api/place/details/json?place_id=" + snippet + "&fields=name,rating,formatted_phone_number,vicinity,opening_hours,type&key=" + BuildConfig.google_maps_key;
-                Log.d("url:", "onCreate: "+data[0]);
+                Log.d("url:", "onCreate: " + data[0]);
                 getClosestCare.execute(data);
             }
         });
@@ -225,7 +226,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     location.setLatitude(address.getLatitude());
                     location.setLongitude(address.getLongitude());
 
-                    ((mapFragment)currentFragment).setLast_Known_Location(location);
+                    ((mapFragment) currentFragment).setLast_Known_Location(location);
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(searchString));
@@ -303,7 +304,7 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
             startActivity(intent);
-        }else if(id==R.id.nav_addReminder) {
+        } else if (id == R.id.nav_addReminder) {
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
 //        }else if(id==R.id.nav_settings){
@@ -311,8 +312,7 @@ public class HomeScreenActivity extends AppCompatActivity
 //            startActivity(intent);
 //        }
 //
-        }
-        else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(null)
                     .setTitle("Log Out")
@@ -369,8 +369,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     if (isMapFragmemtLoaded) {
                         mRevealView.setVisibility(View.GONE);
                         GPSButton.show();
-                    }
-                    else
+                    } else
                         GPSButton.hide();
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
@@ -397,7 +396,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     hideGPS();
                     hideRevealView();
                     notificationFragment fragment = new notificationFragment();
-                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, fragment).commit();
                     return true;
             }
@@ -543,7 +542,7 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     public void getLastKnownLocation() {
-       Last_Known_Location= ((mapFragment) currentFragment).getLast_Known_Location();
+        Last_Known_Location = ((mapFragment) currentFragment).getLast_Known_Location();
 
 //        Last_Known_Location = location;
     }
@@ -625,6 +624,7 @@ public class HomeScreenActivity extends AppCompatActivity
             requestPermission();
         }
     }
+
     private boolean checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -633,16 +633,18 @@ public class HomeScreenActivity extends AppCompatActivity
         }
         return true;
     }
+
     private void requestPermission() {
 //        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSION_REQUEST_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode==RESULT_OK) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 //            Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
             if (data != null) {
                 Uri uri = data.getData();
@@ -675,6 +677,7 @@ public class HomeScreenActivity extends AppCompatActivity
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
@@ -720,7 +723,7 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void processFinish(String output) {
         if (initialised) {
-            if(!output.isEmpty()) {
+            if (!output.isEmpty()) {
                 placeId = output;
             }
             mMap.clear();
@@ -728,10 +731,9 @@ public class HomeScreenActivity extends AppCompatActivity
             Intent intent = new Intent(HomeScreenActivity.this, ClosestCareActivity.class);
             intent.putExtra("place_id", placeId);
             startActivity(intent);
-        }
-        else{
-            if(output.isEmpty()){
-                Toast.makeText(HomeScreenActivity.this,"Network error! Please try again later",Toast.LENGTH_LONG);
+        } else {
+            if (output.isEmpty()) {
+                Toast.makeText(HomeScreenActivity.this, "Network error! Please try again later", Toast.LENGTH_LONG);
             }
         }
 
@@ -745,8 +747,40 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void processFinish(HashMap<String, String> output) {
         //Of GetClosestCare
-        if(output!=null)
-            Log.e("window", "Name: "+output.get("place_name")+"\nContact: "+output.get("contact")+"\nAddress: "+output.get("Address")+"\nRating: "+output.get("rating")+"\nOpening Hours:"+output.get("Opening hours"));
+        if (output != null) {
+            Log.e("window", "Name: " + output.get("place_name") + "\nContact: " + output.get("contact") + "\nAddress: " + output.get("Address") + "\nRating: " + output.get("rating") + "\nOpening Hours:" + output.get("Opening hours"));
+
+             TextView shop_name , shop_description , shop_address , shop_timing , shop_distance;
+             TextView shop_phone;
+            LayoutInflater inflater = HomeScreenActivity.this.getLayoutInflater();
+            View view=inflater.inflate(R.layout.decribe_location,null);
+            shop_name = view.findViewById(R.id.shop_name);
+            shop_description = view.findViewById(R.id.shop_description);
+            shop_address = view.findViewById(R.id.shop_address);
+            shop_distance = view.findViewById(R.id.shop_distance);
+            shop_timing = view.findViewById(R.id.shop_timing);
+            shop_phone = view.findViewById(R.id.shop_phone);
+
+            Log.d("SD1",""+shop_name.getText());
+
+            shop_name.setText( output.get("place_name"));
+            shop_phone.setText(output.get("contact"));
+            shop_timing.setText(output.get("Opening hours"));
+            MyCustomDialog dialog=new MyCustomDialog();
+            dialog.setShop_address(shop_address);
+            dialog.setShop_name(shop_name);
+            dialog.setShop_phone(shop_phone);
+            dialog.show(getSupportFragmentManager(),"MyCustomDialog");
+            Log.d("SD2",""+shop_name.getText());
+
+
+        }
+        Toast.makeText(this, "THs", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void sendInput(String input) {
+
     }
 }
 
