@@ -16,29 +16,30 @@
             android:id="@+id/textView_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dark Theme"
+            android:text="General Settings"
             android:textSize="16sp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_alignParentStart="true"/>
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_marginBottom="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_alignParentEnd="true"/>
+<!--        <Switch-->
+<!--            android:id="@+id/switch1"-->
+<!--            android:layout_marginBottom="4dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginRight="8dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_alignParentEnd="true"/>-->
 
 
         <View
             android:id="@+id/horizontalline1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/switch1"
+            android:layout_below="@+id/textView_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="#444"
+            android:background="#f2f2f2"
             />
 
     </RelativeLayout>
@@ -48,46 +49,118 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/relativelayout1_settings">
+        <ImageView
+            android:id="@+id/feedback_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_feedback">
+
+        </ImageView>
 
         <TextView
             android:id="@+id/textView_notif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App Notificatios"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/feedback_icon"
+            android:gravity="fill_vertical"
+            android:text="Feedback"
+            android:textColor="#000"
             android:textSize="16sp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:layout_alignParentStart="true"/>
-        <Switch
-            android:id="@+id/switch2"
-            android:layout_marginBottom="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_marginBottom="16dp"
+            />
+
 
         <View
             android:id="@+id/horizontalline2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/switch2"
+            android:layout_below="@+id/textView_notif"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="#444"
+            android:background="#f2f2f2"
             />
 
     </RelativeLayout>
-    <TextView
-        android:id="@+id/textView_feedback"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativelayout3_settings"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Feedback"
-        android:textSize="16sp"
+        android:layout_below="@id/relativelayout2_settings">
+        <ImageView
+            android:id="@+id/notif_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_feedback">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/textView_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/notif_icon"
+            android:gravity="fill_vertical"
+            android:text="Notifications"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"></Switch>
+
+        <View
+            android:id="@+id/horizontalline7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textView_notification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="#f2f2f2"
+            />
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/logout_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/relativelayout2_settings"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/relativelayout3_settings"
+        android:src="@drawable/ic_logout">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/textView_feedback"
+        android:layout_width="match_parent"
+        android:gravity="fill_vertical"
+        android:layout_height="48dp"
+        android:textColor="#000"
+        android:text="Logout"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/logout_icon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/relativelayout3_settings"
+        />
 
 
     <View
@@ -97,42 +170,69 @@
         android:layout_below="@+id/textView_feedback"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#444"
+        android:background="#f2f2f2"
         />
 
-
-    <TextView
-        android:id="@+id/textView_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="About"
-        android:textSize="16sp"
+    <ImageView
+        android:id="@+id/share_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/textView_feedback"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/horizontalline3"
+        android:src="@drawable/ic_share">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textView_share"
+        android:layout_width="match_parent"
+        android:gravity="fill_vertical"
+        android:layout_height="48dp"
+        android:textColor="#000"
+        android:text="Share"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/share_icon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/horizontalline3"/>
 
 
     <View
         android:id="@+id/horizontalline4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/textView_about"
+        android:layout_below="@+id/textView_share"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#444"
+        android:background="#f2f2f2"
         />
-
-    <TextView
-        android:id="@+id/textView_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share"
-        android:textSize="16sp"
+    <ImageView
+        android:id="@+id/about_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/textView_about"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/horizontalline4"
+        android:src="@drawable/ic_about_us">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/textView_about"
+        android:layout_width="match_parent"
+        android:gravity="fill_vertical"
+        android:layout_height="48dp"
+        android:textColor="#000"
+        android:text="About us"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/share_icon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@id/horizontalline4"/>
 
 
     <View
@@ -142,32 +242,32 @@
         android:layout_below="@+id/textView_share"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#444"
+        android:background="#f2f2f2"
         />
-
-
-
-    <TextView
-        android:id="@+id/textView_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out"
-        android:textSize="16sp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/textView_share"
-        android:layout_alignParentStart="true"/>
-
-
     <View
         android:id="@+id/horizontalline6"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/textView_logout"
+        android:layout_below="@+id/textView_about"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#444"
+        android:background="#f2f2f2"
         />
+<!--    <ImageView-->
+<!--        android:id="@+id/about_icon"-->
+<!--        android:layout_width="48dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:layout_below="@id/horizontalline4"-->
+<!--        android:src="@drawable/ic_feedback">-->
+
+<!--    </ImageView>-->
+
+
+
+
 
 
 

@@ -308,6 +308,10 @@ public class HomeScreenActivity extends AppCompatActivity
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
 //        }else if(id==R.id.nav_settings){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            SettingsActivity settingsActivity=new SettingsActivity();
+            fragmentTransaction.replace(R.id.nav_frame_container,settingsActivity).commit();
+
 //            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
 //            startActivity(intent);
 //        }
