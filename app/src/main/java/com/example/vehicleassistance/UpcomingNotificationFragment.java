@@ -3,6 +3,7 @@ package com.example.vehicleassistance;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +30,16 @@ import java.util.List;
 public class UpcomingNotificationFragment extends Fragment {
     View view;
     private RecyclerView recyclerView;
-    private List<upcoming_notifications> list;
+    private List<upcoming_notifications> list = new ArrayList<>();
+    RecyclerViewAdapterForUpcomingNotifications adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     FirebaseFirestore db;
     FirebaseAuth lAuth;
+    upcoming_notifications up[] = new upcoming_notifications[50];
     private UpcomingNotificationFragment.OnFragmentInteractionListener mListener;
+    int count = 0;
 
     public UpcomingNotificationFragment() {
     }
@@ -43,50 +47,7 @@ public class UpcomingNotificationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        list = new ArrayList<>();
-        list.add(new upcoming_notifications("!st Notification", "Hello this is your notif", "30/04/1999", R.drawable.service_center));
-        db=FirebaseFirestore.getInstance();
-        lAuth = FirebaseAuth.getInstance();
-        db.collection("Users")
-                .document(lAuth.getCurrentUser().getUid())
-                .collection("Notifications")
-                .document("Upcoming Notifications")
-                .collection("C")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : documentSnapshots) {
-                            Notifications note = documentSnapshot.toObject(Notifications.class);
-                            int ID=0;
-                            switch (note.getType()) {
-                                case "PUC":
-                                    ID = R.drawable.puc;
-                                    break;
-                                case "OIL":
-                                    ID = R.drawable.oil;
-                                    break;
-                                case "INSURANCE":
-                                    ID = R.drawable.insurance;
-                                    break;
-                                case "AIR":
-                                    ID = R.drawable.air;
-                                    break;
-                            }
-                            Toast.makeText(getContext(), "T:"+note.getType()+ " :-"+note.getMessage(), Toast.LENGTH_SHORT).show();
-//                            Toast.makeText(getContext(), "Inside", Toast.LENGTH_SHORT).show();
-                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), R.drawable.service_center));
 
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
-
-                    }
-                });
     }
 
     @Nullable
@@ -94,9 +55,6 @@ public class UpcomingNotificationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upcoming_notification, container, false);
         recyclerView = view.findViewById(R.id.RecylcerView_upcoming_notification);
-        RecyclerViewAdapterForUpcomingNotifications adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -132,23 +90,22 @@ public class UpcomingNotificationFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         lAuth = FirebaseAuth.getInstance();
         db.collection("Users")
                 .document(lAuth.getCurrentUser().getUid())
                 .collection("Notifications")
                 .document("Upcoming Notifications")
                 .collection("C")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : documentSnapshots) {
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        list.clear();
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             Notifications note = documentSnapshot.toObject(Notifications.class);
-                            list = new ArrayList<>();
                             int ID=0;
                             switch (note.getType()) {
                                 case "PUC":
@@ -164,19 +121,14 @@ public class UpcomingNotificationFragment extends Fragment {
                                     ID = R.drawable.air;
                                     break;
                             }
-
-                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), ID));
-
+                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(),ID));
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
-
+                        adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
+//                        adapter.notifyDataSetChanged();
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        recyclerView.setAdapter(adapter);
                     }
                 });
-    }*/
+    }
 }
 

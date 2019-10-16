@@ -20,7 +20,9 @@ public class upcoming_notifications {
         this.date = date;
         this.image=image;
     }
+    public upcoming_notifications(){
 
+    }
     public void setHeader(String header) {
         this.header = header;
     }

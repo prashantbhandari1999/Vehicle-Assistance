@@ -1,0 +1,94 @@
+package com.example.vehicleassistance;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+public class MyCustomDialog extends DialogFragment {
+    private TextView shop_name , shop_description , shop_address , shop_timing , shop_distance;
+    private TextView shop_phone;
+    public interface onInputListner{
+        void sendInput(String input);
+    }
+
+    public TextView getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(TextView shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public TextView getShop_description() {
+        return shop_description;
+    }
+
+    public void setShop_description(TextView shop_description) {
+        this.shop_description = shop_description;
+    }
+
+    public TextView getShop_address() {
+        return shop_address;
+    }
+
+    public void setShop_address(TextView shop_address) {
+        this.shop_address = shop_address;
+    }
+
+    public TextView getShop_timing() {
+        return shop_timing;
+    }
+
+    public void setShop_timing(TextView shop_timing) {
+        this.shop_timing = shop_timing;
+    }
+
+    public TextView getShop_distance() {
+        return shop_distance;
+    }
+
+    public void setShop_distance(TextView shop_distance) {
+        this.shop_distance = shop_distance;
+    }
+
+    public TextView getShop_phone() {
+        return shop_phone;
+    }
+
+    public void setShop_phone(TextView shop_phone) {
+        this.shop_phone = shop_phone;
+    }
+
+    public onInputListner mOnInputListner;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.decribe_location,container,false);
+        shop_name = view.findViewById(R.id.shop_name);
+        shop_description = view.findViewById(R.id.shop_description);
+        shop_address = view.findViewById(R.id.shop_address);
+        shop_distance = view.findViewById(R.id.shop_distance);
+        shop_timing = view.findViewById(R.id.shop_timing);
+        shop_phone = view.findViewById(R.id.shop_phone);
+
+        return view;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnInputListner=(onInputListner)getActivity();
+        }catch (ClassCastException e){
+
+        }
+    }
+
+}
