@@ -62,7 +62,7 @@ public class SparePartsActivity extends AppCompatActivity {
                     "<a href='https://www.airbagcenter.com'>Airbagcenter.com</a>");
 
             tv.setMovementMethod(LinkMovementMethod.getInstance());
-
+//ihdgohsdgh
             // Set TextView text from html
             tv.setText(html);
         }
