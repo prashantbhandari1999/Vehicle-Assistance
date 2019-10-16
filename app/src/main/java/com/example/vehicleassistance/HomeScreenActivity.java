@@ -187,6 +187,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
             @Override
             public  void onInfoWindowClick(Marker marker) {
+                Toast.makeText(HomeScreenActivity.this, "In", Toast.LENGTH_SHORT).show();
                 getClosestCare = new GetClosestCare();
                 getClosestCare.delegate = HomeScreenActivity.this;
                 String snippet = marker.getSnippet();
@@ -241,9 +242,6 @@ public class HomeScreenActivity extends AppCompatActivity
                 return false;
             }
         });
-
-        Log.d("placeID:", "onCreateOptionsMenu: " + placeId);
-
         return true;
     }
 
@@ -275,7 +273,6 @@ public class HomeScreenActivity extends AppCompatActivity
 //        }
 //
         if (id == R.id.nav_closest_care) {
-            initialised = true;
             getLastKnownLocation();
             getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.asyncResponse = this;
@@ -290,6 +287,8 @@ public class HomeScreenActivity extends AppCompatActivity
             dataTransfer[1] = url;
 
             getNearbyPlacesData.execute(dataTransfer);
+            initialised = true;
+
         } else if (id == R.id.nav_spareparts) {
             Intent intent = new Intent(HomeScreenActivity.this, SparePartsActivity.class);
             startActivity(intent);
@@ -634,7 +633,6 @@ public class HomeScreenActivity extends AppCompatActivity
         }
         return true;
     }
-
     private void requestPermission() {
 //        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this,
