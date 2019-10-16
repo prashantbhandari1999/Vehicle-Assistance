@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,6 +33,7 @@ public class SparePartsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         createExampleList();
         buildRecyclerView();
+
 
         EditText editText = findViewById(R.id.editText_spareparts);
         editText.addTextChangedListener(new TextWatcher() {
@@ -47,6 +55,19 @@ public class SparePartsActivity extends AppCompatActivity {
 
     }
 
+        public void open_links(View view){
+            TextView tv = findViewById(R.id.textView_spare);
+
+            Spanned html = Html.fromHtml("Click the link to visit <br />" +
+                    "<a href='https://www.airbagcenter.com'>Airbagcenter.com</a>");
+
+            tv.setMovementMethod(LinkMovementMethod.getInstance());
+//ihdgohsdgh
+            // Set TextView text from html
+            tv.setText(html);
+        }
+
+
     private void filter(String text) {
         ArrayList<ExampleSpareParts> filteredList = new ArrayList<>();
 
@@ -61,22 +82,21 @@ public class SparePartsActivity extends AppCompatActivity {
 
     private void createExampleList() {
         mExampleList = new ArrayList<>();
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Airbag Sensors","500 Rs" ));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Battery","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Brakes","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Shock Absorbers","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Fuel Injector","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Clutch","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Mirrors","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Horns","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Oil filter ","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Audio/Video Devices","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Spark Plugs","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Indicators ","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Interior Lights for Cars","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Fuel Indicators","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Spedometers","500 Rs"));
-        mExampleList.add(new ExampleSpareParts(R.drawable.ic_car_icon, "Tyres","500 Rs"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.airbag, "Airbag Sensors" ));
+        mExampleList.add(new ExampleSpareParts(R.drawable.battery, "Battery"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.brakes, "Brakes"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.shock, "Shock Absorbers"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.fuel_injector, "Fuel Injector"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.clutch, "Clutch"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.mirror, "Mirrors"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.horn, "Horns"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.oil, "Oil filter "));
+        mExampleList.add(new ExampleSpareParts(R.drawable.radio, "Audio/Video Devices"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.spark, "Spark Plugs"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.bulb, "Interior Lights for Cars"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.fuel_indicator, "Fuel Indicators"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.speed, "Speedometers"));
+        mExampleList.add(new ExampleSpareParts(R.drawable.tyres, "Tyres"));
 
     }
 
