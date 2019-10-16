@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.provider.MediaStore;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -307,15 +309,33 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addReminder) {
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
-//        }else if(id==R.id.nav_settings){
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            SettingsActivity settingsActivity=new SettingsActivity();
+            SettingsActivity settingsActivity = new SettingsActivity();
             fragmentTransaction.replace(R.id.nav_frame_container,settingsActivity).commit();
 
-//            Intent intent=new Intent(HomeScreenActivity.this,SettingsActivity.class);
-//            startActivity(intent);
-//        }
-//
+        }else if(id == R.id.nav_bookappointment){
+          final AlertDialog d = new AlertDialog.Builder(this)
+            .setIcon(R.drawable.ic_bookmark_black_24dp)
+            .setTitle("Book Appointment")
+            .setMessage(Html.fromHtml("<ul>" +
+                            "<hr>" +
+                            "<br>" +
+                    "<li><a href=https://service.tatamotors.com/content/online-service-booking>Tata Services</a></li>" +
+                    "<li><a href=https://www.bajajauto.com/service/owner-manual>Bajaj Services</a></li>" +
+                    "<li><a href=https://bookonline.hyundai.co.in>Hyundai Services</a></li>" +
+                    "<li><a href=https://www.tvsmotor.com/servicebooking/2016/service-booking-home>TVS Services</a></li>" +
+                    "<li><a href=https://www.hondacarindia.com/honda-services/owners/bookaservice>Honda Services</a></li>" +
+                    "<li><a href=https://myautoserviceappointments.com>My Auto Services</a></li>" +
+                    "<li><a href=https://gomechanic.in/car-enquiry/pune?utm_source=google_Pune&utm_medium=cpc&gclid=EAIaIQobChMIyaWNgqKh5QIVgpKPCh0IPASYEAAYASAAEgKkY_D_BwE>Go Mechanic Services</a></li>" +
+                            "</ul>"
+                    ))
+            .create();
+            d.show();
+
+
+            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+
         } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(null)
