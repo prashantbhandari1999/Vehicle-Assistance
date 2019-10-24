@@ -8,4 +8,5 @@
     <color name="colorBackground">#fff</color>
     <color name="secondaryLightColor">#a0a0a0</color>
     <color name="secondaryDarkColor">#474747</color>
+    <color name="BackgroundSplashScreen">#ffffff</color>
 </resources>
