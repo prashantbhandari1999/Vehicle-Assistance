@@ -36,7 +36,7 @@
         <activity
             android:name=".AddReminderActivity"
             android:label="Add Reminder"
-            android:theme="@style/SignUpTheme"></activity>
+            android:theme="@style/SignUpTheme" />
         <activity
             android:name=".SparePartsActivity"
             android:label="Spare Parts"
@@ -94,19 +94,24 @@
             android:theme="@style/SignUpTheme" />
         <activity android:name=".EnlargeImageActivityForMotorcycles" />
         <activity android:name=".EnlargeImageActivityForCars" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashScreen"
+            android:theme="@style/SplashScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme"></activity>
+
         <activity
             android:name=".ClosestCareActivity"
             android:label="Closest Care" />
 
         <receiver android:name=".AlertReceiver" />
-
     </application>
 
 </manifest>
