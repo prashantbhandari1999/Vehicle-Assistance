@@ -24,7 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class UpcomingNotificationFragment extends Fragment {
@@ -106,7 +109,7 @@ public class UpcomingNotificationFragment extends Fragment {
                         list.clear();
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             Notifications note = documentSnapshot.toObject(Notifications.class);
-                            int ID=0;
+                            int ID = 0;
                             switch (note.getType()) {
                                 case "PUC":
                                     ID = R.drawable.puc;
@@ -121,14 +124,53 @@ public class UpcomingNotificationFragment extends Fragment {
                                     ID = R.drawable.air;
                                     break;
                             }
-                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(),ID));
+                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), ID));
+
+
+                        }
+                        for (int i = 0; i < list.size() - 1; i++) {
+
+                            for (int l = i + 1; l < list.size(); l++) {
+                                //First Date
+                                upcoming_notifications up1 = list.get(i);
+                                String date1 = up1.getDate();
+                                String[] split_date1 = date1.split("/");    //22/2/2000
+                                int[] date_arr1 = new int[3];
+                                for (int k = 0, j = 2; k < 3; k++, j--)
+                                    date_arr1[k] = Integer.parseInt(split_date1[j]);
+
+                                //Second date
+                                upcoming_notifications up2 = list.get(l);
+                                String date2 = up2.getDate();
+                                String[] split_date2 = date2.split("/");
+                                int[] date_arr2 = new int[3];
+                                for (int k = 0, j = 2; k < 3; k++, j--)
+                                    date_arr2[k] = Integer.parseInt(split_date2[j]);
+
+                                if (date_arr2[0] < date_arr1[0]) {
+                                    Collections.swap(list, i, l);
+                                } else if (date_arr2[0] == date_arr1[0]) {
+                                    if (date_arr2[1] < date_arr1[1]) {
+                                        Collections.swap(list, i, l);
+                                    } else if (date_arr2[1] == date_arr1[1]) {
+                                        if (date_arr2[2] < date_arr1[2]) {
+                                            Collections.swap(list, i, l);
+                                        }
+                                    }
+                                }
+
+                            }
                         }
                         adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
-//                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         recyclerView.setAdapter(adapter);
                     }
                 });
+        adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
+        adapter.notifyDataSetChanged();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
     }
 }
 

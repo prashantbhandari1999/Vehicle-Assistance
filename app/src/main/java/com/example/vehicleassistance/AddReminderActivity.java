@@ -41,11 +41,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddReminderActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -63,7 +66,6 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
     private static ArrayList<Type> mArrayList = new ArrayList<>();
     FirebaseFirestore db;
     FirebaseAuth lAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -377,6 +379,9 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                 message = "Your AIR Checking date is on " + date;
                 break;
         }
+        String split_date[]=date.split("/");
+        for(String i:split_date)
+            Log.d("date",i);
         notification.put("Type", alarmType);
         notification.put("Message", message);
         notification.put("Date", date);
@@ -389,7 +394,7 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-//                        Toast.makeText(AddReminderActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddReminderActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -424,5 +429,4 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                     }
                 });
     }
-
 }
