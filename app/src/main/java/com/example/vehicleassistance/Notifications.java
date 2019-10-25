@@ -4,6 +4,15 @@ public class Notifications {
     String Date;
     String Message;
     String Type;
+    String Remaining;
+
+    public String getRemaining() {
+        return Remaining;
+    }
+
+    public void setRemaining(String remaining) {
+        Remaining = remaining;
+    }
 
     public String getMessage() {
         return Message;

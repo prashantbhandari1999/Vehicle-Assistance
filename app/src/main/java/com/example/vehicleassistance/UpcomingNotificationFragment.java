@@ -124,16 +124,18 @@ public class UpcomingNotificationFragment extends Fragment {
                                     ID = R.drawable.air;
                                     break;
                             }
-                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), ID));
-
+                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(),note.getRemaining(), ID));
+                            Log.d("JAN",note.getType()+" "+note.getMessage()+" "+note.getDate()+" "+note.getRemaining());
+                            Log.d("UP","Added");
 
                         }
+                        Log.d("Size"," "+list.size());
                         for (int i = 0; i < list.size() - 1; i++) {
-
+                            Log.d("SIZE",""+list.size());
                             for (int l = i + 1; l < list.size(); l++) {
                                 //First Date
                                 upcoming_notifications up1 = list.get(i);
-                                String date1 = up1.getDate();
+                                String date1 = up1.getRemaining();
                                 String[] split_date1 = date1.split("/");    //22/2/2000
                                 int[] date_arr1 = new int[3];
                                 for (int k = 0, j = 2; k < 3; k++, j--)
@@ -141,7 +143,7 @@ public class UpcomingNotificationFragment extends Fragment {
 
                                 //Second date
                                 upcoming_notifications up2 = list.get(l);
-                                String date2 = up2.getDate();
+                                String date2 = up2.getRemaining();
                                 String[] split_date2 = date2.split("/");
                                 int[] date_arr2 = new int[3];
                                 for (int k = 0, j = 2; k < 3; k++, j--)
