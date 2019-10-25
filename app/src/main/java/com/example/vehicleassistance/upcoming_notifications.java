@@ -32,38 +32,44 @@ public class upcoming_notifications {
     public upcoming_notifications(String header, String subtitle, String date, String remaining, int image) {
 
         int array[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        boolean flag=false;
+        boolean flag = false;
         try {
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
             Date date2 = new Date();
             long diff = date1.getTime() - date2.getTime();
             long day = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            Log.d("Days",""+day);
+            Log.d("Days", "" + day);
 
             int days = (int) day;
             int month = 0;
-            int i = date1.getMonth() - 1;
-            Log.d("JAN",""+i);
-            while (true) {
-                if (array[i] <= days) {
-                    days -= array[i];
-                    month++;
-                    flag=true;
-                } else {
-                    break;
+            int i = date1.getMonth();
+            Log.d("JAN", "" + i);
+            if (days == 0)
+                date = "Today";
+            else if (days == 1)
+                date = "Tomorrow";
+            else {
+                while (true) {
+                    if (array[i] <= days) {
+                        days -= array[i];
+                        month++;
+                        flag = true;
+                    } else {
+                        break;
+                    }
+                    i++;
+                    if (i > 11)
+                        i = 0;
                 }
-                i++;
-                if (i > 11)
-                    i = 0;
-            }
-            if (month != 0) {
-                date=month+" months ";
-            }
-            if (days != 0) {
-                if (flag)
-                 date+=days+" days to go";
-                else
-                    date=days+" days to go";
+                if (month != 0) {
+                    date = month + " months ";
+                }
+                if (days != 0) {
+                    if (flag)
+                        date += days + " days to go";
+                    else
+                        date = days + " days to go";
+                }
             }
         } catch (Exception e) {
 
