@@ -379,12 +379,10 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                 message = "Your AIR Checking date is on " + date;
                 break;
         }
-        String split_date[]=date.split("/");
-        for(String i:split_date)
-            Log.d("date",i);
         notification.put("Type", alarmType);
         notification.put("Message", message);
         notification.put("Date", date);
+        notification.put("Remaining",date);
         db.collection("Users")
                 .document(lAuth.getCurrentUser().getUid())
                 .collection("Notifications")
