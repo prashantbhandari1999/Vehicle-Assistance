@@ -87,9 +87,10 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import io.opencensus.stats.MeasureMap;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener, MyCustomDialog.onInputListner {
+        implements FilterDialog.FilterDialogListener,NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener, MyCustomDialog.onInputListner {
 
     private LinearLayout mRevealView;
+    public String filter;
     private boolean hidden = true, initialised = false;
     private ImageButton fuel_stations_btn, service_centres_btn, showroom_btn, washing_centers_btn, location_btn, contact_btn;
     private static final String MyPREFERENCES = "MyPrefs";
@@ -427,7 +428,12 @@ public class HomeScreenActivity extends AppCompatActivity
 
         fuel_stations_btn.setOnClickListener(this);
         service_centres_btn.setOnClickListener(this);
-        showroom_btn.setOnClickListener(this);
+        showroom_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         washing_centers_btn.setOnClickListener(this);
         location_btn.setOnClickListener(this);
         contact_btn.setOnClickListener(this);
@@ -457,14 +463,12 @@ public class HomeScreenActivity extends AppCompatActivity
 
                 break;
             case R.id.filter_service_centres_button:
-                mMap.clear();
-                String serviceCentre = "";
-                url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", serviceCentre);
-                dataTransfer[0] = mMap;
-                dataTransfer[1] = url;
+                FilterDialog filterDialog = new FilterDialog();
+                filterDialog.show(getSupportFragmentManager(),"Filter Dialog");
 
-                getNearbyPlacesData1.execute(dataTransfer);
-                Toast.makeText(this, "Showing nearby service centres", Toast.LENGTH_LONG).show();
+                Log.d("filter", "onClick: "+filter);
+
+
                 break;
             case R.id.filter_showrooms_button:
                 mMap.clear();
@@ -562,7 +566,7 @@ public class HomeScreenActivity extends AppCompatActivity
         googlePlaceUrl.append("&radius=" + PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type=" + nearbyplaces);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("name=" + name);
+        googlePlaceUrl.append("&name=" + name);
         googlePlaceUrl.append("&key=" + BuildConfig.google_maps_key);
         return googlePlaceUrl.toString();
     }
@@ -771,6 +775,32 @@ public class HomeScreenActivity extends AppCompatActivity
 
     @Override
     public void sendInput(String input) {
+
+    }
+
+    @Override
+    public void applyfilter(String Filter) {
+        if(!Filter.equals("General")) {
+            filter = Filter;
+        }
+        else{
+            filter="";
+        }
+        mMap.clear();
+        String url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", filter);
+        Object dataTransfer[] = new Object[2];
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+
+        GetNearbyPlacesData getNearbyPlacesData1 = new GetNearbyPlacesData();
+        getNearbyPlacesData1.asyncResponse = this;
+        getNearbyPlacesData1.setUserLocation(Last_Known_Location);
+        getNearbyPlacesData1.execute(dataTransfer);
+        Toast.makeText(this, "Showing nearby service centres", Toast.LENGTH_LONG).show();
+        Log.d("applyfilter", "onClick: "+filter);
+    }
+
+    public static void afterfilter(){
 
     }
 }
