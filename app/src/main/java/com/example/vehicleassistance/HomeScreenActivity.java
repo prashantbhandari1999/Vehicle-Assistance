@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -87,7 +88,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import io.opencensus.stats.MeasureMap;
 
 public class HomeScreenActivity extends AppCompatActivity
-        implements FilterDialog.FilterDialogListener,NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener, MyCustomDialog.onInputListner {
+        implements FilterDialog.FilterDialogListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener, GetNearbyPlacesData.AsyncResponse, GetClosestCare.AsyncResponse, mapFragment.OnFragmentInteractionListener, UpcomingNotificationFragment.OnFragmentInteractionListener, MyCustomDialog.onInputListner {
 
     private LinearLayout mRevealView;
     public String filter;
@@ -119,7 +120,7 @@ public class HomeScreenActivity extends AppCompatActivity
     int PROXIMITY_RADIUS = 5000;
     SharedPreferences imagePreferences, preferences, googlePreferences;
 
-    Boolean isMapFragmemtLoaded = false;
+    Boolean firstTimeLoad = true, flag = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     View headerView;
@@ -152,6 +153,7 @@ public class HomeScreenActivity extends AppCompatActivity
                     fragment).commit();
             isMapAdded = false;
             currentFragment = fragment;
+            flag = true;
         }
 
         GPSButton.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +183,7 @@ public class HomeScreenActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (mRevealView.getVisibility() == View.VISIBLE) {
-            Animation();
+            mRevealView.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
@@ -308,13 +310,13 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_addvehicle) {
             Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForCars.class);
             startActivity(intent);
-        }else if (id==R.id.nav_addmotorcycle){
+        } else if (id == R.id.nav_addmotorcycle) {
             Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForMotorcycles.class);
             startActivity(intent);
-        }else if (id == R.id.nav_addReminder) {
+        } else if (id == R.id.nav_addReminder) {
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
-
+            Animatoo.animateZoom(this);
         } else if (id == R.id.nav_bookappointment) {
             final AlertDialog d = new AlertDialog.Builder(this)
                     .setIcon(R.drawable.ic_bookmark_black_24dp)
@@ -391,24 +393,42 @@ public class HomeScreenActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    Animation();
-                    if (isMapFragmemtLoaded) {
+                    // Animation();
+                    if (firstTimeLoad) {
                         mRevealView.setVisibility(View.GONE);
                         GPSButton.show();
-                    } else
+                        firstTimeLoad = false;
+                        Toast.makeText(HomeScreenActivity.this, "First:" + firstTimeLoad, Toast.LENGTH_SHORT).show();
+                    } else {
                         GPSButton.hide();
+                        if (mRevealView.getVisibility() == View.VISIBLE)
+                            mRevealView.setVisibility(View.GONE);
+                        else
+                            mRevealView.setVisibility(View.VISIBLE);
+                        Toast.makeText(HomeScreenActivity.this, "2nd", Toast.LENGTH_SHORT).show();
+                    }
+                    if (flag) {
+                        Toast.makeText(HomeScreenActivity.this, "3rd", Toast.LENGTH_SHORT).show();
+                        flag = false;
+                        GPSButton.hide();
+                        mRevealView.setVisibility(View.VISIBLE);
+                    }
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
                     return true;
                 case R.id.navigation_settings:
+                    flag = false;
                     hideGPS();
                     hideRevealView();
+                    firstTimeLoad = true;
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, settingsActivity).commit();
                     return true;
                 case R.id.navigation_notifications:
+                    flag = false;
                     hideGPS();
                     hideRevealView();
+                    firstTimeLoad = true;
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.nav_frame_container, mnotificationFragment).commit();
                     return true;
@@ -462,9 +482,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 break;
             case R.id.filter_service_centres_button:
                 FilterDialog filterDialog = new FilterDialog();
-                filterDialog.show(getSupportFragmentManager(),"Filter Dialog");
+                filterDialog.show(getSupportFragmentManager(), "Filter Dialog");
 
-                Log.d("filter", "onClick: "+filter);
+                Log.d("filter", "onClick: " + filter);
 
 
                 break;
@@ -778,11 +798,10 @@ public class HomeScreenActivity extends AppCompatActivity
 
     @Override
     public void applyfilter(String Filter) {
-        if(!Filter.equals("General")) {
+        if (!Filter.equals("General")) {
             filter = Filter;
-        }
-        else{
-            filter="";
+        } else {
+            filter = "";
         }
         mMap.clear();
         String url = getURL(Last_Known_Location.getLatitude(), Last_Known_Location.getLongitude(), "car_repair", filter);
@@ -795,10 +814,10 @@ public class HomeScreenActivity extends AppCompatActivity
         getNearbyPlacesData1.setUserLocation(Last_Known_Location);
         getNearbyPlacesData1.execute(dataTransfer);
         Toast.makeText(this, "Showing nearby service centres", Toast.LENGTH_LONG).show();
-        Log.d("applyfilter", "onClick: "+filter);
+        Log.d("applyfilter", "onClick: " + filter);
     }
 
-    public static void afterfilter(){
+    public static void afterfilter() {
 
     }
 }

@@ -78,7 +78,6 @@ public class GoogleSignInActivity extends AppCompatActivity {
             name = account.getDisplayName();
             email = account.getEmail();
             photoUrl = account.getPhotoUrl().toString();
-            Toast.makeText(this, "GGG:" + name + email, Toast.LENGTH_SHORT).show();
         }
     }
 
