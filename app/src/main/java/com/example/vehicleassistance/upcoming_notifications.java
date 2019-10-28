@@ -38,17 +38,21 @@ public class upcoming_notifications {
             Date date2 = new Date();
             long diff = date1.getTime() - date2.getTime();
             long day = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            Log.d("Diff", "" + diff);
             Log.d("Days", "" + day);
 
             int days = (int) day;
+            diff /= 1000;
             int month = 0;
             int i = date1.getMonth();
             Log.d("JAN", "" + i);
-            if (days == 0)
+            if ((diff < 86400 && diff > 0) || (diff < 0 && diff > -86400))
                 date = "Today";
-            else if (days == 1)
+            else if (diff < 172800 && diff > 0)
                 date = "Tomorrow";
-            else {
+            else if (diff < -86400 && diff > -172800) {
+                date = "Yesterday";
+            } else {
                 while (true) {
                     if (array[i] <= days) {
                         days -= array[i];

@@ -79,5 +79,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.godown,R.anim.godown);
+    }
 }

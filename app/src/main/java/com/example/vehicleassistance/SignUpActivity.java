@@ -34,4 +34,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.goup,R.anim.godown);
+    }
 }

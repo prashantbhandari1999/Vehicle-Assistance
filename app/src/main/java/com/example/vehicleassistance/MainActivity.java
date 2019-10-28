@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.goup, R.anim.godown);
+
             }
         });
     }
@@ -107,16 +109,16 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(USER_ID) && sharedPreferences.getString(USER_ID, "").equals(lAuth.getUid())) {
             Log.d("SHARED PREF", "SHARED PREFERENCES CONTAINS USER");
-            startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod","register"));
+            startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod", "register"));
 
             finish();
 
         }
         SharedPreferences googleSharedPreferences;
-        googleSharedPreferences=getSharedPreferences(GooglePREFERENCES,Context.MODE_PRIVATE);
-        if((googleSharedPreferences.getBoolean(SIGN_IN,false) && !googleSharedPreferences.getBoolean(LOG_OUT,true))){
+        googleSharedPreferences = getSharedPreferences(GooglePREFERENCES, Context.MODE_PRIVATE);
+        if ((googleSharedPreferences.getBoolean(SIGN_IN, false) && !googleSharedPreferences.getBoolean(LOG_OUT, true))) {
 //            Toast.makeText(this, "User Already sign in with google", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod","google"));
+            startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod", "google"));
             finish();
         }
 
@@ -291,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        startActivity(new Intent(LoginActivity.this, HomeScreenUserActivity.class));
                                         Intent launchNextActivity;
                                         launchNextActivity = new Intent(MainActivity.this, HomeScreenActivity.class);
-                                        launchNextActivity.putExtra("signInMethod","register");
+                                        launchNextActivity.putExtra("signInMethod", "register");
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -301,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     Log.d("QUERY", e.toString());
 //                                    Toast.makeText(MainActivity.this, "Home appers here", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod","register"));
+                                    startActivity(new Intent(MainActivity.this, HomeScreenActivity.class).putExtra("signInMethod", "register"));
                                     finish();
                                 }
                             }
@@ -322,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
+                overridePendingTransition(R.anim.goup, R.anim.godown);
             }
         });
     }
