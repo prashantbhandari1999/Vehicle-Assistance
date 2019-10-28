@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -33,7 +36,12 @@ public class RecyclerViewAdpaterForAddedCars extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.text.setText(carNames.get(position));
+//       if(carNames.isEmpty()){
+//           Toast.makeText(mContext,"This is my toast",Toast.LENGTH_SHORT).show();
+//           holder.text.setText("Your car name appears here..");
+//           holder.image.setImageResource(R.drawable.no_cars_found);
+//       }
+//        holder.text.setText(carNames.get(position));
         holder.image.setImageResource(carPhotos.get(position));
     }
 
