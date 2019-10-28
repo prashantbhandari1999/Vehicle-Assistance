@@ -411,6 +411,8 @@ public class HomeScreenActivity extends AppCompatActivity
                         mRevealView.setVisibility(View.VISIBLE);
                     }
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+                    fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
                     fragmentTransaction.replace(R.id.nav_frame_container, currentFragment).commit();
                     return true;
                 case R.id.navigation_settings:
@@ -419,6 +421,8 @@ public class HomeScreenActivity extends AppCompatActivity
                     hideRevealView();
                     firstTimeLoad = true;
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+                    fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
                     fragmentTransaction.replace(R.id.nav_frame_container, settingsActivity).commit();
                     return true;
                 case R.id.navigation_notifications:
@@ -427,6 +431,8 @@ public class HomeScreenActivity extends AppCompatActivity
                     hideRevealView();
                     firstTimeLoad = true;
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+                    fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
                     fragmentTransaction.replace(R.id.nav_frame_container, mnotificationFragment).commit();
                     return true;
             }
