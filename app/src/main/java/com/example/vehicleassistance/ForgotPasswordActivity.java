@@ -70,13 +70,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     }
-    public boolean onOptionsItemSelected(MenuItem menu){
+
+    public boolean onOptionsItemSelected(MenuItem menu) {
         int id = menu.getItemId();
 
-        if (id==android.R.id.home) {
+        if (id == android.R.id.home) {
             finish();
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.godown, R.anim.godown);
     }
 
 

@@ -428,12 +428,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         fuel_stations_btn.setOnClickListener(this);
         service_centres_btn.setOnClickListener(this);
-        showroom_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        showroom_btn.setOnClickListener(this);
         washing_centers_btn.setOnClickListener(this);
         location_btn.setOnClickListener(this);
         contact_btn.setOnClickListener(this);
