@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -104,6 +106,15 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                     Snackbar snackbar = Snackbar
                             .make(constraintLayout, "All Notifications has been set", Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 2000);
+
+
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(constraintLayout, "Please Select All Dates", Snackbar.LENGTH_LONG);

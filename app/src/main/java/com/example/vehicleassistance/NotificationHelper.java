@@ -2,6 +2,7 @@ package com.example.vehicleassistance;
 
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -64,8 +65,6 @@ public class NotificationHelper extends ContextWrapper {
                 ID = R.drawable.air;
                 break;
         }
-//        Drawable myDrawable = getResources().getDrawable(ID);
-//        Bitmap anImage      = ((BitmapDrawable) myDrawable).getBitmap();
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle(alarmName)
@@ -73,6 +72,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-                .setSmallIcon(ID,4);
+                .setSmallIcon(R.drawable.ic_notif)
+                .setDefaults(Notification.DEFAULT_SOUND);
     }
 }
