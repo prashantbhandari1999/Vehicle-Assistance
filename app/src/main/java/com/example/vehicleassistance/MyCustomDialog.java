@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,9 +98,21 @@ public class MyCustomDialog extends DialogFragment {
                 startActivity(intent);
             }
         });
+        String arr[] = timing.split(",");
+        String timings = new String();
+        Log.d("arr:", "onCreateView: "+arr);
+        for(String day : arr) {
+            timings += day + "\n";
+        }
+        String arr1[]= timings.split("\"");
+        timings = "";
+        for(String day : arr1) {
+            timings += day;
+        }
+        timings=timings.substring(1,timings.length()-2);
         shop_name.setText(name);
         shop_phone.setText(contact);
-        shop_timing.setText(timing);
+        shop_timing.setText(timings);
         shop_address.setText(address);
 
 
