@@ -130,10 +130,13 @@ public class HomeScreenActivity extends AppCompatActivity
     notificationFragment mnotificationFragment;
     SettingsActivity settingsActivity;
 
+    private static final int Permission_All = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
         BottomNavigationView BottomNavView = findViewById(R.id.bottom_nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         BottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -196,7 +199,6 @@ public class HomeScreenActivity extends AppCompatActivity
 
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(HomeScreenActivity.this, "In", Toast.LENGTH_SHORT).show();
                 getClosestCare = new GetClosestCare();
                 getClosestCare.delegate = HomeScreenActivity.this;
                 String snippet = marker.getSnippet();
@@ -217,8 +219,6 @@ public class HomeScreenActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchString) {
-//                Toast.makeText(HomeScreenActivity.this, "Submited", Toast.LENGTH_SHORT).show();
-//                String searchString = searchView.toString();
                 Geocoder geocoder = new Geocoder(HomeScreenActivity.this);
                 List<Address> list = new ArrayList<>();
                 try {
@@ -398,17 +398,14 @@ public class HomeScreenActivity extends AppCompatActivity
                         mRevealView.setVisibility(View.GONE);
                         GPSButton.show();
                         firstTimeLoad = false;
-                        Toast.makeText(HomeScreenActivity.this, "First:" + firstTimeLoad, Toast.LENGTH_SHORT).show();
                     } else {
                         GPSButton.hide();
                         if (mRevealView.getVisibility() == View.VISIBLE)
                             mRevealView.setVisibility(View.GONE);
                         else
                             mRevealView.setVisibility(View.VISIBLE);
-                        Toast.makeText(HomeScreenActivity.this, "2nd", Toast.LENGTH_SHORT).show();
                     }
                     if (flag) {
-                        Toast.makeText(HomeScreenActivity.this, "3rd", Toast.LENGTH_SHORT).show();
                         flag = false;
                         GPSButton.hide();
                         mRevealView.setVisibility(View.VISIBLE);
@@ -604,7 +601,6 @@ public class HomeScreenActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         String signInMethod = bundle.getString("signInMethod");
         if (signInMethod.equals("google")) {
-//            Toast.makeText(this, "Sign In with google", Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = getSharedPreferences(MyGooglePREFERENCES, Context.MODE_PRIVATE);
             userName.setText(sharedPreferences.getString("name", ""));
             userEmail.setText(sharedPreferences.getString("email", ""));
@@ -616,7 +612,6 @@ public class HomeScreenActivity extends AppCompatActivity
 
             editor.apply();
         } else if (signInMethod.equals("register")) {
-//            Toast.makeText(this, "Sign In with REGISTER", Toast.LENGTH_SHORT).show();
 
             SharedPreferences sharedPreferences;
             sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -666,7 +661,6 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     private void requestPermission() {
-//        Toast.makeText(this, "REQUESTING PRS", Toast.LENGTH_SHORT).show();
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 PERMISSION_REQUEST_CODE);
@@ -676,7 +670,6 @@ public class HomeScreenActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-//            Toast.makeText(this, "Image picked", Toast.LENGTH_SHORT).show();
             if (data != null) {
                 Uri uri = data.getData();
                 CropImage.activity(uri)
@@ -726,7 +719,10 @@ public class HomeScreenActivity extends AppCompatActivity
                         }
                     }
                 }
+                break;
         }
+
+
     }
 
     public void setProfilePhoto(View view) {
@@ -820,5 +816,7 @@ public class HomeScreenActivity extends AppCompatActivity
     public static void afterfilter() {
 
     }
+
+
 }
 

@@ -45,17 +45,17 @@ public class upcoming_notifications {
             diff /= 1000;
             int month = 0;
             int i = date1.getMonth();
-            Date today = new SimpleDateFormat("dd/MM/yyyy").parse(date2.getDate()+"/"+(date2.getMonth()+1)+"/"+(date2.getYear()+1900));
-            Date  tomorrow = new SimpleDateFormat("dd/MM/yyyy").parse((date2.getDate()+1)+"/"+(date2.getMonth()+1)+"/"+(date2.getYear()+1900));
-            Date  yesterday = new SimpleDateFormat("dd/MM/yyyy").parse((date2.getDate()-1)+"/"+(date2.getMonth()+1)+"/"+(date2.getYear()+1900));
-            long todayDifference =(date2.getTime()-today.getTime())/1000;
-            long tomorrowDifference = (tomorrow.getTime()-date2.getTime())/1000;
-            long yesterdayDifference = (date2.getTime()-yesterday.getTime())/1000;
+            Date today = new SimpleDateFormat("dd/MM/yyyy").parse(date2.getDate() + "/" + (date2.getMonth() + 1) + "/" + (date2.getYear() + 1900));
+            Date tomorrow = new SimpleDateFormat("dd/MM/yyyy").parse((date2.getDate() + 1) + "/" + (date2.getMonth() + 1) + "/" + (date2.getYear() + 1900));
+            Date yesterday = new SimpleDateFormat("dd/MM/yyyy").parse((date2.getDate() - 1) + "/" + (date2.getMonth() + 1) + "/" + (date2.getYear() + 1900));
+            long todayDifference = (date2.getTime() - today.getTime()) / 1000;
+            long tomorrowDifference = (tomorrow.getTime() - date2.getTime()) / 1000;
+            long yesterdayDifference = (date2.getTime() - yesterday.getTime()) / 1000;
 
-            Log.d("tomorrow", "Date: "+date1+"diff: "+diff+"\ttoday: "+todayDifference+"\ttomorrow: "+tomorrowDifference);
+            Log.d("tomorrow", "Date: " + date1 + "diff: " + diff + "\ttoday: " + todayDifference + "\ttomorrow: " + tomorrowDifference);
             if ((diff < tomorrowDifference && diff > 0) || (diff < 0 && diff >= -todayDifference))
                 date = "Today";
-            else if (diff < 172800 && diff >= tomorrowDifference)
+            else if (diff < (tomorrowDifference + 86399) && diff >= tomorrowDifference)
                 date = "Tomorrow";
             else if (diff <= todayDifference && diff > -172800) {
                 date = "Yesterday";
@@ -76,10 +76,18 @@ public class upcoming_notifications {
                     date = month + " months ";
                 }
                 if (days != 0) {
-                    if (flag)
-                        date += days + " days to go";
-                    else
-                        date = days + " days to go";
+                    if (flag) {
+                        if (days < 0) {
+                            date += (days) + " days ago";
+                        } else
+                            date += (days+1) + " days to go";
+                    } else {
+                        if (days < 0) {
+                            date = (days) + " days ago";
+                        } else
+                            date = (days+1) + " days to go";
+                    }
+
                 }
             }
         } catch (Exception e) {
