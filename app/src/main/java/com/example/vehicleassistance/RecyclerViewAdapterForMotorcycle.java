@@ -41,7 +41,6 @@ public class RecyclerViewAdapterForMotorcycle extends RecyclerView.Adapter<Recyc
                 motorcycleName.add(list.get(vHolder.getAdapterPosition()).getMotorcycleName());
                 motorcyclePhotos.add(list.get(vHolder.getAdapterPosition()).getMotorcyclePhoto());
                 Bundle bundle = new Bundle();
-
                 bundle.putStringArrayList("text", motorcycleName);
                 bundle.putIntegerArrayList("image", motorcyclePhotos);
                 intent.putExtras(bundle);

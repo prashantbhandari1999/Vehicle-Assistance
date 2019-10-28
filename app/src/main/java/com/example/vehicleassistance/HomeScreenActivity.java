@@ -306,9 +306,12 @@ public class HomeScreenActivity extends AppCompatActivity
             Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_addvehicle) {
-            Intent intent = new Intent(HomeScreenActivity.this, AddVehicleActivity.class);
+            Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForCars.class);
             startActivity(intent);
-        } else if (id == R.id.nav_addReminder) {
+        }else if (id==R.id.nav_addmotorcycle){
+            Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForMotorcycles.class);
+            startActivity(intent);
+        }else if (id == R.id.nav_addReminder) {
             Intent intent = new Intent(HomeScreenActivity.this, AddReminderActivity.class);
             startActivity(intent);
 

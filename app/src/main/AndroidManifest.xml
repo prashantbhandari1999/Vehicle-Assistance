@@ -92,9 +92,16 @@
             android:name=".SignUpActivity"
             android:label="Sign Up"
             android:theme="@style/SignUpTheme" />
-        <activity android:name=".EnlargeImageActivityForMotorcycles" />
-        <activity android:name=".EnlargeImageActivityForCars" />
-        <activity android:name=".SplashScreen"
+        <activity
+            android:name=".EnlargeImageActivityForMotorcycles"
+            android:label="My Motorcycles"
+            android:theme="@style/SignUpTheme" />
+        <activity
+            android:name=".EnlargeImageActivityForCars"
+            android:label="My cars"
+            android:theme="@style/SignUpTheme" />
+        <activity
+            android:name=".SplashScreen"
             android:theme="@style/SplashScreen">
 
             <intent-filter>
@@ -104,7 +111,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme"></activity>
 
         <activity
