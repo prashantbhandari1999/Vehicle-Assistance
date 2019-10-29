@@ -17,10 +17,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="16dp"
+            android:textColor="@color/colorPrimary"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="General Settings"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
         <!--        <Switch-->
         <!--            android:id="@+id/switch1"-->
         <!--            android:layout_marginBottom="4dp"-->
@@ -34,7 +35,7 @@
         <View
             android:id="@+id/horizontalline1"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/textView_dark"
             android:background="#f2f2f2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,12 +51,12 @@
 
         <ImageView
             android:id="@+id/feedback_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="26dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_feedback">
+            android:src="@drawable/ic_feed">
 
         </ImageView>
 
@@ -77,7 +78,7 @@
         <View
             android:id="@+id/horizontalline2"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/textView_feedback"
             android:background="#f2f2f2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,10 +94,10 @@
 
         <ImageView
             android:id="@+id/notif_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="26dp"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_notifications_black_24dp">
 
@@ -130,27 +131,25 @@
     <View
         android:id="@+id/horizontalline7"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_below="@+id/relativelayout3_settings"
         android:background="#f2f2f2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    \
-
 
 
 
     <ImageView
         android:id="@+id/share_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_below="@id/horizontalline7"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="26dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_share">
+        android:src="@drawable/ic_share_black_24dp">
 
     </ImageView>
 
@@ -173,7 +172,7 @@
     <View
         android:id="@+id/horizontalline4"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_below="@+id/textView_share"
         android:background="#f2f2f2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -181,13 +180,13 @@
 
     <ImageView
         android:id="@+id/about_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_below="@id/horizontalline4"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="26dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_about_us">
+        android:src="@drawable/ic_about">
 
     </ImageView>
 
@@ -210,7 +209,7 @@
     <View
         android:id="@+id/horizontalline5"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_below="@+id/textView_share"
         android:background="#f2f2f2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -219,7 +218,7 @@
     <View
         android:id="@+id/horizontalline6"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_below="@+id/textView_about"
         android:background="#f2f2f2"
         app:layout_constraintEnd_toEndOf="parent"

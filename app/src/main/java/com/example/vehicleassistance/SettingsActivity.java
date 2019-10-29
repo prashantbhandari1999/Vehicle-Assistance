@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ public class SettingsActivity extends Fragment {
     private Switch s1,s2;
     private View view;
     private TextView feedback;
+    private TextView shareTextView;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //
@@ -71,12 +73,28 @@ public class SettingsActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.activity_settings,container,false);
         feedback=view.findViewById(R.id.textView_feedback);
+        shareTextView=view.findViewById(R.id.textView_share);
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),FeedbackActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideUp(getActivity());
+//                Intent intent = new Intent(getActivity(),FeedbackActivity.class);
+//                startActivity(intent);
+//                Animatoo.animateSlideUp(getActivity());
+                Intent intent=new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "vehicleassistant2019@gmail.com", null));
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Feedback about service");
+                startActivity(Intent.createChooser(intent,null));
+            }
+        });
+
+        shareTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
+                String app_url = " https://play.google.com/store/apps/details?id=my.example.javatpoint";
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
             }
         });
         return view;
