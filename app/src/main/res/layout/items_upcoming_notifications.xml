@@ -8,10 +8,12 @@
     android:background="#f2f2f2">
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="1500dp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="1dp"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -62,15 +64,26 @@
                         android:textSize="8sp"/>
 
                 </LinearLayout>
-
+`               <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearLayout">
                 <TextView
                     android:id="@+id/header_2_upcoming_notifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/LinearLayout"
+                    android:layout_weight="2"
                     android:text="This is an upcoming notifications"
                     android:layout_marginLeft="2dp"
                     android:textSize="15sp"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/header_2_old_notifications"
+                    android:layout_below="@id/LinearLayout"
+                    android:gravity="right|center_vertical"/>
+            </LinearLayout>
+
 
 
             </RelativeLayout>
@@ -80,5 +93,5 @@
 
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

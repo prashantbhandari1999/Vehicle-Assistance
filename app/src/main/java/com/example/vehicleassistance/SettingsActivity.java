@@ -16,6 +16,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+
 public class SettingsActivity extends Fragment {
 
     private Switch s1,s2;
@@ -72,6 +74,7 @@ public class SettingsActivity extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),FeedbackActivity.class);
                 startActivity(intent);
+                Animatoo.animateSlideUp(getActivity());
             }
         });
         return view;
@@ -89,7 +92,7 @@ public class SettingsActivity extends Fragment {
         int id = menu.getItemId();
 
         if (id == android.R.id.home) {
-          //  finish();
+            //finish();
         }
         return true;
     }
