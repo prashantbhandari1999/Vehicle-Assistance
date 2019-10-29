@@ -340,6 +340,26 @@ public class HomeScreenActivity extends AppCompatActivity
             ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
 
 
+        }else if(id == R.id.nav_book_rides){
+            final AlertDialog d = new AlertDialog.Builder(this)
+                    .setIcon(R.drawable.ic_local_taxi_black_24dp)
+                    .setTitle("Book Rides Online")
+                    .setMessage(Html.fromHtml("<ul>" +
+                            "<hr>" +
+                            "<br>" +
+                            "<li><a href=https://www.olacabs.com>Ola Cabs</a></li>" +
+                            "<li><a href=https://www.uber.com/in/en/ride/>Uber Cabs</a></li>" +
+                            "<li><a href=https://www.redbus.in>RedBus</a></li>" +
+                            "<li><a href=https://www.goibibo.com>Go Ibibo</a></li>" +
+                            "<li><a href=https://www.makemytrip.com>Make My Trip</a></li>" +
+                            "</ul>"
+                    ))
+                    .create();
+            d.show();
+
+
+            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
         } else if (id == R.id.nav_log_out) {
             new AlertDialog.Builder(this)
                     .setIcon(R.drawable.log_out_new)
