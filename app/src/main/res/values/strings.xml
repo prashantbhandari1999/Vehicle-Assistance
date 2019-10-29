@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Vehical-Assistance</string>
+    <string name="app_name">Vehicle-Assistance</string>
     <string name="underline"><b>Sign Up</b></string>
     <string name="title_activity_home_screen">HomeScreenActivity</string>
-    <string name="title_activity_navigation">Navigation</string>
+    <string name="title_activity_navigation">Vehicle Assistance</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
