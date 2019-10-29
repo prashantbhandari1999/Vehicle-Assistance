@@ -2,6 +2,9 @@ package com.example.vehicleassistance;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +24,7 @@ public class notificationFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
 
     }
 
@@ -39,5 +42,12 @@ public class notificationFragment extends Fragment {
         //tabLayout.getTabAt(0).setIcon(R.drawable.car_wash);
         //tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_black_24dp);
         return view;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.action_search);
+        if(item!=null)
+            item.setVisible(false);
     }
 }
