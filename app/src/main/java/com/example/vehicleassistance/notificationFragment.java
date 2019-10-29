@@ -32,12 +32,12 @@ public class notificationFragment extends Fragment {
         viewPager=view.findViewById(R.id.viewPager_notification);
         tabLayout=view.findViewById(R.id.tabLayout_notificationFragment);
         viewPagerAdapter=new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new UpcomingNotificationFragment(),"");
-        viewPagerAdapter.addFragment(new OldNotificationsFragment(),"");
+        viewPagerAdapter.addFragment(new UpcomingNotificationFragment(),"Upcoming");
+        viewPagerAdapter.addFragment(new OldNotificationsFragment(),"History");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.car_wash);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_black_24dp);
+        //tabLayout.getTabAt(0).setIcon(R.drawable.car_wash);
+        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_notifications_black_24dp);
         return view;
     }
 }
