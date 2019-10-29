@@ -14,11 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 public class SettingsActivity extends Fragment {
 
     private Switch s1,s2;
     private View view;
+    private TextView feedback;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //
@@ -64,9 +68,18 @@ public class SettingsActivity extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.activity_settings,container,false);
-
+        feedback=view.findViewById(R.id.textView_feedback);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),FeedbackActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideUp(getActivity());
+            }
+        });
         return view;
     }
+
 
     public void restartApp(){
        // Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
@@ -79,7 +92,7 @@ public class SettingsActivity extends Fragment {
         int id = menu.getItemId();
 
         if (id == android.R.id.home) {
-          //  finish();
+            //finish();
         }
         return true;
     }

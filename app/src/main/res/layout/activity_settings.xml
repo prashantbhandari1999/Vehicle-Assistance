@@ -60,7 +60,7 @@
         </ImageView>
 
         <TextView
-            android:id="@+id/textView_notif"
+            android:id="@+id/textView_feedback"
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -78,7 +78,7 @@
             android:id="@+id/horizontalline2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/textView_notif"
+            android:layout_below="@+id/textView_feedback"
             android:background="#f2f2f2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -124,59 +124,29 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"></Switch>
 
-        <View
-            android:id="@+id/horizontalline7"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/textView_notification"
-            android:background="#f2f2f2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+
 
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/logout_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/relativelayout3_settings"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/log_out_new">
-
-    </ImageView>
-
-    <TextView
-        android:id="@+id/textView_feedback"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/relativelayout3_settings"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_toRightOf="@id/logout_icon"
-        android:gravity="fill_vertical"
-        android:text="Logout"
-        android:textColor="#000"
-        android:textSize="16sp" />
-
-
     <View
-        android:id="@+id/horizontalline3"
+        android:id="@+id/horizontalline7"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/textView_feedback"
+        android:layout_below="@+id/relativelayout3_settings"
         android:background="#f2f2f2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    \
+
+
+
 
     <ImageView
         android:id="@+id/share_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_below="@id/horizontalline3"
+        android:layout_below="@id/horizontalline7"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -189,7 +159,7 @@
         android:layout_width="match_parent"
         android:clickable="true"
         android:layout_height="48dp"
-        android:layout_below="@id/horizontalline3"
+        android:layout_below="@id/horizontalline7"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
