@@ -76,12 +76,14 @@
                     android:text="This is an upcoming notifications"
                     android:layout_marginLeft="2dp"
                     android:textSize="15sp"/>
-                <CheckBox
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/header_2_old_notifications"
                     android:layout_below="@id/LinearLayout"
-                    android:gravity="right|center_vertical"/>
+                    android:clickable="true"
+                    android:gravity="right|center_vertical"
+                    android:src="@drawable/ic_check_box"/>
             </LinearLayout>
 
 
