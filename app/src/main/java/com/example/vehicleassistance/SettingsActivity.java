@@ -24,8 +24,9 @@ public class SettingsActivity extends Fragment {
 
     private Switch s1,s2;
     private View view;
-    private TextView feedback;
+    private TextView feedback , aboutUs;
     private TextView shareTextView;
+
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //
@@ -73,6 +74,7 @@ public class SettingsActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.activity_settings,container,false);
         feedback=view.findViewById(R.id.textView_feedback);
+        aboutUs=view.findViewById(R.id.textView_about);
         shareTextView=view.findViewById(R.id.textView_share);
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +97,12 @@ public class SettingsActivity extends Fragment {
                 String app_url = " https://play.google.com/store/apps/details?id=my.example.javatpoint";
                 shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
                 startActivity(Intent.createChooser(shareIntent, "Share via"));
+            }
+        });
+        aboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(),AboutUs.class));
             }
         });
         return view;

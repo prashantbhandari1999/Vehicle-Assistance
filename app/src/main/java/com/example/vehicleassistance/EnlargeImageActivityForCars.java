@@ -36,7 +36,7 @@ public class EnlargeImageActivityForCars extends AppCompatActivity {
                 carNames.add("Your cars appear here");
                 carPhotos.add(R.drawable.no_cars_found);
             }
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
             recyclerView.setLayoutManager(linearLayoutManager);
             RecyclerViewAdpaterForAddedCars adapter = new RecyclerViewAdpaterForAddedCars(this, carNames, carPhotos);

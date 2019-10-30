@@ -39,7 +39,7 @@ public class EnlargeImageActivityForMotorcycles extends AppCompatActivity {
             motorcycleName = bundle.getStringArrayList("text");
             motorcyclePhotos = bundle.getIntegerArrayList("image");
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             RecyclerView recyclerView = findViewById(R.id.added_motorcycle_recyclerView);
             recyclerView.setLayoutManager(linearLayoutManager);
             RecyclerViewAdapterForAddedMotorcycles adapter = new RecyclerViewAdapterForAddedMotorcycles(motorcycleName, motorcyclePhotos, this);

@@ -33,10 +33,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FeedbackActivity"
+        <activity android:name=".AboutUs"
+            android:label="About us"
+            android:theme="@style/SignUpTheme"></activity>
+        <activity
+            android:name=".FeedbackActivity"
             android:label="send feedback"
-            android:theme="@style/SignUpTheme"
-            ></activity>
+            android:theme="@style/SignUpTheme" />
         <activity
             android:name=".AddReminderActivity"
             android:label="Add Reminder"
@@ -107,18 +110,15 @@
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashScreen">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ClosestCareActivity"
             android:label="Closest Care" />
