@@ -37,7 +37,7 @@
                 android:id="@+id/shop_address"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="16dp"
                 android:text="Kshipra Society, Karve Nagar, Road No.B40,Dhayari, Pune, Maharashatra 411041"
                 android:textAlignment="gravity"
                 android:layout_gravity="center"

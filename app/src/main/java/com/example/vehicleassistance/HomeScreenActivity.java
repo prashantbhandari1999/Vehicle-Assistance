@@ -805,7 +805,7 @@ public class HomeScreenActivity extends AppCompatActivity
             Log.e("window", "Name: " + output.get("place_name") + "\nContact: " + output.get("contact") + "\nAddress: " + output.get("Address") + "\nRating: " + output.get("rating") + "\nOpening Hours:" + output.get("Opening hours"));
             LayoutInflater inflater = HomeScreenActivity.this.getLayoutInflater();
             View view = inflater.inflate(R.layout.decribe_location, null);
-            MyCustomDialog dialog = new MyCustomDialog(output.get("place_name"), output.get("contact"), output.get("Opening hours"), output.get("Address"));
+            MyCustomDialog dialog = new MyCustomDialog(output.get("place_name"), output.get("contact"), output.get("Opening hours"), output.get("Address"),output.get("rating"));
             dialog.show(getSupportFragmentManager(), "MyCustomDialog");
         } else {
             Toast.makeText(this, "Network Error! Please try again later!", Toast.LENGTH_SHORT).show();

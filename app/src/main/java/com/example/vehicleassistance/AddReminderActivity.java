@@ -440,20 +440,25 @@ public class AddReminderActivity extends AppCompatActivity implements DatePicker
                 day_of_month = c_new.get(Calendar.DAY_OF_MONTH);
                 month = c_new.get(Calendar.MONTH) + 1;
                 year = c_new.get(Calendar.YEAR);
-                date = day_of_month + "/" + month + "/" + year;
+                date = day_of_month+1 + "/" + month + "/" + year;
 
-                long day = 0;
+                long day = 0,tomorrowdifference=0;
+                String tomorrow_date = new String();
                 try {
 
                     Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
                     Date date2 = new Date();
+                    tomorrow_date = (date2.getDate()+1)+"/"+(date2.getMonth()+1)+"/"+(date2.getYear()+1900);
+                    Date tomorrow = new SimpleDateFormat("dd/MM/yyyy").parse(tomorrow_date);
                     long diff = date1.getTime() - date2.getTime();
-                    day = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-                    Log.d("Days_Reminder", "" + date1 + " " + day);
+                    day = TimeUnit.MILLISECONDS.convert(diff, TimeUnit.MILLISECONDS);
+                    tomorrowdifference = TimeUnit.MILLISECONDS.convert(tomorrow.getTime()-date2.getTime(), TimeUnit.MILLISECONDS);
+                    Log.d("Days_Reminder", "   " + date1 + " " + day);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.d("err", "tomorrow:"+tomorrow_date+"startAlarm: "+e);
                 }
-                if (day > 0) {
+                if (day > 0 && day < tomorrowdifference) {
                     Log.d("III1 :", " " + message);
                     intent.putExtra("Alarm Name", alarmType);
                     intent.putExtra("Message", message);
