@@ -1,97 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="1500dp"
-        app:strokeColor="@color/colorAccent"
-        app:strokeWidth="1dp"
-        android:layout_marginTop="2dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginRight="8dp"
-        app:cardCornerRadius="6dp"
         android:background="#f2f2f2"
-        >
+        android:elevation="1500dp"
+        app:cardCornerRadius="6dp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="1dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:padding="4dp">
+
             <ImageView
                 android:id="@+id/ImageView_old_notifications"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="4dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:padding="4dp" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:padding="2dp">
+
                 <LinearLayout
                     android:id="@+id/LinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="2dp">
+
                     <TextView
                         android:id="@+id/header_1_old_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Old Notification"
-
-                        android:textSize="18sp"
                         android:layout_weight="2"
-                        />
+
+                        android:text="Old Notification"
+                        android:textSize="18sp" />
+
                     <TextView
                         android:id="@+id/date_old_notifications"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:textAlignment="viewEnd"
                         android:layout_gravity="end"
                         android:layout_marginTop="1dp"
                         android:paddingTop="6dp"
                         android:text="24 sept,2019"
-                        android:textSize="8sp"/>
+                        android:textAlignment="viewEnd"
+                        android:textSize="8sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/LinearLayout">
+
                     <TextView
                         android:id="@+id/header_2_old_notifications"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="2"
                         android:text="This is an old notifications"
                         android:textAlignment="gravity"
-                        android:layout_marginLeft="2dp"
-                        android:textSize="15sp"/>
-                    <CheckBox
+                        android:textSize="15sp" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/header_2_old_notifications"
                         android:layout_below="@id/LinearLayout"
+                        android:layout_toRightOf="@id/header_2_old_notifications"
+                        android:clickable="true"
+                        android:gravity="right|center_vertical"
+                        android:src="@drawable/ic_check_box"
+                        android:visibility="gone">
 
-                        android:gravity="right|center_vertical">
-
-                    </CheckBox>
+                    </ImageView>
                 </LinearLayout>
 
 
             </RelativeLayout>
 
         </LinearLayout>
-
-
 
 
     </com.google.android.material.card.MaterialCardView>
