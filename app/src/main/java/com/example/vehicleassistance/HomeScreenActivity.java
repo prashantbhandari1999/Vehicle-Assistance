@@ -423,8 +423,10 @@ public class HomeScreenActivity extends AppCompatActivity
                         firstTimeLoad = false;
                     } else {
                         GPSButton.hide();
-                        if (mRevealView.getVisibility() == View.VISIBLE)
+                        if (mRevealView.getVisibility() == View.VISIBLE) {
                             mRevealView.setVisibility(View.GONE);
+                            GPSButton.show();
+                        }
                         else
                             mRevealView.setVisibility(View.VISIBLE);
                     }
