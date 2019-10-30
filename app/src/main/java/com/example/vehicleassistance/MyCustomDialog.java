@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,7 +82,7 @@ public class MyCustomDialog extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.decribe_location,container,false);
         shop_name = view.findViewById(R.id.shop_name);
         shop_description = view.findViewById(R.id.shop_description);
@@ -93,27 +94,40 @@ public class MyCustomDialog extends DialogFragment {
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel: " + contact));
-                startActivity(intent);
+                if(!contact.isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel: " + contact));
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(),"Contact not provided", Toast.LENGTH_LONG).show();
+                }
             }
         });
-        String arr[] = timing.split(",");
         String timings = new String();
-        Log.d("arr:", "onCreateView: "+arr);
-        for(String day : arr) {
-            timings += day + "\n";
+        try {
+            String arr[] = timing.split(",");
+            Log.d("arr:", "onCreateView: " + arr);
+            for (String day : arr) {
+                timings += day + "\n";
+            }
+            String arr1[] = timings.split("\"");
+            timings = "";
+            for (String day : arr1) {
+                timings += day;
+            }
+            timings = timings.substring(1, timings.length() - 2);
+            Log.d("try", "onCreateView: "+timings+ " " + timing);
         }
-        String arr1[]= timings.split("\"");
-        timings = "";
-        for(String day : arr1) {
-            timings += day;
+        catch(Exception e){
+            Log.d("catch", "onCreateView: ");
+            timings = "NA";
         }
-        timings=timings.substring(1,timings.length()-2);
         shop_name.setText(name);
         shop_phone.setText(contact);
         shop_timing.setText(timings);
         shop_address.setText(address);
+        shop_description.setText(rating);
 
 
         return view;
@@ -127,14 +141,30 @@ public class MyCustomDialog extends DialogFragment {
 
         }
     }
-    public MyCustomDialog(String place_name,String place_contact,String place_timing,String vicinity){
+    public MyCustomDialog(String place_name,String place_contact,String place_timing,String vicinity,String place_rating){
         name = place_name;
-        contact = place_contact;
-        timing = place_timing;
-        String[] time = vicinity.split(",",7);
-        for(int i=0;i<time.length;i++){
-            address+=time[i]+"\n";
+        if(!place_rating.isEmpty()){
+            rating = "Rating: " + place_rating;
         }
+        else{
+            rating = "Rating: NA";
+        }
+        if(!place_contact.isEmpty())
+            contact = place_contact;
+        else
+            contact = "NA";
+        timing = place_timing;
+        try{
+            address = "";
+            String[] time = vicinity.split(",",7);
+            for(int i=0;i<time.length;i++){
+                address+=time[i]+"\n";
+            }
+        }
+        catch (Exception e){
+            address = "NA";
+        }
+
     }
 
 }
