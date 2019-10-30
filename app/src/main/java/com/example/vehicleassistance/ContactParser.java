@@ -16,11 +16,7 @@ public class ContactParser {
 
     private HashMap<String,String> getPlace(JSONObject googlePlaceJson){
         HashMap<String,String> googlePlacesMap = new HashMap<>();
-        String placeName="-NA-";
-        String Address = "-NA-";
-        String contact="";
-        String rating="";
-        String opening_hours="";
+        String placeName = null ,Address = null ,contact = null ,rating = null ,opening_hours = null;
 
         try {
             if(!googlePlaceJson.isNull("name")){

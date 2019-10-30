@@ -91,19 +91,6 @@ public class MyCustomDialog extends DialogFragment {
         shop_timing = view.findViewById(R.id.shop_timing);
         shop_phone = view.findViewById(R.id.shop_phone);
         callButton = view.findViewById(R.id.callimageButton);
-        callButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!contact.isEmpty()) {
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse("tel: " + contact));
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getActivity(),"Contact not provided", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         String timings = new String();
         try {
             String arr[] = timing.split(",");
@@ -128,6 +115,19 @@ public class MyCustomDialog extends DialogFragment {
         shop_timing.setText(timings);
         shop_address.setText(address);
         shop_description.setText(rating);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!contact.equals("NA")) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel: " + contact));
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(),"Contact not provided", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
         return view;
@@ -143,13 +143,13 @@ public class MyCustomDialog extends DialogFragment {
     }
     public MyCustomDialog(String place_name,String place_contact,String place_timing,String vicinity,String place_rating){
         name = place_name;
-        if(!place_rating.isEmpty()){
+        if(place_rating!=null){
             rating = "Rating: " + place_rating;
         }
         else{
             rating = "Rating: NA";
         }
-        if(!place_contact.isEmpty())
+        if(place_contact!=null)
             contact = place_contact;
         else
             contact = "NA";
@@ -161,10 +161,9 @@ public class MyCustomDialog extends DialogFragment {
                 address+=time[i]+"\n";
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             address = "NA";
         }
-
     }
 
 }
