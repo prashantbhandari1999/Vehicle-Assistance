@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class EnlargeImageActivityForCars extends AppCompatActivity {
     private ArrayList<String> carNames;
     private ArrayList<Integer> carPhotos;
-
+    FirebaseFirestore db;
+    FirebaseAuth lAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,4 +63,10 @@ public class EnlargeImageActivityForCars extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        db = FirebaseFirestore.getInstance();
+        lAuth = FirebaseAuth.getInstance();
+    }
 }
