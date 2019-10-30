@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ public class EmailActivity extends AppCompatActivity {
     String firstName, lastName,email,password,confirmedPassword;
     TextInputEditText emailEditText,passwordEditText,confirmedPasswordEditText;
     Button signUpButtonEmailActivity;
-
+    TextView errorTextView;
 
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
@@ -75,7 +76,7 @@ public class EmailActivity extends AppCompatActivity {
         signUpButtonEmailActivity=findViewById(R.id.button_next_Email_Activity);
         passwordEditText=findViewById(R.id.editText_password_Email_Activity);
         confirmedPasswordEditText=findViewById(R.id.editText_confirm_password_Email_Activity);
-
+        errorTextView=findViewById(R.id.error_password);
         //Here we get variables which was passed earlier
         Intent intent = getIntent();
         firstName = intent.getStringExtra("firstName");
@@ -127,7 +128,7 @@ public class EmailActivity extends AppCompatActivity {
                     });
                 }  else if (email.isEmpty()) {
                     progressDialogemailActivity.hide();
-                    emailEditText.setError("Enter EmailActivity");
+                    emailEditText.setError("Enter Email");
 //                    Toast.makeText(EmailActivity.this, "Please enter the email", Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
                     progressDialogemailActivity.hide();
@@ -208,6 +209,7 @@ public class EmailActivity extends AppCompatActivity {
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
 //            passwordEditText.setError("Password too weak");
+            errorTextView.setVisibility(View.VISIBLE);
             return false;
         } else {
             Toast.makeText(this, "", Toast.LENGTH_SHORT).show();

@@ -95,7 +95,7 @@
         android:id="@+id/button_next_Email_Activity"
         android:layout_width="232dp"
         android:layout_height="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/round_button"
         android:text="Next"
         android:textColor="#fff"
@@ -103,9 +103,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/error_password" />
+
+    <TextView
+        android:id="@+id/error_password"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"
+        android:text="*Password should contain at least 6 characters,1 uppercase letter,1 number and 1 special symbol"
+        android:textColor="#ff0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

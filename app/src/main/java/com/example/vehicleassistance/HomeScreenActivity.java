@@ -303,12 +303,15 @@ public class HomeScreenActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
+            Intent shareIntent =   new Intent(android.content.Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT,"Insert Subject here");
+            String app_url = " https://play.google.com/store/apps/details?id=my.example.javatpoint";
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,app_url);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
 
         } else if (id == R.id.nav_addshop) {
             Intent intent = new Intent(HomeScreenActivity.this, AddShopActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_addvehicle) {
-            Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForCars.class);
             startActivity(intent);
         } else if (id == R.id.nav_addmotorcycle) {
             Intent intent = new Intent(HomeScreenActivity.this, EnlargeImageActivityForMotorcycles.class);
