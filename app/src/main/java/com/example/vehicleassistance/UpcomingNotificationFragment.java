@@ -107,66 +107,68 @@ public class UpcomingNotificationFragment extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         list.clear();
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Notifications note = documentSnapshot.toObject(Notifications.class);
-                            int ID = 0;
-                            switch (note.getType()) {
-                                case "PUC":
-                                    ID = R.drawable.puc;
-                                    break;
-                                case "OIL":
-                                    ID = R.drawable.oil;
-                                    break;
-                                case "INSURANCE":
-                                    ID = R.drawable.insurance;
-                                    break;
-                                case "AIR":
-                                    ID = R.drawable.air;
-                                    break;
+                        if (queryDocumentSnapshots != null) {
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                Notifications note = documentSnapshot.toObject(Notifications.class);
+                                int ID = 0;
+                                switch (note.getType()) {
+                                    case "PUC":
+                                        ID = R.drawable.puc;
+                                        break;
+                                    case "OIL":
+                                        ID = R.drawable.oil;
+                                        break;
+                                    case "INSURANCE":
+                                        ID = R.drawable.insurance;
+                                        break;
+                                    case "AIR":
+                                        ID = R.drawable.air;
+                                        break;
+                                }
+                                list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(), note.getRemaining(), ID));
+                                Log.d("JAN", note.getType() + " " + note.getMessage() + " " + note.getDate() + " " + note.getRemaining());
+                                Log.d("UP", "Added");
+
                             }
-                            list.add(new upcoming_notifications(note.getType(), note.getMessage(), note.getDate(),note.getRemaining(), ID));
-                            Log.d("JAN",note.getType()+" "+note.getMessage()+" "+note.getDate()+" "+note.getRemaining());
-                            Log.d("UP","Added");
+                            Log.d("Size", " " + list.size());
+                            for (int i = 0; i < list.size() - 1; i++) {
+                                Log.d("SIZE", "" + list.size());
+                                for (int l = i + 1; l < list.size(); l++) {
+                                    //First Date
+                                    upcoming_notifications up1 = list.get(i);
+                                    String date1 = up1.getRemaining();
+                                    String[] split_date1 = date1.split("/");    //22/2/2000
+                                    int[] date_arr1 = new int[3];
+                                    for (int k = 0, j = 2; k < 3; k++, j--)
+                                        date_arr1[k] = Integer.parseInt(split_date1[j]);
 
-                        }
-                        Log.d("Size"," "+list.size());
-                        for (int i = 0; i < list.size() - 1; i++) {
-                            Log.d("SIZE",""+list.size());
-                            for (int l = i + 1; l < list.size(); l++) {
-                                //First Date
-                                upcoming_notifications up1 = list.get(i);
-                                String date1 = up1.getRemaining();
-                                String[] split_date1 = date1.split("/");    //22/2/2000
-                                int[] date_arr1 = new int[3];
-                                for (int k = 0, j = 2; k < 3; k++, j--)
-                                    date_arr1[k] = Integer.parseInt(split_date1[j]);
+                                    //Second date
+                                    upcoming_notifications up2 = list.get(l);
+                                    String date2 = up2.getRemaining();
+                                    String[] split_date2 = date2.split("/");
+                                    int[] date_arr2 = new int[3];
+                                    for (int k = 0, j = 2; k < 3; k++, j--)
+                                        date_arr2[k] = Integer.parseInt(split_date2[j]);
 
-                                //Second date
-                                upcoming_notifications up2 = list.get(l);
-                                String date2 = up2.getRemaining();
-                                String[] split_date2 = date2.split("/");
-                                int[] date_arr2 = new int[3];
-                                for (int k = 0, j = 2; k < 3; k++, j--)
-                                    date_arr2[k] = Integer.parseInt(split_date2[j]);
-
-                                if (date_arr2[0] < date_arr1[0]) {
-                                    Collections.swap(list, i, l);
-                                } else if (date_arr2[0] == date_arr1[0]) {
-                                    if (date_arr2[1] < date_arr1[1]) {
+                                    if (date_arr2[0] < date_arr1[0]) {
                                         Collections.swap(list, i, l);
-                                    } else if (date_arr2[1] == date_arr1[1]) {
-                                        if (date_arr2[2] < date_arr1[2]) {
+                                    } else if (date_arr2[0] == date_arr1[0]) {
+                                        if (date_arr2[1] < date_arr1[1]) {
                                             Collections.swap(list, i, l);
+                                        } else if (date_arr2[1] == date_arr1[1]) {
+                                            if (date_arr2[2] < date_arr1[2]) {
+                                                Collections.swap(list, i, l);
+                                            }
                                         }
                                     }
-                                }
 
+                                }
                             }
+                            adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
+                            adapter.notifyDataSetChanged();
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerView.setAdapter(adapter);
                         }
-                        adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
-                        adapter.notifyDataSetChanged();
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        recyclerView.setAdapter(adapter);
                     }
                 });
         adapter = new RecyclerViewAdapterForUpcomingNotifications(getContext(), list);
